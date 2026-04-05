@@ -9,8 +9,16 @@
     "export": "next build && next export"
   },
   "dependencies": {
+    "firebase": "^12.11.0",
     "next": "^16.0.7",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "autoprefixer": "^10.4.27",
+    "baseline-browser-mapping": "^2.10.15",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2"
   }
 }

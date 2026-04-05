@@ -1,3 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-shake: shake 0.5s ease-in-out;
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-up: slide-up 0.5s ease-out;
+  --animate-zoom-in: zoom-in 0.3s ease-out;
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slide-up {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes zoom-in {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+}
+
 html,
 body {
   background-color: #f8fafc;
@@ -11,15 +42,6 @@ body {
   box-sizing: border-box;
 }
 
-main {
-  padding: 5rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 code {
   background: #e2e8f0;
   border-radius: 5px;
@@ -27,10 +49,23 @@ code {
   font-family: Menlo, Monaco, Lucida Console, Courier New, monospace;
 }
 
-.container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+/* Custom Animation Utilities */
+.animate-in {
+  animation-fill-mode: forwards;
+}
+
+.shake-in {
+  animation: shake 0.4s ease-in-out;
+}
+
+.fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.slide-in-from-bottom-4 {
+  animation: slide-up 0.5s ease-out;
+}
+
+.zoom-in {
+  animation: zoom-in 0.3s ease-out;
 }
