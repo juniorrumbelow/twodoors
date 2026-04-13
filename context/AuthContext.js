@@ -7,7 +7,7 @@ import {
   createUserWithEmailAndPassword 
 } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, db, googleProvider, facebookProvider } from '../lib/firebase';
+import { auth, db, googleProvider } from '../lib/firebase';
 
 const AuthContext = createContext();
 
@@ -36,7 +36,6 @@ export function AuthProvider({ children }) {
   }, []);
 
   const loginWithGoogle = () => signInWithPopup(auth, googleProvider);
-  const loginWithFacebook = () => signInWithPopup(auth, facebookProvider);
   const logout = () => signOut(auth);
 
   const loginWithEmail = (email, password) => 
@@ -49,7 +48,6 @@ export function AuthProvider({ children }) {
     user,
     loading,
     loginWithGoogle,
-    loginWithFacebook,
     loginWithEmail,
     signupWithEmail,
     logout

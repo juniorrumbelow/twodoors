@@ -5,9 +5,9 @@ import Footer from '@components/Footer'
 
 export default function Login() {
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen bg-[#01bf8f] p-4 text-white">
+    <div className="relative flex flex-col items-center justify-center min-h-screen bg-white p-4 text-gray-900">
       <Head>
-        <title>Login | twodoors</title>
+        <title>Login | whatsplanned</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

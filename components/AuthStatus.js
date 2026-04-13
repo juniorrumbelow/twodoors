@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 export default function AuthStatus() {
-  const { user, loginWithGoogle, loginWithFacebook, logout, loginWithEmail, signupWithEmail } = useAuth();
+  const { user, loginWithGoogle, logout, loginWithEmail, signupWithEmail } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSigningUp, setIsSigningUp] = useState(false);
@@ -73,7 +73,9 @@ export default function AuthStatus() {
 
   return (
     <div className="w-full max-w-md p-8 bg-white rounded-3xl border border-gray-100 shadow-2xl text-gray-900 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <h2 className="text-3xl font-bold mb-8 text-center tracking-tight">Welcome back</h2>
+      <h2 className="text-3xl font-bold mb-8 text-center tracking-tight">
+        {isSigningUp ? 'Create your account' : 'Welcome back'}
+      </h2>
       
       <div className="space-y-4 mb-8">
         <button
@@ -81,15 +83,7 @@ export default function AuthStatus() {
           className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-white text-gray-700 rounded-xl font-bold border border-gray-300 hover:bg-gray-50 focus:ring-4 focus:ring-gray-100 transition-all outline-none shadow-sm active:scale-[0.98]"
         >
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-5 h-5" alt=""/>
-          Continue with Google
-        </button>
-        
-        <button
-          onClick={loginWithFacebook}
-          className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-[#1877F2] text-white rounded-xl font-bold hover:bg-[#166fe5] focus:ring-4 focus:ring-[#1877F2]/20 transition-all outline-none shadow-lg shadow-[#1877F2]/20 active:scale-[0.98]"
-        >
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/facebook.svg" className="w-5 h-5" alt=""/>
-          Continue with Facebook
+          {isSigningUp ? 'Sign up with Google' : 'Continue with Google'}
         </button>
       </div>
 
@@ -134,7 +128,11 @@ export default function AuthStatus() {
         )}
         <button
           type="submit"
-          className="w-full py-4 px-4 bg-[#01bf8f] hover:bg-[#01a67d] text-white rounded-xl font-bold text-lg transition-all shadow-xl shadow-[#01bf8f]/20 focus:ring-4 focus:ring-[#01bf8f]/50"
+          className={`w-full py-4 px-4 rounded-xl font-bold text-lg transition-all shadow-xl outline-none focus:ring-4 ${
+            isSigningUp 
+              ? 'bg-gray-900 hover:bg-black text-white shadow-gray-900/20 focus:ring-gray-900/50' 
+              : 'bg-[#01bf8f] hover:bg-[#01a67d] text-white shadow-[#01bf8f]/20 focus:ring-[#01bf8f]/50'
+          }`}
         >
           {isSigningUp ? 'Create Account' : 'Sign In'}
         </button>
