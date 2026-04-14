@@ -9,7 +9,6 @@
     "export": "next build && next export"
   },
   "dependencies": {
-    "firebase": "^12.11.0",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "next": "^16.0.7",

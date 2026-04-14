@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 export default function AuthStatus() {
+  /*
   const { user, loginWithGoogle, logout, loginWithEmail, signupWithEmail } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -149,4 +150,6 @@ export default function AuthStatus() {
       </p>
     </div>
   );
+  */
+  return null;
 }

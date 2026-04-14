@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+/*
 import { 
   onAuthStateChanged, 
   signInWithPopup, 
@@ -8,13 +9,17 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, googleProvider } from '../lib/firebase';
+*/
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // const [user, setUser] = useState(null);
+  // const [loading, setLoading] = useState(true);
+  const user = null;
+  const loading = false;
 
+  /*
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -43,6 +48,12 @@ export function AuthProvider({ children }) {
 
   const signupWithEmail = (email, password) => 
     createUserWithEmailAndPassword(auth, email, password);
+  */
+
+  const loginWithGoogle = () => Promise.resolve();
+  const logout = () => Promise.resolve();
+  const loginWithEmail = () => Promise.resolve();
+  const signupWithEmail = () => Promise.resolve();
 
   const value = {
     user,
