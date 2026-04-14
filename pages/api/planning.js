@@ -108,6 +108,14 @@ export default async function handler(req, res) {
       throw new Error('Failed to fetch from planning.data.gov.uk');
     }
     const planData = await planRes.json();
+    let entities = planData.entities || [];
+
+    // Sort by decision-date || entry-date in descending order (newest first)
+    entities.sort((a, b) => {
+      const dateA = new Date(a['decision-date'] || a['entry-date'] || 0);
+      const dateB = new Date(b['decision-date'] || b['entry-date'] || 0);
+      return dateB - dateA;
+    });
 
     return res.status(200).json({
       location: { 
@@ -116,7 +124,7 @@ export default async function handler(req, res) {
         lat: latitude, 
         lng: longitude 
       },
-      entities: planData.entities || [],
+      entities: entities,
       count: planData.count || 0
     });
   } catch (error) {

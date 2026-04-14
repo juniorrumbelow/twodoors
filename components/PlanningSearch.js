@@ -324,9 +324,31 @@ export default function PlanningSearch() {
                           <span className="inline-flex items-center px-3 py-1 bg-[#01bf8f]/10 text-[#01bf8f] text-[10px] font-bold rounded-full uppercase tracking-wider w-fit">
                             {app.dataset?.replace('-', ' ') || 'Planning'}
                           </span>
-                          <div className="text-sm font-bold text-gray-900 flex items-center gap-1.5">
-                            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2v12a2 2 0 002 2z"></path></svg>
-                            {formatDate(app['decision-date'] || app['entry-date'])}
+                          <div className="flex flex-col gap-1.5 border-l-2 border-gray-50 pl-3 mt-1">
+                            {app['entry-date'] && (
+                              <div className="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+                                <span className="text-[10px] text-gray-400 uppercase font-bold tracking-tight w-12">Listed</span>
+                                {formatDate(app['entry-date'])}
+                              </div>
+                            )}
+                            {app['decision-date'] && (
+                              <div className="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+                                <span className="text-[10px] text-gray-400 uppercase font-bold tracking-tight w-12">Decided</span>
+                                {formatDate(app['decision-date'])}
+                              </div>
+                            )}
+                            {app['end-date'] && (
+                              <div className="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+                                <span className="text-[10px] text-gray-400 uppercase font-bold tracking-tight w-12">Ended</span>
+                                {formatDate(app['end-date'])}
+                              </div>
+                            )}
+                            {(!app['entry-date'] && !app['decision-date'] && !app['end-date']) && (
+                              <div className="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+                                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2v12a2 2 0 002 2z"></path></svg>
+                                {formatDate(app['entry-date'] || app['decision-date'] || app['end-date'])}
+                              </div>
+                            )}
                           </div>
                         </div>
 
