@@ -1,0 +1,171 @@
+import React from 'react';
+import Head from 'next/head';
+import Navbar from '@components/Navbar';
+import PropertyCard from '@components/PropertyCard';
+import { db } from '../../../../lib/firebase';
+import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import Link from 'next/link';
+import { extractAgentIdFromSlug } from '../../../../utils/formatters';
+
+export default function AgentDetail({ agent, properties }) {
+  if (!agent) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Agent Not Found</h1>
+          <p className="text-gray-500 mb-6">We couldn't find an agent with that profile.</p>
+          <Link href="/search" className="text-[#01bf8f] font-bold hover:underline">
+            Back to Search
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Head>
+        <title>{agent.name} | TwoDoors Properties</title>
+      </Head>
+
+      <Navbar />
+
+
+      {/* Agent Profile Banner */}
+      <div className="bg-white border-b border-gray-200 py-12 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8">
+          <div className="relative">
+            {agent.logo ? (
+              <img 
+                src={agent.logo} 
+                alt={agent.name} 
+                className="w-32 h-32 rounded-full border-4 border-gray-50 shadow-md object-cover"
+              />
+            ) : (
+              <div className="w-32 h-32 rounded-full border-4 border-gray-50 shadow-md bg-[#01bf8f]/10 flex items-center justify-center">
+                <span className="text-[#01bf8f] text-5xl font-black">{agent.name?.charAt(0) || 'A'}</span>
+              </div>
+            )}
+          </div>
+          
+          <div className="flex-1 text-center md:text-left">
+            <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
+              {agent.name}
+              {agent.branchName && (
+                <span className="block text-2xl text-gray-500 font-medium mt-1">
+                  {agent.branchName} Branch
+                </span>
+              )}
+            </h1>
+            <div className="flex flex-col md:flex-row gap-4 md:gap-8 text-gray-600 font-medium">
+              {agent.phone && (
+                <div className="flex items-center justify-center md:justify-start gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#01bf8f]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  {agent.phone}
+                </div>
+              )}
+              {agent.email && (
+                <div className="flex items-center justify-center md:justify-start gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#01bf8f]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <a href={`mailto:\${agent.email}`} className="hover:underline">{agent.email}</a>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          <div className="flex flex-col gap-2 w-full md:w-auto">
+            <button className="w-full md:w-48 bg-gray-900 text-white font-bold py-3 px-6 rounded-xl hover:bg-gray-800 transition-colors shadow-sm">
+              Contact Agent
+            </button>
+            {agent.website && (
+              <a href={agent.website} target="_blank" rel="noopener noreferrer" className="w-full md:w-48 bg-white text-gray-900 border border-gray-200 font-bold py-3 px-6 rounded-xl hover:bg-gray-50 transition-colors shadow-sm text-center block">
+                Visit Website
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Agent's Properties */}
+      <div className="max-w-7xl mx-auto py-12 px-6">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold text-gray-900">
+            Available Properties ({properties.length})
+          </h2>
+          <div className="flex gap-2">
+             <button className="px-4 py-2 rounded-lg border border-gray-200 text-sm font-bold text-gray-700 bg-white hover:border-[#01bf8f] hover:text-[#01bf8f] transition-colors">
+              Sort by Newest
+            </button>
+          </div>
+        </div>
+
+        {properties.length === 0 ? (
+          <div className="text-center py-20 bg-white rounded-2xl border border-gray-200">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <h3 className="text-lg font-bold text-gray-900 mb-1">No properties available</h3>
+            <p className="text-gray-500">This agent doesn't have any active listings right now.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {properties.map((property) => (
+              <PropertyCard key={property.id} property={property} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export async function getServerSideProps(context) {
+  const { slug } = context.params;
+  const id = extractAgentIdFromSlug(slug);
+
+  if (!id) {
+    return { notFound: true };
+  }
+
+  try {
+    // 1. Fetch the Agent Profile
+    const agentRef = doc(db, 'agents', id);
+    const agentSnap = await getDoc(agentRef);
+
+    if (!agentSnap.exists()) {
+      return {
+        notFound: true,
+      };
+    }
+
+    const agentData = agentSnap.data();
+
+    // 2. Fetch all properties belonging to this agent
+    const propertiesRef = collection(db, 'properties');
+    const q = query(propertiesRef, where('agentId', '==', id));
+    const querySnapshot = await getDocs(q);
+
+    const properties = querySnapshot.docs.map(doc => ({
+      ...doc.data(),
+    }));
+
+    return {
+      props: {
+        agent: JSON.parse(JSON.stringify(agentData)),
+        properties: JSON.parse(JSON.stringify(properties)),
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching agent details:", error);
+    return {
+      props: {
+        agent: null,
+        properties: [],
+      },
+    };
+  }
+}

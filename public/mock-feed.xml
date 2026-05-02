@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+  <property>
+    <reference>EA-1001</reference>
+    <status>For Sale</status>
+    <price>350000</price>
+    <address>
+      <display>12 Riverside Road, Norwich, NR1</display>
+      <postcode>NR1 1SQ</postcode>
+    </address>
+    <features>
+      <bedrooms>3</bedrooms>
+      <bathrooms>2</bathrooms>
+    </features>
+    <description><![CDATA[A stunning 3 bedroom family home located close to the city centre. Featuring a large rear garden and modern fitted kitchen.]]></description>
+    <images>
+      <image>https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&amp;auto=format&amp;fit=crop</image>
+    </images>
+    <location>
+      <latitude>52.6280</latitude>
+      <longitude>1.3050</longitude>
+    </location>
+    <agent>
+      <name>Norfolk Estates</name>
+      <logo>https://ui-avatars.com/api/?name=NE&amp;background=0D8ABC&amp;color=fff</logo>
+    </agent>
+  </property>
+  
+  <property>
+    <reference>EA-1002</reference>
+    <status>For Sale</status>
+    <price>275000</price>
+    <address>
+      <display>45 Unthank Road, Norwich, NR2</display>
+      <postcode>NR2 2PE</postcode>
+    </address>
+    <features>
+      <bedrooms>2</bedrooms>
+      <bathrooms>1</bathrooms>
+    </features>
+    <description><![CDATA[High spec apartment in the highly sought-after Golden Triangle. Open plan living space, large bay windows, and secure parking.]]></description>
+    <images>
+      <image>https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&amp;auto=format&amp;fit=crop</image>
+    </images>
+    <location>
+      <latitude>52.6220</latitude>
+      <longitude>1.2850</longitude>
+    </location>
+    <agent>
+      <name>City Living</name>
+      <logo>https://ui-avatars.com/api/?name=CL&amp;background=F39C12&amp;color=fff</logo>
+    </agent>
+  </property>
+</properties>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<properties>
+  <property>
+    <propertyID>1001</propertyID>
+    <status>For Sale</status>
+    <price>450000</price>
+    <bedrooms>3</bedrooms>
+    <bathrooms>2</bathrooms>
+    <receptions>1</receptions>
+    <address>
+      <street>123 Fake Street</street>
+      <town>London</town>
+      <postcode>SW1A 1AA</postcode>
+    </address>
+    <summary>A beautiful 3-bedroom semi-detached house located in the heart of London. Features a spacious garden, modern kitchen, and off-street parking. Perfect for a growing family.</summary>
+    <pictures>
+      <picture>https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&amp;fit=crop&amp;w=800&amp;q=80</picture>
+    </pictures>
+  </property>
+  <property>
+    <propertyID>1002</propertyID>
+    <status>To Rent</status>
+    <price>1800</price>
+    <priceQualifier>pcm</priceQualifier>
+    <bedrooms>2</bedrooms>
+    <bathrooms>1</bathrooms>
+    <receptions>1</receptions>
+    <address>
+      <street>45 High Street</street>
+      <town>Manchester</town>
+      <postcode>M1 1AA</postcode>
+    </address>
+    <summary>Stunning city centre apartment with panoramic views. Available immediately and comes fully furnished with state-of-the-art appliances.</summary>
+    <pictures>
+      <picture>https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&amp;fit=crop&amp;w=800&amp;q=80</picture>
+    </pictures>
+  </property>
+  <property>
+    <propertyID>1003</propertyID>
+    <status>For Sale</status>
+    <price>850000</price>
+    <bedrooms>5</bedrooms>
+    <bathrooms>3</bathrooms>
+    <receptions>3</receptions>
+    <address>
+      <street>77 Country Lane</street>
+      <town>Oxford</town>
+      <postcode>OX1 2BC</postcode>
+    </address>
+    <summary>Expansive family home with period features, set within 2 acres of land. Includes a detached double garage and a large conservatory.</summary>
+    <pictures>
+      <picture>https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&amp;fit=crop&amp;w=800&amp;q=80</picture>
+    </pictures>
+  </property>
+</properties>

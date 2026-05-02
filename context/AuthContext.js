@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-/*
 import { 
   onAuthStateChanged, 
   signInWithPopup, 
@@ -9,31 +8,28 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, googleProvider } from '../lib/firebase';
-*/
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  // const [user, setUser] = useState(null);
-  // const [loading, setLoading] = useState(true);
-  const user = null;
-  const loading = false;
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  /*
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        // Sync user data to Firestore
-        const userRef = doc(db, 'users', user.uid);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        // Sync basic user data to Firestore
+        // Note: For agents, we might want to store extra info in an 'agents' collection
+        const userRef = doc(db, 'users', firebaseUser.uid);
         await setDoc(userRef, {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          displayName: firebaseUser.displayName,
+          photoURL: firebaseUser.photoURL,
           lastLogin: serverTimestamp(),
         }, { merge: true });
       }
-      setUser(user);
+      setUser(firebaseUser);
       setLoading(false);
     });
 
@@ -48,12 +44,6 @@ export function AuthProvider({ children }) {
 
   const signupWithEmail = (email, password) => 
     createUserWithEmailAndPassword(auth, email, password);
-  */
-
-  const loginWithGoogle = () => Promise.resolve();
-  const logout = () => Promise.resolve();
-  const loginWithEmail = () => Promise.resolve();
-  const signupWithEmail = () => Promise.resolve();
 
   const value = {
     user,
@@ -72,3 +62,4 @@ export function AuthProvider({ children }) {
 }
 
 export const useAuth = () => useContext(AuthContext);
+
