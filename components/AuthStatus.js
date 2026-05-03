@@ -104,7 +104,7 @@ export default function AuthStatus() {
             id="email"
             type="email"
             placeholder="Email address"
-            className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#01bf8f] focus:bg-white placeholder-gray-400 text-gray-900 outline-none transition-all font-medium"
+            className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#f13053] focus:bg-white placeholder-gray-400 text-gray-900 outline-none transition-all font-medium"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -116,7 +116,7 @@ export default function AuthStatus() {
             id="password"
             type="password"
             placeholder="Password"
-            className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#01bf8f] focus:bg-white placeholder-gray-400 text-gray-900 outline-none transition-all font-medium"
+            className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#f13053] focus:bg-white placeholder-gray-400 text-gray-900 outline-none transition-all font-medium"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -132,7 +132,7 @@ export default function AuthStatus() {
           className={`w-full py-4 px-4 rounded-xl font-bold text-lg transition-all shadow-xl outline-none focus:ring-4 ${
             isSigningUp 
               ? 'bg-gray-900 hover:bg-black text-white shadow-gray-900/20 focus:ring-gray-900/50' 
-              : 'bg-[#01bf8f] hover:bg-[#01a67d] text-white shadow-[#01bf8f]/20 focus:ring-[#01bf8f]/50'
+              : 'bg-[#f13053] hover:bg-[#01a67d] text-white shadow-[#f13053]/20 focus:ring-[#f13053]/50'
           }`}
         >
           {isSigningUp ? 'Create Account' : 'Sign In'}
@@ -143,7 +143,7 @@ export default function AuthStatus() {
         {isSigningUp ? 'Already have an account?' : "Don't have an account?"}{' '}
         <button
           onClick={() => setIsSigningUp(!isSigningUp)}
-          className="text-[#01bf8f] hover:text-[#01a67d] font-bold transition-all px-1"
+          className="text-[#f13053] hover:text-[#01a67d] font-bold transition-all px-1"
         >
           {isSigningUp ? 'Sign In' : 'Sign Up'}
         </button>

@@ -45,7 +45,7 @@ export default function Properties({ properties }) {
               <Link 
                 key={property.id} 
                 href={`/property/${property.id}`}
-                className={`group bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col ${property.isBoosted ? 'border-[#01bf8f] ring-1 ring-[#01bf8f]/10' : 'border-gray-200'}`}
+                className={`group bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col ${property.isBoosted ? 'border-[#f13053] ring-1 ring-[#f13053]/10' : 'border-gray-200'}`}
               >
                 {/* Image Section */}
                 <div className="relative h-64 w-full bg-gray-200 overflow-hidden">
@@ -61,7 +61,7 @@ export default function Properties({ properties }) {
                   </div>
 
                   {property.isBoosted && (
-                    <div className="absolute top-4 right-4 z-10 bg-[#01bf8f] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm flex items-center gap-1">
+                    <div className="absolute top-4 right-4 z-10 bg-[#f13053] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm flex items-center gap-1">
                       FEATURED
                     </div>
                   )}
@@ -83,7 +83,7 @@ export default function Properties({ properties }) {
                 <div className="p-6 flex flex-col flex-grow">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900 group-hover:text-[#01bf8f] transition-colors">
+                      <h2 className="text-2xl font-bold text-gray-900 group-hover:text-[#f13053] transition-colors">
                         {formatPrice(property.price)}
                       </h2>
                       <p className="text-gray-600 font-medium mt-1 line-clamp-1">
@@ -119,7 +119,7 @@ export default function Properties({ properties }) {
                       <img src={property.agent?.logo} alt={property.agent?.name} className="w-6 h-6 rounded-full border border-gray-200" />
                       <span className="text-xs font-semibold text-gray-500">{property.agent?.name}</span>
                     </div>
-                    <div className="text-[#01bf8f] text-sm font-bold">
+                    <div className="text-[#f13053] text-sm font-bold">
                       View Details
                     </div>
                   </div>

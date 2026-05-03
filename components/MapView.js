@@ -57,7 +57,7 @@ export default function MapView({ entities, location }) {
                       href={getSafeUrl(app)} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="inline-block mt-2 px-3 py-1 bg-[#01bf8f] !text-white rounded font-bold hover:bg-[#02a97e] transition-colors"
+                      className="inline-block mt-2 px-3 py-1 bg-[#f13053] !text-white rounded font-bold hover:bg-[#02a97e] transition-colors"
                     >
                       View Details
                     </a>

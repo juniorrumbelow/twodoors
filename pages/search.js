@@ -8,10 +8,10 @@ import { db } from "../lib/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 const PILL =
-  "whitespace-nowrap px-3 py-1.5 rounded-full border text-xs font-bold outline-none transition-colors appearance-none cursor-pointer focus:ring-1 focus:ring-[#01bf8f]";
-const pillActive = "border-[#01bf8f] bg-[#01bf8f]/5 text-[#01bf8f]";
+  "whitespace-nowrap px-3 py-1.5 rounded-full border text-xs font-bold outline-none transition-colors appearance-none cursor-pointer focus:ring-1 focus:ring-[#f13053]";
+const pillActive = "border-[#f13053] bg-[#f13053]/5 text-[#f13053]";
 const pillInactive =
-  "border-gray-200 text-gray-700 bg-white focus:border-[#01bf8f]";
+  "border-gray-200 text-gray-700 bg-white focus:border-[#f13053]";
 
 export default function SearchPage({ initialProperties }) {
   const router = useRouter();
@@ -145,7 +145,7 @@ export default function SearchPage({ initialProperties }) {
                 <input
                   type="text"
                   placeholder="City, town or postcode..."
-                  className="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl text-sm font-bold text-gray-900 border-none focus:ring-2 focus:ring-[#01bf8f] transition-all"
+                  className="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl text-sm font-bold text-gray-900 border-none focus:ring-2 focus:ring-[#f13053] transition-all"
                   value={location}
                   onChange={(e) => {
                     setLocation(e.target.value);
@@ -306,7 +306,7 @@ export default function SearchPage({ initialProperties }) {
                   onClick={() =>
                     router.push({ pathname: "/search", query: { channel } })
                   }
-                  className="mt-6 text-[#01bf8f] font-bold text-sm hover:underline"
+                  className="mt-6 text-[#f13053] font-bold text-sm hover:underline"
                 >
                   Clear all filters
                 </button>

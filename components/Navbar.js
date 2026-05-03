@@ -72,13 +72,13 @@ export default function Navbar() {
             <nav className="hidden md:flex items-center gap-6">
               <Link
                 href="/search?channel=buy"
-                className={`text-sm font-bold transition-colors ${router.pathname === '/search' && router.query.channel !== 'rent' ? 'text-[#01bf8f]' : 'text-gray-500 hover:text-[#01bf8f]'}`}
+                className={`text-sm font-bold transition-colors ${router.pathname === '/search' && router.query.channel !== 'rent' ? 'text-[#f13053]' : 'text-gray-500 hover:text-[#f13053]'}`}
               >
                 Buy
               </Link>
               <Link
                 href="/search?channel=rent"
-                className={`text-sm font-bold transition-colors ${router.pathname === '/search' && router.query.channel === 'rent' ? 'text-[#01bf8f]' : 'text-gray-500 hover:text-[#01bf8f]'}`}
+                className={`text-sm font-bold transition-colors ${router.pathname === '/search' && router.query.channel === 'rent' ? 'text-[#f13053]' : 'text-gray-500 hover:text-[#f13053]'}`}
               >
                 Rent
               </Link>
@@ -87,7 +87,7 @@ export default function Navbar() {
 
           {/* Search bar — desktop */}
           <div
-            className="hidden md:flex flex-1 max-w-sm relative"
+            className={`${router.pathname === '/' ? 'hidden' : 'hidden md:flex'} flex-1 max-w-sm relative`}
             ref={searchRef}
           >
             <div className="relative w-full">
@@ -110,7 +110,7 @@ export default function Navbar() {
               <input
                 type="text"
                 placeholder="Search properties..."
-                className="w-full pl-9 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01bf8f] focus:border-transparent transition-all"
+                className="w-full pl-9 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f13053] focus:border-transparent transition-all"
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -150,7 +150,7 @@ export default function Navbar() {
                 {suggestions.map((suggestion) => (
                   <li key={suggestion}>
                     <button
-                      className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#01bf8f] transition-colors flex items-center gap-2"
+                      className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors flex items-center gap-2"
                       onMouseDown={(e) => {
                         e.preventDefault();
                         handleSearchSubmit(suggestion);
@@ -193,12 +193,12 @@ export default function Navbar() {
                     ? "bg-gray-900 text-white"
                     : user
                       ? "bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-100"
-                      : "bg-[#01bf8f] text-white hover:bg-[#019e76]"
+                      : "bg-[#f13053] text-white hover:bg-[#c9203f]"
                 }`}
               >
                 {user ? (
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-[#01bf8f]/10 flex items-center justify-center text-[#01bf8f] text-[10px]">
+                    <div className="w-5 h-5 rounded-full bg-[#f13053]/10 flex items-center justify-center text-[#f13053] text-[10px]">
                       {user.email?.charAt(0).toUpperCase()}
                     </div>
                     Account
@@ -232,14 +232,14 @@ export default function Navbar() {
                       </div>
                       <Link
                         href="/agency/listings"
-                        className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#01bf8f] transition-colors"
+                        className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         My Listings
                       </Link>
                       <Link
                         href="/agency/profile"
-                        className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#01bf8f] transition-colors"
+                        className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         Agency Profile
@@ -259,14 +259,14 @@ export default function Navbar() {
                     <>
                       <Link
                         href="/login"
-                        className="block px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#01bf8f] transition-colors"
+                        className="block px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         Sign In
                       </Link>
                       <Link
                         href="/agent/login"
-                        className="block px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#01bf8f] transition-colors"
+                        className="block px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         Agent Portal
@@ -324,7 +324,7 @@ export default function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden animate-fade-in border-t border-gray-100 bg-white">
           {/* Mobile search */}
-          <div className="px-4 pt-3 pb-2">
+          {router.pathname !== '/' && <div className="px-4 pt-3 pb-2">
             <div className="relative">
               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
                 <svg
@@ -345,7 +345,7 @@ export default function Navbar() {
               <input
                 type="text"
                 placeholder="Search properties..."
-                className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#01bf8f] focus:border-transparent transition-all"
+                className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f13053] focus:border-transparent transition-all"
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 onKeyDown={(e) => {
@@ -361,7 +361,7 @@ export default function Navbar() {
                 {suggestions.map((suggestion) => (
                   <li key={suggestion}>
                     <button
-                      className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#01bf8f] transition-colors flex items-center gap-2"
+                      className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors flex items-center gap-2"
                       onMouseDown={(e) => {
                         e.preventDefault();
                         handleSearchSubmit(suggestion);
@@ -394,19 +394,19 @@ export default function Navbar() {
                 ))}
               </ul>
             )}
-          </div>
+          </div>}
 
           <div className="px-4 pt-1 pb-3 space-y-1">
             <Link
               href="/search?channel=buy"
-              className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === '/search' && router.query.channel !== 'rent' ? 'text-[#01bf8f] bg-[#01bf8f]/5' : 'text-gray-600 hover:text-[#01bf8f] hover:bg-gray-50'}`}
+              className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === '/search' && router.query.channel !== 'rent' ? 'text-[#f13053] bg-[#f13053]/5' : 'text-gray-600 hover:text-[#f13053] hover:bg-gray-50'}`}
               onClick={() => setIsMenuOpen(false)}
             >
               Buy
             </Link>
             <Link
               href="/search?channel=rent"
-              className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === '/search' && router.query.channel === 'rent' ? 'text-[#01bf8f] bg-[#01bf8f]/5' : 'text-gray-600 hover:text-[#01bf8f] hover:bg-gray-50'}`}
+              className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === '/search' && router.query.channel === 'rent' ? 'text-[#f13053] bg-[#f13053]/5' : 'text-gray-600 hover:text-[#f13053] hover:bg-gray-50'}`}
               onClick={() => setIsMenuOpen(false)}
             >
               Rent
@@ -421,14 +421,14 @@ export default function Navbar() {
                   </div>
                   <Link
                     href="/agency/listings"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#01bf8f] hover:bg-gray-50 transition-colors"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     My Listings
                   </Link>
                   <Link
                     href="/agency/profile"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#01bf8f] hover:bg-gray-50 transition-colors"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Agency Profile
@@ -447,14 +447,14 @@ export default function Navbar() {
                 <>
                   <Link
                     href="/login"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#01bf8f] hover:bg-gray-50 transition-colors"
+                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Sign In
                   </Link>
                   <Link
                     href="/agent/login"
-                    className="block px-3 py-2 mt-2 rounded-full bg-[#01bf8f] text-white text-center text-base font-bold hover:bg-[#019e76] transition-all"
+                    className="block px-3 py-2 mt-2 rounded-full bg-[#f13053] text-white text-center text-base font-bold hover:bg-[#c9203f] transition-all"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Agent Portal
