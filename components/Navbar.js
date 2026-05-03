@@ -1,16 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import Logo from './Logo';
-import { useAuth } from '../context/AuthContext';
-import { UNIQUE_UK_LOCATIONS } from '../utils/locations';
+import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import Logo from "./Logo";
+import { useAuth } from "../context/AuthContext";
+import { UNIQUE_UK_LOCATIONS } from "../utils/locations";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const dropdownRef = useRef(null);
@@ -34,8 +34,8 @@ export default function Navbar() {
   const handleSearchChange = (value) => {
     setSearchQuery(value);
     if (value.trim().length >= 2) {
-      const filtered = UNIQUE_UK_LOCATIONS.filter(loc =>
-        loc.toLowerCase().startsWith(value.toLowerCase())
+      const filtered = UNIQUE_UK_LOCATIONS.filter((loc) =>
+        loc.toLowerCase().startsWith(value.toLowerCase()),
       ).slice(0, 6);
       setSuggestions(filtered);
       setShowSuggestions(filtered.length > 0);
@@ -49,15 +49,15 @@ export default function Navbar() {
     const term = (value ?? searchQuery).trim();
     setShowSuggestions(false);
     if (term) {
-      router.push({ pathname: '/search', query: { location: term } });
+      router.push({ pathname: "/search", query: { location: term } });
     } else {
-      router.push('/search');
+      router.push("/search");
     }
     setSearchQuery(term);
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleSearchSubmit();
+    if (e.key === "Enter") handleSearchSubmit();
   };
 
   return (
@@ -72,24 +72,41 @@ export default function Navbar() {
             </Link>
 
             <nav className="hidden md:flex items-center gap-6">
-              <Link href="/search" className="text-sm font-bold text-gray-500 hover:text-[#01bf8f] transition-colors">
+              <Link
+                href="/search"
+                className="text-sm font-bold text-gray-500 hover:text-[#01bf8f] transition-colors"
+              >
                 Map View
               </Link>
-              <Link href="/properties" className="text-sm font-bold text-gray-500 hover:text-[#01bf8f] transition-colors">
+              <Link
+                href="/properties"
+                className="text-sm font-bold text-gray-500 hover:text-[#01bf8f] transition-colors"
+              >
                 List View
-              </Link>
-              <Link href="/planning" className="text-sm font-bold text-gray-500 hover:text-[#01bf8f] transition-colors">
-                Planning
               </Link>
             </nav>
           </div>
 
           {/* Search bar — desktop */}
-          <div className="hidden md:flex flex-1 max-w-sm relative" ref={searchRef}>
+          <div
+            className="hidden md:flex flex-1 max-w-sm relative"
+            ref={searchRef}
+          >
             <div className="relative w-full">
               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
                 </svg>
               </div>
               <input
@@ -99,15 +116,32 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 onKeyDown={handleKeyDown}
-                onFocus={() => suggestions.length > 0 && setShowSuggestions(true)}
+                onFocus={() =>
+                  suggestions.length > 0 && setShowSuggestions(true)
+                }
               />
               {searchQuery && (
                 <button
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                  onClick={() => { setSearchQuery(''); setSuggestions([]); setShowSuggestions(false); }}
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSuggestions([]);
+                    setShowSuggestions(false);
+                  }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
                   </svg>
                 </button>
               )}
@@ -119,11 +153,30 @@ export default function Navbar() {
                   <li key={suggestion}>
                     <button
                       className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#01bf8f] transition-colors flex items-center gap-2"
-                      onMouseDown={(e) => { e.preventDefault(); handleSearchSubmit(suggestion); }}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        handleSearchSubmit(suggestion);
+                      }}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-3.5 w-3.5 text-gray-400 shrink-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
                       </svg>
                       {suggestion}
                     </button>
@@ -139,10 +192,10 @@ export default function Navbar() {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-sm hover:shadow-md active:scale-95 ${
                   isDropdownOpen
-                    ? 'bg-gray-900 text-white'
+                    ? "bg-gray-900 text-white"
                     : user
-                      ? 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-100'
-                      : 'bg-[#01bf8f] text-white hover:bg-[#019e76]'
+                      ? "bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-100"
+                      : "bg-[#01bf8f] text-white hover:bg-[#019e76]"
                 }`}
               >
                 {user ? (
@@ -152,14 +205,21 @@ export default function Navbar() {
                     </div>
                     Account
                   </div>
-                ) : 'For Agents'}
+                ) : (
+                  "For Agents"
+                )}
                 <svg
-                  className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+                  className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </button>
 
@@ -168,7 +228,9 @@ export default function Navbar() {
                   {user ? (
                     <>
                       <div className="px-4 py-2 mb-1">
-                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Agency Portal</p>
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                          Agency Portal
+                        </p>
                       </div>
                       <Link
                         href="/agency/listings"
@@ -227,12 +289,32 @@ export default function Navbar() {
             >
               <span className="sr-only">Open main menu</span>
               {isMenuOpen ? (
-                <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="block h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               ) : (
-                <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                <svg
+                  className="block h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
               )}
             </button>
@@ -247,8 +329,19 @@ export default function Navbar() {
           <div className="px-4 pt-3 pb-2">
             <div className="relative">
               <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
                 </svg>
               </div>
               <input
@@ -258,7 +351,7 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
+                  if (e.key === "Enter") {
                     handleSearchSubmit();
                     setIsMenuOpen(false);
                   }
@@ -277,9 +370,25 @@ export default function Navbar() {
                         setIsMenuOpen(false);
                       }}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-3.5 w-3.5 text-gray-400 shrink-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
                       </svg>
                       {suggestion}
                     </button>
@@ -304,19 +413,14 @@ export default function Navbar() {
             >
               List View
             </Link>
-            <Link
-              href="/planning"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#01bf8f] hover:bg-gray-50 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Planning
-            </Link>
           </div>
           <div className="pt-4 pb-3 border-t border-gray-100">
             <div className="px-4 space-y-1">
               {user ? (
                 <>
-                  <div className="px-3 py-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">Account</div>
+                  <div className="px-3 py-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                    Account
+                  </div>
                   <Link
                     href="/agency/listings"
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#01bf8f] hover:bg-gray-50 transition-colors"
