@@ -114,27 +114,47 @@ export default async function handler(req, res) {
       const propertyId = prop["@_reference"] || prop.reference || prop.propertyID?.toString() || `imported-${Date.now()}-${Math.random()}`;
       const existingProp = existingPropertiesMap[propertyId];
 
+      // 6. Extract additional adverts (advert2–advert6)
+      const adverts = [];
+      for (let i = 2; i <= 6; i++) {
+        const advert = prop[`advert${i}`];
+        if (advert && typeof advert === 'string' && advert.trim()) {
+          adverts.push(advert.trim());
+        }
+      }
+
       return {
         id: propertyId,
         title: prop.advert_heading || `${prop.bedrooms || ''} Bed Property`,
         address: displayAddress,
+        houseNumber: prop.house_number || '',
         street: prop.street || '',
+        district: prop.district || '',
         town: prop.town || '',
+        county: prop.county || '',
         postcode: prop.postcode || '',
+        country: prop.country || 'UK',
+        area: prop.area || '',
         price: parseFloat(prop.numeric_price) || 0,
         priceText: prop.price_text || `£${prop.numeric_price}`,
         bedrooms: parseInt(prop.bedrooms) || 0,
         bathrooms: parseInt(prop.bathrooms) || 0,
         receptions: parseInt(prop.receptions) || 0,
+        propertyType: prop.property_type || '',
+        propertyStyle: prop.property_style || '',
+        propertyOfWeek: prop.propertyofweek === 'Yes',
         description: prop.main_advert || prop.summary || '',
+        adverts,
         images: imagesArray,
         mainImage: imagesArray[0] || null,
         floorplans: floorplansArray,
-        bullets: bullets,
+        bullets,
         rooms: roomsArray,
         tenure: prop.tenure || '',
         department: prop.department || '',
         priority: prop.priority || '',
+        brochure: prop.brochure || '',
+        virtualTourUrl: prop.virtual_tour_url || '',
         location: {
           lat: parseFloat(prop.location?.latitude) || 52.6280,
           lng: parseFloat(prop.location?.longitude) || 1.2974
@@ -142,7 +162,6 @@ export default async function handler(req, res) {
         status: prop.priority || prop.status || 'For Sale',
         isBoosted: existingProp?.isBoosted || false,
 
-        // Agent Relationship
         agentId: agentId,
         agent: {
           name: agentProfile.name,
