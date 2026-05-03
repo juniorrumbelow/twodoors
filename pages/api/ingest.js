@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { XMLParser } from 'fast-xml-parser';
 import { db } from '../../lib/firebase';
-import { collection, writeBatch, doc, getDocs, query, where } from 'firebase/firestore';
+import { collection, writeBatch, doc, getDocs, query, where, serverTimestamp } from 'firebase/firestore';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET' && req.method !== 'POST') {
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       website: 'https://winkworth.co.uk',
       logo: 'https://ui-avatars.com/api/?name=W&background=01bf8f&color=fff',
       feedUrl: 'https://winkworth.co.uk/feed.xml',
-      updatedAt: new Date().toISOString()
+      updatedAt: serverTimestamp()
     };
 
     // 3. Parse the XML into a Javascript Object
@@ -150,7 +150,7 @@ export default async function handler(req, res) {
           logo: agentProfile.logo
         },
 
-        createdAt: new Date().toISOString()
+        createdAt: serverTimestamp()
       };
     });
 

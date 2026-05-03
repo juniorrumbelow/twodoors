@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Navbar from '@components/Navbar';
@@ -7,60 +7,64 @@ import PropertyMapCard from '@components/PropertyMapCard';
 import { db } from '../lib/firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
+const PILL = 'whitespace-nowrap px-3 py-1.5 rounded-full border text-xs font-bold outline-none transition-colors appearance-none cursor-pointer focus:ring-1 focus:ring-[#01bf8f]';
+const pillActive = 'border-[#01bf8f] bg-[#01bf8f]/5 text-[#01bf8f]';
+const pillInactive = 'border-gray-200 text-gray-700 bg-white focus:border-[#01bf8f]';
+
 export default function SearchPage({ initialProperties }) {
   const router = useRouter();
   const { query: urlQuery } = router;
+  const listRef = useRef(null);
 
-  // Filter States
   const [location, setLocation] = useState(urlQuery.location || '');
   const [minPrice, setMinPrice] = useState(urlQuery.minPrice || '');
   const [maxPrice, setMaxPrice] = useState(urlQuery.maxPrice || '');
   const [minBeds, setMinBeds] = useState(urlQuery.minBeds || '');
   const [propertyType, setPropertyType] = useState(urlQuery.type || 'Any');
+  const [sortBy, setSortBy] = useState(urlQuery.sort || 'default');
+  const [mobileView, setMobileView] = useState('list');
+  const [hoveredId, setHoveredId] = useState(null);
 
-  // Sync state with URL on load and changes
   useEffect(() => {
     setLocation(urlQuery.location || '');
     setMinPrice(urlQuery.minPrice || '');
     setMaxPrice(urlQuery.maxPrice || '');
     setMinBeds(urlQuery.minBeds || '');
     setPropertyType(urlQuery.type || 'Any');
+    setSortBy(urlQuery.sort || 'default');
   }, [urlQuery]);
 
-  // Derived Properties (Filtered)
   const filteredProperties = useMemo(() => {
-    return initialProperties.filter(p => {
-      // Location Filter (Search in title, address, description)
+    const filtered = initialProperties.filter(p => {
       if (location) {
         const searchStr = `${p.title} ${p.address} ${p.description}`.toLowerCase();
         if (!searchStr.includes(location.toLowerCase())) return false;
       }
-
-      // Price Filter
       if (minPrice && p.price < parseInt(minPrice)) return false;
       if (maxPrice && p.price > parseInt(maxPrice)) return false;
-
-      // Bedrooms Filter
       if (minBeds && p.bedrooms < parseInt(minBeds)) return false;
-
-      // Property Type Filter (Mock check as data might vary)
       if (propertyType !== 'Any') {
         const typeStr = (p.title + ' ' + (p.department || '')).toLowerCase();
         if (!typeStr.includes(propertyType.toLowerCase())) return false;
       }
-
       return true;
     });
-  }, [initialProperties, location, minPrice, maxPrice, minBeds, propertyType]);
+
+    if (sortBy === 'price_asc') return [...filtered].sort((a, b) => a.price - b.price);
+    if (sortBy === 'price_desc') return [...filtered].sort((a, b) => b.price - a.price);
+    return filtered;
+  }, [initialProperties, location, minPrice, maxPrice, minBeds, propertyType, sortBy]);
 
   const updateFilters = (updates) => {
     const newQuery = { ...urlQuery, ...updates };
-    // Remove empty filters
     Object.keys(newQuery).forEach(key => {
-      if (!newQuery[key] || newQuery[key] === 'Any') delete newQuery[key];
+      if (!newQuery[key] || newQuery[key] === 'Any' || newQuery[key] === 'default') delete newQuery[key];
     });
     router.push({ pathname: '/search', query: newQuery }, undefined, { shallow: true });
+    listRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const hasActiveFilters = minPrice || maxPrice || minBeds || propertyType !== 'Any' || sortBy !== 'default';
 
   return (
     <div className="flex flex-col h-screen bg-white overflow-hidden">
@@ -70,15 +74,17 @@ export default function SearchPage({ initialProperties }) {
 
       <Navbar />
 
-      {/* Main Content Area */}
       <div className="flex flex-1 overflow-hidden relative">
 
-        {/* Left Sidebar (Listings) */}
-        <div className="w-full md:w-[50%] lg:w-[40%] xl:w-[35%] h-full overflow-y-auto bg-gray-50 border-r border-gray-200 z-10 flex flex-col">
-
-          {/* Search Filters / Header */}
+        {/* List Sidebar */}
+        <div
+          ref={listRef}
+          className={`${mobileView === 'map' ? 'hidden md:flex' : 'flex'} flex-col w-full md:w-[50%] lg:w-[50%] xl:w-[50%] h-full overflow-y-auto bg-gray-50 border-r border-gray-200 z-10`}
+        >
+          {/* Filters Header */}
           <div className="p-4 bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
             <div className="flex flex-col gap-4">
+
               {/* Search Bar */}
               <div className="relative">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
@@ -86,8 +92,8 @@ export default function SearchPage({ initialProperties }) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="City, town or postcode..."
                   className="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl text-sm font-bold text-gray-900 border-none focus:ring-2 focus:ring-[#01bf8f] transition-all"
                   value={location}
@@ -105,17 +111,39 @@ export default function SearchPage({ initialProperties }) {
                   </h1>
                   <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">{filteredProperties.length} Results Found</p>
                 </div>
+                {hasActiveFilters && (
+                  <button
+                    onClick={() => router.push('/search')}
+                    className="text-xs text-gray-400 font-bold hover:text-red-400 transition-colors"
+                  >
+                    Clear all
+                  </button>
+                )}
               </div>
 
-              {/* Functional Filters */}
+              {/* Filter Pills */}
               <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                {/* Price Select */}
-                <select 
-                  className="whitespace-nowrap px-3 py-1.5 rounded-full border border-gray-200 text-xs font-bold text-gray-700 bg-white focus:border-[#01bf8f] focus:ring-1 focus:ring-[#01bf8f] outline-none transition-colors appearance-none cursor-pointer"
+                <select
+                  aria-label="Minimum price"
+                  className={`${PILL} ${minPrice ? pillActive : pillInactive}`}
+                  value={minPrice}
+                  onChange={(e) => updateFilters({ minPrice: e.target.value })}
+                >
+                  <option value="">Min Price</option>
+                  <option value="50000">£50k+</option>
+                  <option value="100000">£100k+</option>
+                  <option value="200000">£200k+</option>
+                  <option value="300000">£300k+</option>
+                  <option value="500000">£500k+</option>
+                </select>
+
+                <select
+                  aria-label="Maximum price"
+                  className={`${PILL} ${maxPrice ? pillActive : pillInactive}`}
                   value={maxPrice}
                   onChange={(e) => updateFilters({ maxPrice: e.target.value })}
                 >
-                  <option value="">Any Price</option>
+                  <option value="">Max Price</option>
                   <option value="100000">Up to £100k</option>
                   <option value="250000">Up to £250k</option>
                   <option value="500000">Up to £500k</option>
@@ -123,9 +151,9 @@ export default function SearchPage({ initialProperties }) {
                   <option value="1000000">Up to £1m</option>
                 </select>
 
-                {/* Beds Select */}
-                <select 
-                  className="whitespace-nowrap px-3 py-1.5 rounded-full border border-gray-200 text-xs font-bold text-gray-700 bg-white focus:border-[#01bf8f] focus:ring-1 focus:ring-[#01bf8f] outline-none transition-colors appearance-none cursor-pointer"
+                <select
+                  aria-label="Minimum bedrooms"
+                  className={`${PILL} ${minBeds ? pillActive : pillInactive}`}
                   value={minBeds}
                   onChange={(e) => updateFilters({ minBeds: e.target.value })}
                 >
@@ -137,9 +165,9 @@ export default function SearchPage({ initialProperties }) {
                   <option value="5">5+ Beds</option>
                 </select>
 
-                {/* Type Select */}
-                <select 
-                  className="whitespace-nowrap px-3 py-1.5 rounded-full border border-gray-200 text-xs font-bold text-gray-700 bg-white focus:border-[#01bf8f] focus:ring-1 focus:ring-[#01bf8f] outline-none transition-colors appearance-none cursor-pointer"
+                <select
+                  aria-label="Property type"
+                  className={`${PILL} ${propertyType !== 'Any' ? pillActive : pillInactive}`}
                   value={propertyType}
                   onChange={(e) => updateFilters({ type: e.target.value })}
                 >
@@ -149,11 +177,23 @@ export default function SearchPage({ initialProperties }) {
                   <option value="Apartment">Apartments</option>
                   <option value="Bungalow">Bungalows</option>
                 </select>
+
+                <select
+                  aria-label="Sort by"
+                  className={`${PILL} ${sortBy !== 'default' ? pillActive : pillInactive}`}
+                  value={sortBy}
+                  onChange={(e) => updateFilters({ sort: e.target.value })}
+                >
+                  <option value="default">Sort: Featured</option>
+                  <option value="price_asc">Price: Low–High</option>
+                  <option value="price_desc">Price: High–Low</option>
+                </select>
               </div>
+
             </div>
           </div>
 
-          {/* Properties List */}
+          {/* Properties Grid */}
           <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
             {filteredProperties.length === 0 ? (
               <div className="col-span-full text-center py-20">
@@ -164,7 +204,7 @@ export default function SearchPage({ initialProperties }) {
                 </div>
                 <h3 className="text-lg font-bold text-gray-900">No properties match your search</h3>
                 <p className="text-sm text-gray-500 mt-1">Try adjusting your filters or search area</p>
-                <button 
+                <button
                   onClick={() => router.push('/search')}
                   className="mt-6 text-[#01bf8f] font-bold text-sm hover:underline"
                 >
@@ -173,16 +213,36 @@ export default function SearchPage({ initialProperties }) {
               </div>
             ) : (
               filteredProperties.map(property => (
-                <PropertyMapCard key={property.id} property={property} />
+                <PropertyMapCard
+                  key={property.id}
+                  property={property}
+                  onHover={setHoveredId}
+                  onLeave={() => setHoveredId(null)}
+                />
               ))
             )}
           </div>
-
         </div>
 
-        {/* Right Content (Map) */}
-        <div className="hidden md:block flex-1 bg-gray-100 relative z-0">
-          <DynamicPropertyMap properties={filteredProperties} />
+        {/* Map */}
+        <div className={`${mobileView === 'list' ? 'hidden md:block' : 'block'} flex-1 bg-gray-100 relative z-0`}>
+          <DynamicPropertyMap properties={filteredProperties} hoveredId={hoveredId} />
+        </div>
+
+        {/* Mobile list/map toggle — floating pill */}
+        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 md:hidden z-50 bg-white rounded-full shadow-xl border border-gray-100 flex p-1 gap-1">
+          <button
+            onClick={() => setMobileView('list')}
+            className={`px-5 py-2 text-sm font-bold rounded-full transition-all ${mobileView === 'list' ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+          >
+            List
+          </button>
+          <button
+            onClick={() => setMobileView('map')}
+            className={`px-5 py-2 text-sm font-bold rounded-full transition-all ${mobileView === 'map' ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+          >
+            Map
+          </button>
         </div>
 
       </div>
@@ -200,7 +260,6 @@ export async function getServerSideProps() {
       id: doc.id,
       ...doc.data(),
     })).sort((a, b) => {
-      // Sort by boosted status first
       if (a.isBoosted && !b.isBoosted) return -1;
       if (!a.isBoosted && b.isBoosted) return 1;
       return 0;
