@@ -16,10 +16,13 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!auth) {
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Sync basic user data to Firestore
-        // Note: For agents, we might want to store extra info in an 'agents' collection
         const userRef = doc(db, 'users', firebaseUser.uid);
         await setDoc(userRef, {
           uid: firebaseUser.uid,
