@@ -8,7 +8,7 @@ import PropertyMapCard from './PropertyMapCard';
 
 function createIcon(property, highlighted) {
   const price = property.priceText || `£${Math.round(property.price / 1000)}k`;
-  const bg = highlighted ? '#111827' : '#01bf8f';
+  const bg = highlighted ? '#111827' : '#f13053';
   const shadow = highlighted
     ? '0 4px 14px rgba(0,0,0,0.35)'
     : '0 2px 6px rgba(0,0,0,0.2)';

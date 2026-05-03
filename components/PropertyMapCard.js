@@ -19,7 +19,7 @@ function PopupCard({ property }) {
           className="object-cover"
         />
         {property.isBoosted && (
-          <div className="absolute top-2.5 left-2.5 bg-[#01bf8f] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm">
+          <div className="absolute top-2.5 left-2.5 bg-[#f13053] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm">
             FEATURED
           </div>
         )}
@@ -36,7 +36,7 @@ function PopupCard({ property }) {
             <span className="text-gray-300">·</span>
             <span>{property.bathrooms} Bath</span>
           </div>
-          <span className="text-xs font-black text-[#01bf8f] group-hover:underline">
+          <span className="text-xs font-black text-[#f13053] group-hover:underline">
             View details →
           </span>
         </div>
@@ -66,7 +66,7 @@ export default function PropertyMapCard({ property, isPopup = false, onHover, on
           className="object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-105"
         />
         {property.isBoosted && (
-          <div className="absolute top-3 left-3 bg-[#01bf8f] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm z-10">
+          <div className="absolute top-3 left-3 bg-[#f13053] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm z-10">
             FEATURED
           </div>
         )}
@@ -84,7 +84,7 @@ export default function PropertyMapCard({ property, isPopup = false, onHover, on
           <span className="text-gray-300">·</span>
           <span>{property.bathrooms} Bath</span>
         </div>
-        <div className="font-black text-[#01bf8f] text-sm">
+        <div className="font-black text-[#f13053] text-sm">
           View Details
         </div>
       </div>

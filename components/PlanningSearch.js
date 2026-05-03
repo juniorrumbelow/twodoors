@@ -159,12 +159,12 @@ export default function PlanningSearch() {
             }}
             onFocus={() => setShowDropdown(true)}
             placeholder="Search location or postcode..."
-            className="w-full pl-6 pr-28 md:px-8 py-5 text-lg font-medium text-gray-900 bg-white border border-gray-200 rounded-full shadow-2xl focus:outline-none focus:border-[#01bf8f] focus:ring-4 focus:ring-[#01bf8f]/20 transition-all placeholder:text-gray-400"
+            className="w-full pl-6 pr-28 md:px-8 py-5 text-lg font-medium text-gray-900 bg-white border border-gray-200 rounded-full shadow-2xl focus:outline-none focus:border-[#f13053] focus:ring-4 focus:ring-[#f13053]/20 transition-all placeholder:text-gray-400"
           />
           <button
             type="submit"
             disabled={loading}
-            className="absolute right-2 top-2 bottom-2 px-4 md:px-8 bg-[#01bf8f] text-white font-bold rounded-full hover:bg-[#02a97e] transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2 z-10"
+            className="absolute right-2 top-2 bottom-2 px-4 md:px-8 bg-[#f13053] text-white font-bold rounded-full hover:bg-[#02a97e] transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:hover:scale-100 flex items-center justify-center gap-2 z-10"
           >
             {loading ? (
               <>
@@ -189,7 +189,7 @@ export default function PlanningSearch() {
               <button
                 key={idx}
                 type="button"
-                className="w-full px-6 py-3 text-left text-gray-700 hover:bg-[#01bf8f]/10 hover:text-[#01bf8f] font-medium transition-colors cursor-pointer border-b border-gray-50 last:border-0"
+                className="w-full px-6 py-3 text-left text-gray-700 hover:bg-[#f13053]/10 hover:text-[#f13053] font-medium transition-colors cursor-pointer border-b border-gray-50 last:border-0"
                 onClick={() => {
                   setLocation(suggestion);
                   setShowDropdown(false);
@@ -203,7 +203,7 @@ export default function PlanningSearch() {
                 }}
               >
                 <span className="flex items-center gap-3">
-                  <svg className="w-4 h-4 text-[#01bf8f]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                  <svg className="w-4 h-4 text-[#f13053]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                   {suggestion}
                 </span>
               </button>
@@ -224,7 +224,7 @@ export default function PlanningSearch() {
             <div>
               <h2 className="text-2xl md:text-2xl font-extrabold tracking-tight">Planned Development</h2>
               <p className="text-gray-500 mt-2 font-medium text-lg flex items-center gap-2">
-                <svg className="w-5 h-5 text-[#01bf8f]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <svg className="w-5 h-5 text-[#f13053]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 {data.location?.admin_district} • {data.location?.name}
               </p>
             </div>
@@ -252,7 +252,7 @@ export default function PlanningSearch() {
                   onClick={handleShare}
                   className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${copied
                     ? 'bg-emerald-500 text-white shadow-lg scale-105'
-                    : 'bg-white text-gray-700 border border-gray-200 hover:border-[#01bf8f] hover:text-[#01bf8f] hover:shadow-md'
+                    : 'bg-white text-gray-700 border border-gray-200 hover:border-[#f13053] hover:text-[#f13053] hover:shadow-md'
                     }`}
                 >
                   {copied ? (
@@ -321,7 +321,7 @@ export default function PlanningSearch() {
                       {/* Left Column: Status & Date */}
                       <div className="md:w-48 flex-shrink-0 flex flex-row md:flex-col justify-between md:justify-start gap-4 md:border-r md:border-gray-100 md:pr-6">
                         <div className="flex flex-col gap-2">
-                          <span className="inline-flex items-center px-3 py-1 bg-[#01bf8f]/10 text-[#01bf8f] text-[10px] font-bold rounded-full uppercase tracking-wider w-fit">
+                          <span className="inline-flex items-center px-3 py-1 bg-[#f13053]/10 text-[#f13053] text-[10px] font-bold rounded-full uppercase tracking-wider w-fit">
                             {app.dataset?.replace('-', ' ') || 'Planning'}
                           </span>
                           <div className="flex flex-col gap-1.5 border-l-2 border-gray-50 pl-3 mt-1">
@@ -364,12 +364,12 @@ export default function PlanningSearch() {
                       <div className="flex-grow flex flex-col">
                         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
                           <div className="flex-grow max-w-4xl">
-                            <h3 className="font-extrabold text-lg md:text-xl text-gray-900 mb-2 leading-tight group-hover:text-[#01bf8f] transition-colors line-clamp-3" title={app.notes || app.description || 'No details available'}>
+                            <h3 className="font-extrabold text-lg md:text-xl text-gray-900 mb-2 leading-tight group-hover:text-[#f13053] transition-colors line-clamp-3" title={app.notes || app.description || 'No details available'}>
                               {app.notes || app.description || 'No details available'}
                             </h3>
                             {(app['address-text'] || app['site-address']) && (
                               <p className="text-gray-500 flex items-center gap-2 text-sm md:text-base font-medium">
-                                <svg className="w-4 h-4 flex-shrink-0 text-[#01bf8f]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <svg className="w-4 h-4 flex-shrink-0 text-[#f13053]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 {app['address-text'] || app['site-address']}
                               </p>
                             )}
@@ -418,7 +418,7 @@ export default function PlanningSearch() {
                           {/* CTA Link Pushed to the End */}
                           {url && (
                             <span
-                              className="inline-flex items-center gap-2 px-6 py-2 bg-[#01bf8f] hover:bg-[#02a97e] text-white font-bold text-sm rounded-xl transition-all duration-300 shadow-sm hover:shadow-md md:ml-auto group/btn"
+                              className="inline-flex items-center gap-2 px-6 py-2 bg-[#f13053] hover:bg-[#02a97e] text-white font-bold text-sm rounded-xl transition-all duration-300 shadow-sm hover:shadow-md md:ml-auto group/btn"
                             >
                               View Details
                               <svg className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
@@ -449,7 +449,7 @@ export default function PlanningSearch() {
                     </button>
 
                     <div className="flex items-center gap-1 min-w-[80px] justify-center text-sm font-bold">
-                      <span className="text-[#01bf8f]">{currentPage}</span>
+                      <span className="text-[#f13053]">{currentPage}</span>
                       <span className="text-gray-300">/</span>
                       <span className="text-gray-600">{totalPages}</span>
                     </div>
@@ -457,7 +457,7 @@ export default function PlanningSearch() {
                     <button
                       onClick={() => handlePageChange(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#01bf8f] hover:bg-[#02a97e] disabled:opacity-30 disabled:hover:bg-[#01bf8f] text-white font-bold text-sm rounded-xl transition-all duration-300 shadow-lg"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#f13053] hover:bg-[#02a97e] disabled:opacity-30 disabled:hover:bg-[#f13053] text-white font-bold text-sm rounded-xl transition-all duration-300 shadow-lg"
                     >
                       Next
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>

@@ -98,7 +98,7 @@ export default function AgencyListings() {
   if (authLoading || !user) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#01bf8f]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f13053]"></div>
       </div>
     );
   }
@@ -113,8 +113,8 @@ export default function AgencyListings() {
 
       <main className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 w-full flex-grow">
         {syncStatus && (
-          <div className={`mb-8 p-4 rounded-2xl text-sm font-black flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300 ${syncStatus.includes('failed') || syncStatus.includes('Failed') ? 'bg-red-50 text-red-700 border border-red-100' : 'bg-[#01bf8f]/10 text-[#01bf8f] border border-[#01bf8f]/20'}`}>
-            <div className={`h-2 w-2 rounded-full ${syncStatus.includes('Syncing') || syncStatus.includes('Updating') ? 'bg-[#01bf8f] animate-ping' : 'bg-current'}`}></div>
+          <div className={`mb-8 p-4 rounded-2xl text-sm font-black flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300 ${syncStatus.includes('failed') || syncStatus.includes('Failed') ? 'bg-red-50 text-red-700 border border-red-100' : 'bg-[#f13053]/10 text-[#f13053] border border-[#f13053]/20'}`}>
+            <div className={`h-2 w-2 rounded-full ${syncStatus.includes('Syncing') || syncStatus.includes('Updating') ? 'bg-[#f13053] animate-ping' : 'bg-current'}`}></div>
             {syncStatus}
           </div>
         )}
@@ -129,7 +129,7 @@ export default function AgencyListings() {
           <div className="mt-6 flex md:mt-0 md:ml-4 gap-4">
             <button
               onClick={handleSync}
-              className="inline-flex items-center px-6 py-3 border border-transparent rounded-2xl shadow-sm text-sm font-black text-white bg-[#01bf8f] hover:bg-[#019e76] transition-all active:scale-95"
+              className="inline-flex items-center px-6 py-3 border border-transparent rounded-2xl shadow-sm text-sm font-black text-white bg-[#f13053] hover:bg-[#c9203f] transition-all active:scale-95"
             >
               Sync XML Feed
             </button>
@@ -141,7 +141,7 @@ export default function AgencyListings() {
             <dt className="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Active Listings</dt>
             <dd className="flex items-baseline justify-between">
               <div className="text-4xl font-black text-gray-900">{properties.length}</div>
-              <div className="text-[10px] font-black text-[#01bf8f] bg-[#01bf8f]/10 px-2 py-1 rounded-full uppercase tracking-tighter">
+              <div className="text-[10px] font-black text-[#f13053] bg-[#f13053]/10 px-2 py-1 rounded-full uppercase tracking-tighter">
                 Live on TwoDoors
               </div>
             </dd>
@@ -155,14 +155,14 @@ export default function AgencyListings() {
           </div>
           {isLoading ? (
             <div className="py-32 text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#01bf8f] mx-auto mb-4"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f13053] mx-auto mb-4"></div>
               <p className="text-gray-400 font-bold">Loading your portfolio...</p>
             </div>
           ) : properties.length === 0 ? (
             <div className="py-32 text-center text-gray-400 flex flex-col items-center">
               <svg className="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
               <p className="font-bold text-lg">No properties synchronized yet.</p>
-              <button onClick={handleSync} className="mt-4 text-[#01bf8f] font-black hover:underline">Click here to sync your XML feed</button>
+              <button onClick={handleSync} className="mt-4 text-[#f13053] font-black hover:underline">Click here to sync your XML feed</button>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -182,10 +182,10 @@ export default function AgencyListings() {
                         <Link href={`/property/${property.id}`} className="flex items-center group">
                           <div className="h-14 w-14 flex-shrink-0 relative overflow-hidden rounded-2xl shadow-sm border border-gray-100">
                             <img className="h-full w-full object-cover transition-transform group-hover:scale-110" src={property.mainImage} alt="" />
-                            {property.isBoosted && <div className="absolute inset-0 bg-[#01bf8f]/20 border-2 border-[#01bf8f] rounded-2xl"></div>}
+                            {property.isBoosted && <div className="absolute inset-0 bg-[#f13053]/20 border-2 border-[#f13053] rounded-2xl"></div>}
                           </div>
                           <div className="ml-5">
-                            <div className="text-sm font-black text-gray-900 group-hover:text-[#01bf8f] transition-colors">{property.title}</div>
+                            <div className="text-sm font-black text-gray-900 group-hover:text-[#f13053] transition-colors">{property.title}</div>
                             <div className="text-[11px] text-gray-400 font-bold mt-0.5">{property.address}</div>
                           </div>
                         </Link>
@@ -196,7 +196,7 @@ export default function AgencyListings() {
                       </td>
                       <td className="px-8 py-6 whitespace-nowrap">
                         <div className="flex flex-col gap-1.5">
-                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${property.isBoosted ? 'bg-[#01bf8f] text-white shadow-sm shadow-[#01bf8f]/40' : 'bg-gray-100 text-gray-400'}`}>
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${property.isBoosted ? 'bg-[#f13053] text-white shadow-sm shadow-[#f13053]/40' : 'bg-gray-100 text-gray-400'}`}>
                             {property.isBoosted ? 'Boosted' : 'Standard'}
                           </span>
                         </div>
@@ -205,7 +205,7 @@ export default function AgencyListings() {
                         <div className="flex justify-end gap-3">
                           <button
                             onClick={() => handleBoost(property.id, property.isBoosted)}
-                            className={`font-black text-[11px] uppercase px-4 py-2 rounded-xl transition-all shadow-sm active:scale-95 ${property.isBoosted ? 'bg-gray-900 text-white' : 'bg-[#01bf8f] text-white hover:bg-[#019e76]'}`}
+                            className={`font-black text-[11px] uppercase px-4 py-2 rounded-xl transition-all shadow-sm active:scale-95 ${property.isBoosted ? 'bg-gray-900 text-white' : 'bg-[#f13053] text-white hover:bg-[#c9203f]'}`}
                           >
                             {property.isBoosted ? 'Unboost' : 'Boost Listing'}
                           </button>

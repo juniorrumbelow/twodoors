@@ -16,8 +16,8 @@ export default function Planning() {
 
       {/* Background decorations for a more dynamic feel */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-[#01bf8f]/5 blur-3xl mix-blend-multiply"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#01bf8f]/5 blur-3xl mix-blend-multiply"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-[#f13053]/5 blur-3xl mix-blend-multiply"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#f13053]/5 blur-3xl mix-blend-multiply"></div>
       </div>
 
       <main className="flex-grow flex flex-col items-center justify-start pt-12 md:pt-24 pb-24 px-4 relative z-20 w-full animate-in slide-in-from-bottom-8 duration-700">

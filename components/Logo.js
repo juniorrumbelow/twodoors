@@ -6,7 +6,7 @@ export default function Logo({ size = 'text-8xl' }) {
     <Link href="/" className="inline-block outline-none">
       <h1 className={`${size} font-bold tracking-tight cursor-pointer select-none transition-opacity flex items-baseline`}>
         <span className="text-gray-900">two</span>
-        <span className="text-[#01bf8f]">doors</span>
+        <span className="text-[#f13053]">doors</span>
       </h1>
     </Link>
   )
