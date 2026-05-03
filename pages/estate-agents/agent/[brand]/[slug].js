@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import Navbar from '@components/Navbar';
 import PropertyCard from '@components/PropertyCard';
@@ -7,7 +7,14 @@ import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firesto
 import Link from 'next/link';
 import { extractAgentIdFromSlug } from '../../../../utils/formatters';
 
+const TABS = [
+  { key: 'sales', label: 'For Sale', dept: 'Residential Sales' },
+  { key: 'lettings', label: 'To Let', dept: 'Residential Lettings' },
+];
+
 export default function AgentDetail({ agent, properties }) {
+  const [activeTab, setActiveTab] = useState('sales');
+
   if (!agent) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -22,6 +29,14 @@ export default function AgentDetail({ agent, properties }) {
     );
   }
 
+  const activeTabDept = TABS.find(t => t.key === activeTab)?.dept;
+  const visibleProperties = properties.filter(p => p.department === activeTabDept);
+
+  const salesCount = properties.filter(p => p.department === 'Residential Sales').length;
+  const lettingsCount = properties.filter(p => p.department === 'Residential Lettings').length;
+
+  const counts = { sales: salesCount, lettings: lettingsCount };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Head>
@@ -30,15 +45,14 @@ export default function AgentDetail({ agent, properties }) {
 
       <Navbar />
 
-
       {/* Agent Profile Banner */}
       <div className="bg-white border-b border-gray-200 py-12 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8">
           <div className="relative">
             {agent.logo ? (
-              <img 
-                src={agent.logo} 
-                alt={agent.name} 
+              <img
+                src={agent.logo}
+                alt={agent.name}
                 className="w-32 h-32 rounded-full border-4 border-gray-50 shadow-md object-cover"
               />
             ) : (
@@ -47,7 +61,7 @@ export default function AgentDetail({ agent, properties }) {
               </div>
             )}
           </div>
-          
+
           <div className="flex-1 text-center md:text-left">
             <h1 className="text-4xl font-extrabold text-gray-900 mb-2">
               {agent.name}
@@ -71,12 +85,12 @@ export default function AgentDetail({ agent, properties }) {
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#01bf8f]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <a href={`mailto:\${agent.email}`} className="hover:underline">{agent.email}</a>
+                  <a href={`mailto:${agent.email}`} className="hover:underline">{agent.email}</a>
                 </div>
               )}
             </div>
           </div>
-          
+
           <div className="flex flex-col gap-2 w-full md:w-auto">
             <button className="w-full md:w-48 bg-gray-900 text-white font-bold py-3 px-6 rounded-xl hover:bg-gray-800 transition-colors shadow-sm">
               Contact Agent
@@ -90,30 +104,53 @@ export default function AgentDetail({ agent, properties }) {
         </div>
       </div>
 
-      {/* Agent's Properties */}
+      {/* Tabs + Properties */}
       <div className="max-w-7xl mx-auto py-12 px-6">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">
-            Available Properties ({properties.length})
-          </h2>
-          <div className="flex gap-2">
-             <button className="px-4 py-2 rounded-lg border border-gray-200 text-sm font-bold text-gray-700 bg-white hover:border-[#01bf8f] hover:text-[#01bf8f] transition-colors">
-              Sort by Newest
-            </button>
+
+        {/* Tab bar */}
+        <div className="flex items-end justify-between mb-8">
+          <div className="flex gap-1 bg-gray-100 p-1 rounded-xl">
+            {TABS.map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`px-5 py-2 rounded-lg text-sm font-bold transition-colors ${
+                  activeTab === tab.key
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                {tab.label}
+                <span className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
+                  activeTab === tab.key
+                    ? 'bg-[#01bf8f]/10 text-[#01bf8f]'
+                    : 'bg-gray-200 text-gray-500'
+                }`}>
+                  {counts[tab.key]}
+                </span>
+              </button>
+            ))}
           </div>
+
+          <button className="px-4 py-2 rounded-lg border border-gray-200 text-sm font-bold text-gray-700 bg-white hover:border-[#01bf8f] hover:text-[#01bf8f] transition-colors">
+            Sort by Newest
+          </button>
         </div>
 
-        {properties.length === 0 ? (
+        {/* Property grid */}
+        {visibleProperties.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-2xl border border-gray-200">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
-            <h3 className="text-lg font-bold text-gray-900 mb-1">No properties available</h3>
-            <p className="text-gray-500">This agent doesn't have any active listings right now.</p>
+            <h3 className="text-lg font-bold text-gray-900 mb-1">No properties listed</h3>
+            <p className="text-gray-500">
+              This agent has no {activeTab === 'sales' ? 'properties for sale' : 'rental properties'} right now.
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {properties.map((property) => (
+            {visibleProperties.map((property) => (
               <PropertyCard key={property.id} property={property} />
             ))}
           </div>
@@ -132,19 +169,15 @@ export async function getServerSideProps(context) {
   }
 
   try {
-    // 1. Fetch the Agent Profile
     const agentRef = doc(db, 'agents', id);
     const agentSnap = await getDoc(agentRef);
 
     if (!agentSnap.exists()) {
-      return {
-        notFound: true,
-      };
+      return { notFound: true };
     }
 
     const agentData = agentSnap.data();
 
-    // 2. Fetch all properties belonging to this agent
     const propertiesRef = collection(db, 'properties');
     const q = query(propertiesRef, where('agentId', '==', id));
     const querySnapshot = await getDocs(q);
