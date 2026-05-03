@@ -9,6 +9,7 @@
     "export": "next build && next export"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.92.0",
     "fast-xml-parser": "^5.7.2",
     "firebase": "^12.12.1",
     "leaflet": "^1.9.4",
