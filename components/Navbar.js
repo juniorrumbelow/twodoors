@@ -48,11 +48,9 @@ export default function Navbar() {
   const handleSearchSubmit = (value) => {
     const term = (value ?? searchQuery).trim();
     setShowSuggestions(false);
-    if (term) {
-      router.push({ pathname: "/search", query: { location: term } });
-    } else {
-      router.push("/search");
-    }
+    const channel = router.query.channel;
+    const q = { ...(term ? { location: term } : {}), ...(channel ? { channel } : {}) };
+    router.push({ pathname: "/search", query: q });
     setSearchQuery(term);
   };
 
@@ -62,7 +60,7 @@ export default function Navbar() {
 
   return (
     <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           <div className="flex items-center gap-6 shrink-0">
             <Link href="/">
@@ -73,16 +71,16 @@ export default function Navbar() {
 
             <nav className="hidden md:flex items-center gap-6">
               <Link
-                href="/search"
-                className="text-sm font-bold text-gray-500 hover:text-[#01bf8f] transition-colors"
+                href="/search?channel=buy"
+                className={`text-sm font-bold transition-colors ${router.pathname === '/search' && router.query.channel !== 'rent' ? 'text-[#01bf8f]' : 'text-gray-500 hover:text-[#01bf8f]'}`}
               >
-                Map View
+                Buy
               </Link>
               <Link
-                href="/properties"
-                className="text-sm font-bold text-gray-500 hover:text-[#01bf8f] transition-colors"
+                href="/search?channel=rent"
+                className={`text-sm font-bold transition-colors ${router.pathname === '/search' && router.query.channel === 'rent' ? 'text-[#01bf8f]' : 'text-gray-500 hover:text-[#01bf8f]'}`}
               >
-                List View
+                Rent
               </Link>
             </nav>
           </div>
@@ -400,18 +398,18 @@ export default function Navbar() {
 
           <div className="px-4 pt-1 pb-3 space-y-1">
             <Link
-              href="/search"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#01bf8f] hover:bg-gray-50 transition-colors"
+              href="/search?channel=buy"
+              className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === '/search' && router.query.channel !== 'rent' ? 'text-[#01bf8f] bg-[#01bf8f]/5' : 'text-gray-600 hover:text-[#01bf8f] hover:bg-gray-50'}`}
               onClick={() => setIsMenuOpen(false)}
             >
-              Map View
+              Buy
             </Link>
             <Link
-              href="/properties"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#01bf8f] hover:bg-gray-50 transition-colors"
+              href="/search?channel=rent"
+              className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === '/search' && router.query.channel === 'rent' ? 'text-[#01bf8f] bg-[#01bf8f]/5' : 'text-gray-600 hover:text-[#01bf8f] hover:bg-gray-50'}`}
               onClick={() => setIsMenuOpen(false)}
             >
-              List View
+              Rent
             </Link>
           </div>
           <div className="pt-4 pb-3 border-t border-gray-100">
