@@ -30,15 +30,10 @@ function PopupCard({ property }) {
         </div>
         <p className="text-xs font-semibold text-gray-700 line-clamp-1">{property.title}</p>
         <p className="text-[11px] text-gray-400 line-clamp-1 mb-2">{property.address}</p>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-[11px] text-gray-500 font-semibold">
-            <span>{property.bedrooms} Bed</span>
-            <span className="text-gray-300">·</span>
-            <span>{property.bathrooms} Bath</span>
-          </div>
-          <span className="text-xs font-black text-[#f13053] group-hover:underline">
-            View details →
-          </span>
+        <div className="flex items-center gap-2 text-[11px] text-gray-500 font-semibold">
+          <span>{property.bedrooms} Bed</span>
+          <span className="text-gray-300">·</span>
+          <span>{property.bathrooms} Bath</span>
         </div>
       </div>
     </Link>
@@ -79,13 +74,10 @@ export default function PropertyMapCard({ property, isPopup = false, onHover, on
           {property.title}
         </div>
         <p className="text-gray-400 text-xs mb-3 line-clamp-1">{property.address}</p>
-        <div className="flex items-center gap-3 text-xs text-gray-500 font-medium mb-3">
+        <div className="flex items-center gap-3 text-xs text-gray-500 font-medium">
           <span>{property.bedrooms} Bed</span>
           <span className="text-gray-300">·</span>
           <span>{property.bathrooms} Bath</span>
-        </div>
-        <div className="font-black text-[#f13053] text-sm">
-          View Details
         </div>
       </div>
     </Link>

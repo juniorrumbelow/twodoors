@@ -1,16 +1,16 @@
-import React from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import Navbar from '@components/Navbar';
-import { db } from '../lib/firebase';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import React from "react";
+import Head from "next/head";
+import Link from "next/link";
+import Navbar from "@components/Navbar";
+import { db } from "../lib/firebase";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 export default function Properties({ properties }) {
   // Format price
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-GB', {
-      style: 'currency',
-      currency: 'GBP',
+    return new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
       maximumFractionDigits: 0,
     }).format(price);
   };
@@ -23,40 +23,42 @@ export default function Properties({ properties }) {
 
       <Navbar />
 
-
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
             Available Properties
           </h1>
           <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
-            Browse our latest selection of premium properties fetched directly from our XML feed.
+            Browse our latest selection of premium properties fetched directly
+            from our XML feed.
           </p>
         </div>
 
-
         {properties.length === 0 ? (
           <div className="text-center py-20 text-gray-500 text-lg">
-            No properties found in the database. Try running the ingest API first!
+            No properties found in the database. Try running the ingest API
+            first!
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {properties.map((property) => (
-              <Link 
-                key={property.id} 
+              <Link
+                key={property.id}
                 href={`/property/${property.id}`}
-                className={`group bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col ${property.isBoosted ? 'border-[#f13053] ring-1 ring-[#f13053]/10' : 'border-gray-200'}`}
+                className={`group bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col ${property.isBoosted ? "border-[#f13053] ring-1 ring-[#f13053]/10" : "border-gray-200"}`}
               >
                 {/* Image Section */}
                 <div className="relative h-64 w-full bg-gray-200 overflow-hidden">
                   {/* Status Badge */}
                   <div className="absolute top-4 left-4 z-10">
-                    <span className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-md border ${
-                      property.status?.toLowerCase().includes('sale') 
-                        ? 'bg-white text-blue-700 border-blue-100' 
-                        : 'bg-white text-emerald-700 border-emerald-100'
-                    }`}>
-                      {property.status || 'Available'}
+                    <span
+                      className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-md border ${
+                        property.status?.toLowerCase().includes("sale")
+                          ? "bg-white text-blue-700 border-blue-100"
+                          : "bg-white text-emerald-700 border-emerald-100"
+                      }`}
+                    >
+                      {property.status || "Available"}
                     </span>
                   </div>
 
@@ -65,7 +67,7 @@ export default function Properties({ properties }) {
                       FEATURED
                     </div>
                   )}
-                  
+
                   {property.mainImage ? (
                     <img
                       src={property.mainImage}
@@ -95,15 +97,35 @@ export default function Properties({ properties }) {
                   {/* Features */}
                   <div className="flex space-x-6 py-4 border-y border-gray-100 mb-4 text-sm">
                     <div className="flex items-center text-gray-700">
-                      <svg className="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                      <svg
+                        className="w-5 h-5 mr-2 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                        />
                       </svg>
                       <span className="font-bold">{property.bedrooms}</span>
                       <span className="ml-1 text-gray-500">Bed</span>
                     </div>
                     <div className="flex items-center text-gray-700">
-                      <svg className="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      <svg
+                        className="w-5 h-5 mr-2 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                        />
                       </svg>
                       <span className="font-bold">{property.bathrooms}</span>
                       <span className="ml-1 text-gray-500">Bath</span>
@@ -116,11 +138,14 @@ export default function Properties({ properties }) {
 
                   <div className="flex items-center justify-between pt-4 border-t border-gray-50 mt-auto">
                     <div className="flex items-center gap-2">
-                      <img src={property.agent?.logo} alt={property.agent?.name} className="w-6 h-6 rounded-full border border-gray-200" />
-                      <span className="text-xs font-semibold text-gray-500">{property.agent?.name}</span>
-                    </div>
-                    <div className="text-[#f13053] text-sm font-bold">
-                      View Details
+                      <img
+                        src={property.agent?.logo}
+                        alt={property.agent?.name}
+                        className="w-6 h-6 rounded-full border border-gray-200"
+                      />
+                      <span className="text-xs font-semibold text-gray-500">
+                        {property.agent?.name}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -136,19 +161,21 @@ export default function Properties({ properties }) {
 export async function getServerSideProps() {
   try {
     // Fetch properties from Firestore
-    const propertiesRef = collection(db, 'properties');
-    const q = query(propertiesRef, orderBy('createdAt', 'desc'));
+    const propertiesRef = collection(db, "properties");
+    const q = query(propertiesRef, orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
-    
-    const properties = querySnapshot.docs.map(doc => ({
-      ...doc.data(),
-      // Firestore timestamps need to be converted to strings for Next.js props
-      createdAt: doc.data().createdAt || null
-    })).sort((a, b) => {
-      if (a.isBoosted && !b.isBoosted) return -1;
-      if (!a.isBoosted && b.isBoosted) return 1;
-      return 0;
-    });
+
+    const properties = querySnapshot.docs
+      .map((doc) => ({
+        ...doc.data(),
+        // Firestore timestamps need to be converted to strings for Next.js props
+        createdAt: doc.data().createdAt || null,
+      }))
+      .sort((a, b) => {
+        if (a.isBoosted && !b.isBoosted) return -1;
+        if (!a.isBoosted && b.isBoosted) return 1;
+        return 0;
+      });
 
     return {
       props: {
@@ -164,4 +191,3 @@ export async function getServerSideProps() {
     };
   }
 }
-
