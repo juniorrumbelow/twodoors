@@ -125,6 +125,12 @@ export default function Navbar() {
               >
                 Rent
               </Link>
+              <Link
+                href="/onboarding"
+                className={`text-sm font-bold transition-colors ${router.pathname === "/onboarding" ? "text-[#f13053]" : "text-gray-500 hover:text-[#f13053]"}`}
+              >
+                Home Profile
+              </Link>
             </nav>
           </div>
 
@@ -269,6 +275,19 @@ export default function Navbar() {
                   {user ? (
                     <>
                       <div className="px-4 py-2 mb-1">
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                          My Account
+                        </p>
+                      </div>
+                      <Link
+                        href="/onboarding"
+                        className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                        onClick={() => setIsDropdownOpen(false)}
+                      >
+                        Home Profile
+                      </Link>
+                      <div className="my-1 mx-4 border-t border-gray-50"></div>
+                      <div className="px-4 py-1.5">
                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
                           Agency Portal
                         </p>
@@ -565,6 +584,13 @@ export default function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               Rent
+            </Link>
+            <Link
+              href="/onboarding"
+              className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === "/onboarding" ? "text-[#f13053] bg-[#f13053]/5" : "text-gray-600 hover:text-[#f13053] hover:bg-gray-50"}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Home Profile
             </Link>
           </div>
           <div className="pt-4 pb-3 border-t border-gray-100">
