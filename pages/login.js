@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import Logo from '@components/Logo';
 
@@ -16,7 +18,7 @@ export default function LoginPage() {
   // Automatically redirect if already logged in
   React.useEffect(() => {
     if (!authLoading && user) {
-      router.push('/agency/listings');
+      router.push('/search');
     }
   }, [user, authLoading, router]);
 
@@ -40,7 +42,8 @@ export default function LoginPage() {
       if (isLogin) {
         await loginWithEmail(email, password);
       } else {
-        await signupWithEmail(email, password);
+        const result = await signupWithEmail(email, password);
+        await setDoc(doc(db, 'users', result.user.uid), { role: 'user', memberSince: serverTimestamp() }, { merge: true });
       }
       // Redirection is handled by the useEffect
     } catch (err) {
@@ -124,7 +127,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#f13053] focus:border-[#f13053] sm:text-sm"
-                  placeholder="agent@company.com"
+                  placeholder="you@example.com"
                 />
               </div>
             </div>
