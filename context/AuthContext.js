@@ -6,13 +6,14 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword 
 } from 'firebase/auth';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, onSnapshot, serverTimestamp } from 'firebase/firestore';
 import { auth, db, googleProvider } from '../lib/firebase';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [isAgent, setIsAgent] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +22,15 @@ export function AuthProvider({ children }) {
       return;
     }
 
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+    let unsubscribeDoc = null;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
+      // Clean up any previous Firestore listener
+      if (unsubscribeDoc) {
+        unsubscribeDoc();
+        unsubscribeDoc = null;
+      }
+
       if (firebaseUser) {
         const userRef = doc(db, 'users', firebaseUser.uid);
         await setDoc(userRef, {
@@ -31,12 +40,24 @@ export function AuthProvider({ children }) {
           photoURL: firebaseUser.photoURL,
           lastLogin: serverTimestamp(),
         }, { merge: true });
+
+        // Reactively watch the user doc so role changes (e.g. agent login writing
+        // role: 'agent') are picked up without a page reload.
+        unsubscribeDoc = onSnapshot(userRef, (snap) => {
+          setIsAgent(snap.data()?.role === 'agent');
+        });
+      } else {
+        setIsAgent(false);
       }
+
       setUser(firebaseUser);
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeDoc) unsubscribeDoc();
+    };
   }, []);
 
   const loginWithGoogle = () => signInWithPopup(auth, googleProvider);
@@ -50,6 +71,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     user,
+    isAgent,
     loading,
     loginWithGoogle,
     loginWithEmail,
