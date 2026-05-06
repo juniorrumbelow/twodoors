@@ -44,10 +44,12 @@ export default function LoginPage() {
     try {
       setError('');
       setIsLoading(true);
-      const result = isLogin
-        ? await loginWithEmail(email, password)
-        : await signupWithEmail(email, password);
-      await markUserAsAgent(result.user.uid);
+      if (isLogin) {
+        await loginWithEmail(email, password);
+      } else {
+        const result = await signupWithEmail(email, password);
+        await markUserAsAgent(result.user.uid);
+      }
       // Redirection is handled by the useEffect
     } catch (err) {
       setError(err.message);
