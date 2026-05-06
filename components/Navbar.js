@@ -289,20 +289,24 @@ export default function Navbar() {
                           <div className="my-1 mx-4 border-t border-gray-50"></div>
                         </>
                       )}
-                      <Link
-                        href="/agency/listings"
-                        className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        My Listings
-                      </Link>
-                      <Link
-                        href="/agency/profile"
-                        className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        Agency Profile
-                      </Link>
+                      {isAgent && (
+                        <>
+                          <Link
+                            href="/agency/listings"
+                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                            onClick={() => setIsDropdownOpen(false)}
+                          >
+                            My Listings
+                          </Link>
+                          <Link
+                            href="/agency/profile"
+                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                            onClick={() => setIsDropdownOpen(false)}
+                          >
+                            Agency Profile
+                          </Link>
+                        </>
+                      )}
                       <div className="my-2 border-t border-gray-50"></div>
                       <button
                         onClick={() => { logout(); setIsDropdownOpen(false); }}
@@ -437,12 +441,16 @@ export default function Navbar() {
                 {user ? (
                   <>
                     <div className="px-3 py-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">Account</div>
-                    <Link href="/agency/listings" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
-                      My Listings
-                    </Link>
-                    <Link href="/agency/profile" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
-                      Agency Profile
-                    </Link>
+                    {isAgent && (
+                      <>
+                        <Link href="/agency/listings" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
+                          My Listings
+                        </Link>
+                        <Link href="/agency/profile" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
+                          Agency Profile
+                        </Link>
+                      </>
+                    )}
                     <button
                       onClick={() => { logout(); setIsMenuOpen(false); }}
                       className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-500 hover:bg-red-50 transition-colors"

@@ -9,7 +9,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 const AGENT_ID = 'agent_winkworth_01';
 
 export default function AgencyProfile() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, isAgent, loading: authLoading } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [syncStatus, setSyncStatus] = useState('');
   const router = useRouter();
@@ -24,10 +24,10 @@ export default function AgencyProfile() {
   });
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/agent/login');
-    }
-  }, [user, authLoading, router]);
+    if (authLoading) return;
+    if (!user) router.push('/agent/login');
+    else if (!isAgent) router.push('/search');
+  }, [user, isAgent, authLoading, router]);
 
   useEffect(() => {
     if (user) {
@@ -76,7 +76,7 @@ export default function AgencyProfile() {
     }
   };
 
-  if (authLoading || !user) {
+  if (authLoading || !user || !isAgent) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#f13053]"></div>
