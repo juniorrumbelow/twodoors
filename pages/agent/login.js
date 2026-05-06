@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
 import Logo from '@components/Logo';
+
+async function markUserAsAgent(uid) {
+  await setDoc(doc(db, 'users', uid), { role: 'agent', agentSince: serverTimestamp() }, { merge: true });
+}
 
 export default function LoginPage() {
   const { user, loading: authLoading, loginWithGoogle, loginWithEmail, signupWithEmail } = useAuth();
@@ -24,7 +30,8 @@ export default function LoginPage() {
     try {
       setError('');
       setIsLoading(true);
-      await loginWithGoogle();
+      const result = await loginWithGoogle();
+      await markUserAsAgent(result.user.uid);
       // Redirection is handled by the useEffect
     } catch (err) {
       setError('Failed to login with Google: ' + err.message);
@@ -37,11 +44,10 @@ export default function LoginPage() {
     try {
       setError('');
       setIsLoading(true);
-      if (isLogin) {
-        await loginWithEmail(email, password);
-      } else {
-        await signupWithEmail(email, password);
-      }
+      const result = isLogin
+        ? await loginWithEmail(email, password)
+        : await signupWithEmail(email, password);
+      await markUserAsAgent(result.user.uid);
       // Redirection is handled by the useEffect
     } catch (err) {
       setError(err.message);
