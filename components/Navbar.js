@@ -106,11 +106,9 @@ export default function Navbar() {
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           <div className="flex items-center gap-6 shrink-0">
-            <Link href="/">
-              <div className="hover:opacity-80 transition-opacity cursor-pointer">
-                <Logo size="text-2xl" />
-              </div>
-            </Link>
+            <div className="hover:opacity-80 transition-opacity">
+              <Logo size="text-2xl" />
+            </div>
 
             <nav className="hidden md:flex items-center gap-6">
               <Link
@@ -233,111 +231,93 @@ export default function Navbar() {
             )}
           </div>
 
-          <div className="hidden md:flex items-center gap-4 shrink-0">
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-sm hover:shadow-md active:scale-95 ${
-                  isDropdownOpen
-                    ? "bg-gray-900 text-white"
-                    : user
-                      ? "bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-100"
-                      : "bg-[#f13053] text-white hover:bg-[#c9203f]"
-                }`}
-              >
-                {user ? (
+          <div className="hidden md:flex items-center gap-3 shrink-0">
+            {user ? (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-sm hover:shadow-md active:scale-95 ${
+                    isDropdownOpen
+                      ? "bg-gray-900 text-white"
+                      : "bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-100"
+                  }`}
+                >
                   <div className="flex items-center gap-2">
                     <div className="w-5 h-5 rounded-full bg-[#f13053]/10 flex items-center justify-center text-[#f13053] text-[10px]">
                       {user.email?.charAt(0).toUpperCase()}
                     </div>
                     Account
                   </div>
-                ) : (
-                  "For Agents"
-                )}
-                <svg
-                  className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
 
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                  {user ? (
-                    <>
-                      <div className="px-4 py-2 mb-1">
-                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                          My Account
-                        </p>
-                      </div>
-                      <Link
-                        href="/onboarding"
-                        className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        Home Profile
-                      </Link>
-                      <div className="my-1 mx-4 border-t border-gray-50"></div>
-                      <div className="px-4 py-1.5">
-                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                          Agency Portal
-                        </p>
-                      </div>
-                      <Link
-                        href="/agency/listings"
-                        className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        My Listings
-                      </Link>
-                      <Link
-                        href="/agency/profile"
-                        className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        Agency Profile
-                      </Link>
-                      <div className="my-2 border-t border-gray-50"></div>
-                      <button
-                        onClick={() => {
-                          logout();
-                          setIsDropdownOpen(false);
-                        }}
-                        className="w-full text-left px-4 py-2.5 text-sm font-bold text-red-500 hover:bg-red-50 transition-colors"
-                      >
-                        Logout
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        href="/login"
-                        className="block px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        Sign In
-                      </Link>
-                      <Link
-                        href="/agent/login"
-                        className="block px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
-                        onClick={() => setIsDropdownOpen(false)}
-                      >
-                        Agent Portal
-                      </Link>
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="px-4 py-2 mb-1">
+                      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                        My Account
+                      </p>
+                    </div>
+                    <Link
+                      href="/onboarding"
+                      className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Home Profile
+                    </Link>
+                    <div className="my-1 mx-4 border-t border-gray-50"></div>
+                    <div className="px-4 py-1.5">
+                      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                        Agency Portal
+                      </p>
+                    </div>
+                    <Link
+                      href="/agency/listings"
+                      className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      My Listings
+                    </Link>
+                    <Link
+                      href="/agency/profile"
+                      className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Agency Profile
+                    </Link>
+                    <div className="my-2 border-t border-gray-50"></div>
+                    <button
+                      onClick={() => {
+                        logout();
+                        setIsDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2.5 text-sm font-bold text-red-500 hover:bg-red-50 transition-colors"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="text-sm font-bold text-gray-600 hover:text-[#f13053] transition-colors px-2"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -625,22 +605,13 @@ export default function Navbar() {
                   </button>
                 </>
               ) : (
-                <>
-                  <Link
-                    href="/login"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/agent/login"
-                    className="block px-3 py-2 mt-2 rounded-full bg-[#f13053] text-white text-center text-base font-bold hover:bg-[#c9203f] transition-all"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Agent Portal
-                  </Link>
-                </>
+                <Link
+                  href="/login"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Login
+                </Link>
               )}
             </div>
           </div>

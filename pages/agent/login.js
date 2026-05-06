@@ -51,18 +51,24 @@ export default function LoginPage() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <Head>
-        <title>{isLogin ? 'Login' : 'Sign Up'} | TwoDoors</title>
+        <title>Agent {isLogin ? 'Login' : 'Sign Up'} | TwoDoors</title>
       </Head>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <Logo size="text-4xl" />
-        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-          {isLogin ? 'Welcome Back' : 'Create an Account'}
+        <div className="text-4xl font-bold tracking-tight flex items-baseline justify-center">
+          <span className="text-white">two</span>
+          <span className="text-[#f13053]">doors</span>
+        </div>
+        <div className="mt-2 inline-block px-3 py-1 rounded-full bg-white/10 text-white/60 text-xs font-bold uppercase tracking-widest">
+          Agent Portal
+        </div>
+        <h2 className="mt-6 text-3xl font-extrabold text-white">
+          {isLogin ? 'Agent Sign In' : 'Create Agent Account'}
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
-          {isLogin ? "Sign in to save properties and manage your alerts." : "Join TwoDoors to find your next home."}
+        <p className="mt-2 text-sm text-white/50">
+          {isLogin ? "Access your dashboard, listings and agency profile." : "Get started with your agency account."}
         </p>
       </div>
 
