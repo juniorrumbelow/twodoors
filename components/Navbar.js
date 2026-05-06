@@ -286,6 +286,13 @@ export default function Navbar() {
                           >
                             Home Profile
                           </Link>
+                          <Link
+                            href="/favourites"
+                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                            onClick={() => setIsDropdownOpen(false)}
+                          >
+                            Saved Properties
+                          </Link>
                           <div className="my-1 mx-4 border-t border-gray-50"></div>
                         </>
                       )}
@@ -304,6 +311,13 @@ export default function Navbar() {
                             onClick={() => setIsDropdownOpen(false)}
                           >
                             Agency Profile
+                          </Link>
+                          <Link
+                            href="/favourites"
+                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                            onClick={() => setIsDropdownOpen(false)}
+                          >
+                            Saved Properties
                           </Link>
                         </>
                       )}
@@ -451,6 +465,9 @@ export default function Navbar() {
                         </Link>
                       </>
                     )}
+                    <Link href="/favourites" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
+                      Saved Properties
+                    </Link>
                     <button
                       onClick={() => { logout(); setIsMenuOpen(false); }}
                       className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-500 hover:bg-red-50 transition-colors"
