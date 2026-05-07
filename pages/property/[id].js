@@ -9,6 +9,8 @@ import { doc, getDoc } from 'firebase/firestore';
 import { getAgentUrl } from '../../utils/formatters';
 import DynamicPropertyDetailMap from '@components/DynamicPropertyDetailMap';
 import PropertyPlanningSection from '@components/PropertyPlanningSection';
+import NearbySchools from '@components/NearbySchools';
+import NearbyTransport from '@components/NearbyTransport';
 
 export default function PropertyDetail({ property }) {
   const router = useRouter();
@@ -139,6 +141,12 @@ export default function PropertyDetail({ property }) {
 
             {/* Nearby Planning Applications */}
             <PropertyPlanningSection address={property.address} />
+
+            {/* Local Schools */}
+            <NearbySchools location={property.location} />
+
+            {/* Transport Links */}
+            <NearbyTransport location={property.location} />
 
             {/* Additional Details */}
             <div className="bg-gray-50 rounded-3xl p-10 border border-gray-100 mb-12">
