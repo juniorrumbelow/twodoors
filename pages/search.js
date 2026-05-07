@@ -124,7 +124,7 @@ export default function SearchPage({ initialProperties }) {
 
         {/* Map — sticky so it stays in view while the list scrolls */}
         <div
-          className={`${mobileView === "list" ? "hidden md:block" : "block"} flex-1 sticky top-28 self-start h-[calc(100vh-7rem)] z-0 p-6`}
+          className={`${mobileView === "list" ? "hidden md:block" : "block"} flex-1 sticky top-16 self-start h-[calc(100vh-4rem)] z-0 p-6`}
         >
           <DynamicPropertyMap
             properties={filteredProperties}
