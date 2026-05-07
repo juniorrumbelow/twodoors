@@ -105,6 +105,16 @@ SEO-structured URLs: `/estate-agents/agent/[brand]/[slug]` — important for org
 
 ---
 
+## Worktree setup
+
+When working in a git worktree (`.claude/worktrees/*`), `.env.local` is not present by default. Symlink it from the repo root before starting the dev server:
+
+```bash
+ln -s /path/to/twodoors/.env.local .env.local
+```
+
+---
+
 ## What NOT to do
 - Do not commit `.next/` build output
 - Do not commit `.env.local`

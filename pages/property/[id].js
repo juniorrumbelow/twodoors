@@ -199,12 +199,30 @@ export default function PropertyDetail({ property }) {
               </Link>
 
               <div className="space-y-4">
-                <button className="w-full bg-gray-900 text-white font-bold text-lg py-4 rounded-2xl hover:bg-gray-800 transition-all shadow-md active:scale-[0.98]">
-                  Call Agent
-                </button>
-                <button className="w-full bg-[#f13053] text-white font-bold text-lg py-4 rounded-2xl hover:bg-[#c9203f] transition-all shadow-md active:scale-[0.98]">
-                  Email Agent
-                </button>
+                {property.agent.phone ? (
+                  <a
+                    href={`tel:${property.agent.phone}`}
+                    className="block w-full bg-gray-900 text-white font-bold text-lg py-4 rounded-2xl hover:bg-gray-800 transition-all shadow-md active:scale-[0.98] text-center"
+                  >
+                    Call Agent
+                  </a>
+                ) : (
+                  <button disabled className="w-full bg-gray-200 text-gray-400 font-bold text-lg py-4 rounded-2xl cursor-not-allowed">
+                    Call Agent
+                  </button>
+                )}
+                {property.agent.email ? (
+                  <a
+                    href={`mailto:${property.agent.email}?subject=${encodeURIComponent(`Enquiry: ${property.title}`)}`}
+                    className="block w-full bg-[#f13053] text-white font-bold text-lg py-4 rounded-2xl hover:bg-[#c9203f] transition-all shadow-md active:scale-[0.98] text-center"
+                  >
+                    Email Agent
+                  </a>
+                ) : (
+                  <button disabled className="w-full bg-gray-200 text-gray-400 font-bold text-lg py-4 rounded-2xl cursor-not-allowed">
+                    Email Agent
+                  </button>
+                )}
               </div>
 
               <div className="mt-8 pt-8 border-t border-gray-100">
@@ -231,12 +249,24 @@ export async function getServerSideProps(context) {
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
-      return {
-        notFound: true,
-      };
+      return { notFound: true };
     }
 
     const propertyData = docSnap.data();
+
+    // Fetch agent contact details if not already embedded on the property
+    if (propertyData.agentId && (!propertyData.agent?.email && !propertyData.agent?.phone)) {
+      const agentRef = doc(db, 'agents', propertyData.agentId);
+      const agentSnap = await getDoc(agentRef);
+      if (agentSnap.exists()) {
+        const agentData = agentSnap.data();
+        propertyData.agent = {
+          ...propertyData.agent,
+          email: agentData.email || null,
+          phone: agentData.phone || null,
+        };
+      }
+    }
 
     return {
       props: {
@@ -244,7 +274,6 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-    console.error("Error fetching property details:", error);
     return {
       props: {
         property: null,
