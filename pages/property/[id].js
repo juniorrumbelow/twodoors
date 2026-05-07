@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { db } from '../../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { getAgentUrl } from '../../utils/formatters';
+import DynamicPropertyDetailMap from '@components/DynamicPropertyDetailMap';
 
 export default function PropertyDetail({ property }) {
   const router = useRouter();
@@ -124,6 +125,14 @@ export default function PropertyDetail({ property }) {
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Location Map */}
+            {property.location && (
+              <div className="mb-12">
+                <h3 className="text-2xl font-black text-gray-900 mb-6">Location</h3>
+                <DynamicPropertyDetailMap location={property.location} />
               </div>
             )}
 
