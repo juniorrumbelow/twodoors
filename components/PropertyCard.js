@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useAuth } from "../context/AuthContext";
@@ -23,9 +22,12 @@ export default function PropertyCard({ property }) {
   };
 
   return (
-    <Link
-      href={`/property/${property.id}`}
-      className={`group flex flex-col bg-white rounded-2xl shadow-sm border overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1 ${property.isBoosted ? "border-[#f13053] ring-1 ring-[#f13053]/20" : "border-gray-100"}`}
+    <div
+      role="link"
+      tabIndex={0}
+      onClick={() => router.push(`/property/${property.id}`)}
+      onKeyDown={(e) => e.key === "Enter" && router.push(`/property/${property.id}`)}
+      className={`group flex flex-col bg-white rounded-2xl shadow-sm border overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1 cursor-pointer ${property.isBoosted ? "border-[#f13053] ring-1 ring-[#f13053]/20" : "border-gray-100"}`}
     >
       {/* Image Container */}
       <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
@@ -148,6 +150,6 @@ export default function PropertyCard({ property }) {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
