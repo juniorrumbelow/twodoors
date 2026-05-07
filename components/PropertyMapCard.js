@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import FavouriteButton from './FavouriteButton';
 
 function PopupCard({ property }) {
   return (
@@ -41,13 +43,16 @@ function PopupCard({ property }) {
 }
 
 export default function PropertyMapCard({ property, isPopup = false, onHover, onLeave }) {
+  const router = useRouter();
+
   if (isPopup) return <PopupCard property={property} />;
 
   return (
-    <Link
-      href={`/property/${property.id}`}
-      target="_blank"
-      rel="noopener noreferrer"
+    <div
+      role="link"
+      tabIndex={0}
+      onClick={() => router.push(`/property/${property.id}`)}
+      onKeyDown={(e) => e.key === 'Enter' && router.push(`/property/${property.id}`)}
       onMouseEnter={() => onHover?.(property.id)}
       onMouseLeave={() => onLeave?.()}
       className="font-sans overflow-hidden block group cursor-pointer transition-all duration-300 w-full bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1"
@@ -65,6 +70,7 @@ export default function PropertyMapCard({ property, isPopup = false, onHover, on
             FEATURED
           </div>
         )}
+        <FavouriteButton propertyId={property.id} className="absolute top-3 right-3 z-10" />
       </div>
       <div className="p-3">
         <div className="font-black text-gray-900 text-lg mb-1">
@@ -80,6 +86,6 @@ export default function PropertyMapCard({ property, isPopup = false, onHover, on
           <span>{property.bathrooms} Bath</span>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
