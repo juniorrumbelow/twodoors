@@ -82,6 +82,23 @@
   - feat: / fix: / chore: / docs: / refactor:
 - PR reviews before merging to staging
 
+### GitHub / PRs
+- Repo: https://github.com/juniorrumbelow/twodoors
+- Default branch: `main`
+- PRs target `main` unless explicitly told otherwise
+- No PR template exists — use this structure for PR bodies:
+  ```
+  ## Summary
+  - bullet points of what changed and why
+
+  ## Test plan
+  - [ ] checkbox list of things to verify manually
+  ```
+- Claude worktree branches follow the pattern `claude/<adjective>-<name>-<hash>`
+- When creating a PR from a worktree, the working directory is `.claude/worktrees/<branch-name>/`
+- The `.env.local` symlink must exist before starting the dev server in a worktree:
+  `ln -s /Users/juniorrumbelow/Documents/git/twodoors/.env.local .env.local`
+
 ---
 
 ## Feature context
