@@ -1,8 +1,6 @@
-import fs from 'fs';
-import path from 'path';
 import { XMLParser } from 'fast-xml-parser';
-import { db } from '../../lib/firebase';
-import { collection, writeBatch, doc, getDocs, query, where, serverTimestamp } from 'firebase/firestore';
+import { adminDb } from '../../lib/firebaseAdmin';
+import { FieldValue } from 'firebase-admin/firestore';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET' && req.method !== 'POST') {
@@ -31,7 +29,7 @@ export default async function handler(req, res) {
       website: 'https://winkworth.co.uk',
       logo: 'https://ui-avatars.com/api/?name=W&background=01bf8f&color=fff',
       feedUrl: 'https://winkworth.co.uk/feed.xml',
-      updatedAt: serverTimestamp()
+      updatedAt: FieldValue.serverTimestamp()
     };
 
     // 3. Parse the XML into a Javascript Object
@@ -45,11 +43,9 @@ export default async function handler(req, res) {
     let parsedObj = parser.parse(xmlData);
 
     // Fetch existing properties to preserve their state (like isBoosted)
-    const propertiesRef = collection(db, 'properties');
-    const existingPropsQuery = query(propertiesRef, where('agentId', '==', agentId));
-    const querySnapshot = await getDocs(existingPropsQuery);
+    const existingPropsSnapshot = await adminDb.collection('properties').where('agentId', '==', agentId).get();
     const existingPropertiesMap = {};
-    querySnapshot.forEach((docSnap) => {
+    existingPropsSnapshot.forEach((docSnap) => {
       existingPropertiesMap[docSnap.id] = docSnap.data();
     });
 
@@ -169,20 +165,20 @@ export default async function handler(req, res) {
           logo: agentProfile.logo
         },
 
-        createdAt: serverTimestamp()
+        createdAt: FieldValue.serverTimestamp()
       };
     });
 
     // 5. Save to Firebase Firestore using a single Batch
-    const batch = writeBatch(db);
+    const batch = adminDb.batch();
 
     // Save the Agent Record
-    const agentRef = doc(db, 'agents', agentId);
+    const agentRef = adminDb.collection('agents').doc(agentId);
     batch.set(agentRef, agentProfile, { merge: true });
 
     // Save the Properties
     mappedProperties.forEach((property) => {
-      const docRef = doc(db, 'properties', property.id);
+      const docRef = adminDb.collection('properties').doc(property.id);
       batch.set(docRef, property, { merge: true });
     });
 
