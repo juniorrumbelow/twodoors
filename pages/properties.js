@@ -1,12 +1,14 @@
 import React from "react";
 import Head from "next/head";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import Navbar from "@components/Navbar";
+import FavouriteButton from "@components/FavouriteButton";
 import { db } from "../lib/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 export default function Properties({ properties }) {
-  // Format price
+  const router = useRouter();
+
   const formatPrice = (price) => {
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
@@ -42,10 +44,13 @@ export default function Properties({ properties }) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {properties.map((property) => (
-              <Link
+              <div
                 key={property.id}
-                href={`/property/${property.id}`}
-                className={`group bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col ${property.isBoosted ? "border-[#f13053] ring-1 ring-[#f13053]/10" : "border-gray-200"}`}
+                role="link"
+                tabIndex={0}
+                onClick={() => router.push(`/property/${property.id}`)}
+                onKeyDown={(e) => e.key === "Enter" && router.push(`/property/${property.id}`)}
+                className={`group bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col cursor-pointer ${property.isBoosted ? "border-[#f13053] ring-1 ring-[#f13053]/10" : "border-gray-200"}`}
               >
                 {/* Image Section */}
                 <div className="relative h-64 w-full bg-gray-200 overflow-hidden">
@@ -67,6 +72,7 @@ export default function Properties({ properties }) {
                       FEATURED
                     </div>
                   )}
+                  <FavouriteButton propertyId={property.id} className="absolute bottom-4 right-4 z-10" />
 
                   {property.mainImage ? (
                     <img
@@ -149,7 +155,7 @@ export default function Properties({ properties }) {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}
