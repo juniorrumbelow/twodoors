@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Navbar from "@components/Navbar";
 import DynamicPropertyMap from "@components/DynamicPropertyMap";
-import PropertyMapCard from "@components/PropertyMapCard";
+import PropertyCard from "@components/PropertyCard";
 import Footer from "@components/Footer";
 import { db } from "../lib/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
@@ -111,7 +111,7 @@ export default function SearchPage({ initialProperties }) {
               </div>
             ) : (
               filteredProperties.map((property) => (
-                <PropertyMapCard
+                <PropertyCard
                   key={property.id}
                   property={property}
                   onHover={setHoveredId}

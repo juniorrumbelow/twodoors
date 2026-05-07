@@ -4,7 +4,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
-import PropertyMapCard from './PropertyMapCard';
+import PropertyCard from './PropertyCard';
 
 function createIcon(property, highlighted) {
   const price = property.priceText || `£${Math.round(property.price / 1000)}k`;
@@ -57,7 +57,7 @@ export default function PropertyMap({ properties, centerLocation, hoveredId }) {
               zIndexOffset={highlighted ? 1000 : 0}
             >
               <Popup minWidth={280} maxWidth={280} className="property-popup">
-                <PropertyMapCard property={property} isPopup={true} />
+                <PropertyCard property={property} isPopup={true} />
               </Popup>
             </Marker>
           );
