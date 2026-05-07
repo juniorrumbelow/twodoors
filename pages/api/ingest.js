@@ -162,7 +162,9 @@ export default async function handler(req, res) {
         agent: {
           name: agentProfile.name,
           branchName: agentProfile.branchName,
-          logo: agentProfile.logo
+          logo: agentProfile.logo,
+          email: agentProfile.email || null,
+          phone: agentProfile.phone || null,
         },
 
         createdAt: FieldValue.serverTimestamp()
