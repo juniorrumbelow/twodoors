@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Navbar from '@components/Navbar';
+import PhotoGallery from '@components/PhotoGallery';
 import Link from 'next/link';
 import { db } from '../../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
@@ -49,43 +50,12 @@ export default function PropertyDetail({ property }) {
           </div>
         </div>
 
-        {/* Image Section */}
-        <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-[400px] md:h-[600px] rounded-3xl overflow-hidden mb-12 shadow-md">
-          {/* Main Large Image */}
-          <div className="md:col-span-3 md:row-span-2 relative group cursor-pointer">
-            <img
-              src={property.images[0] || property.mainImage}
-              alt={property.title}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
-            {property.isBoosted && (
-              <div className="absolute top-6 left-6 bg-[#f13053] text-white text-xs font-black px-3 py-1.5 rounded-lg shadow-lg z-10 tracking-widest">
-                FEATURED
-              </div>
-            )}
-          </div>
-
-          {/* Secondary Images (Grid) */}
-          <div className="hidden md:block relative group overflow-hidden">
-            <img
-              src={property.images[1] || property.images[0] || property.mainImage}
-              alt="View 2"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
-          </div>
-          <div className="hidden md:block relative group overflow-hidden">
-            <img
-              src={property.images[2] || property.images[0] || property.mainImage}
-              alt="View 3"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
-            {property.images.length > 3 && (
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white font-bold text-xl backdrop-blur-[2px]">
-                +{property.images.length - 3} More
-              </div>
-            )}
-          </div>
-        </div>
+        {/* Photo Gallery */}
+        <PhotoGallery
+          images={property.images?.length > 0 ? property.images : [property.mainImage].filter(Boolean)}
+          title={property.title}
+          isBoosted={property.isBoosted}
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main Content Details */}
