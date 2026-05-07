@@ -8,6 +8,7 @@ import { db } from '../../lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { getAgentUrl } from '../../utils/formatters';
 import DynamicPropertyDetailMap from '@components/DynamicPropertyDetailMap';
+import PropertyPlanningSection from '@components/PropertyPlanningSection';
 
 export default function PropertyDetail({ property }) {
   const router = useRouter();
@@ -135,6 +136,9 @@ export default function PropertyDetail({ property }) {
                 <DynamicPropertyDetailMap location={property.location} />
               </div>
             )}
+
+            {/* Nearby Planning Applications */}
+            <PropertyPlanningSection address={property.address} />
 
             {/* Additional Details */}
             <div className="bg-gray-50 rounded-3xl p-10 border border-gray-100 mb-12">
