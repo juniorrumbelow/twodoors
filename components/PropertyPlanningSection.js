@@ -79,7 +79,6 @@ export default function PropertyPlanningSection({ address }) {
   }, [postcode]);
 
   if (!postcode) return null;
-  if (!loading && !error && (!data || data.entities?.length === 0)) return null;
 
   const recent = data?.entities?.slice(0, 5) || [];
 
@@ -103,6 +102,12 @@ export default function PropertyPlanningSection({ address }) {
       {error && (
         <div className="bg-gray-50 rounded-2xl p-6 text-center text-gray-500 font-medium">
           Could not load planning data for this area.
+        </div>
+      )}
+
+      {!loading && !error && recent.length === 0 && (
+        <div className="bg-gray-50 rounded-2xl p-6 text-center text-gray-500 font-medium">
+          No planning applications found near {postcode}.
         </div>
       )}
 
