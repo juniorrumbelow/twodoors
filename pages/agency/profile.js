@@ -87,7 +87,7 @@ export default function AgencyProfile() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Head>
-        <title>Agency Profile | TwoDoors</title>
+        <title>Agency Profile | twodoors</title>
       </Head>
 
       <Navbar />

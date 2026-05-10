@@ -56,7 +56,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <Head>
-        <title>{isLogin ? 'Login' : 'Sign Up'} | TwoDoors</title>
+        <title>{isLogin ? 'Login' : 'Sign Up'} | twodoors</title>
       </Head>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
@@ -65,7 +65,7 @@ export default function LoginPage() {
           {isLogin ? 'Welcome Back' : 'Create an Account'}
         </h2>
         <p className="mt-2 text-sm text-gray-600">
-          {isLogin ? "Sign in to save properties and manage your alerts." : "Join TwoDoors to find your next home."}
+          {isLogin ? "Sign in to save properties and manage your alerts." : "Join twodoors to find your next home."}
         </p>
       </div>
 

@@ -106,7 +106,7 @@ export default function AgencyListings() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Head>
-        <title>Agency Listings | TwoDoors</title>
+        <title>Agency Listings | twodoors</title>
       </Head>
 
       <Navbar />
@@ -142,7 +142,7 @@ export default function AgencyListings() {
             <dd className="flex items-baseline justify-between">
               <div className="text-4xl font-black text-gray-900">{properties.length}</div>
               <div className="text-[10px] font-black text-[#f13053] bg-[#f13053]/10 px-2 py-1 rounded-full uppercase tracking-tighter">
-                Live on TwoDoors
+                Live on twodoors
               </div>
             </dd>
           </div>

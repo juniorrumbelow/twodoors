@@ -60,7 +60,7 @@ export default function AgentDetail({ agent, properties }) {
   return (
     <div className="min-h-screen bg-gray-50">
       <Head>
-        <title>{agent.name} | TwoDoors Properties</title>
+        <title>{agent.name} | twodoors Properties</title>
       </Head>
 
       <Navbar />

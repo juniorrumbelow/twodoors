@@ -52,10 +52,10 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-white overflow-x-hidden">
       <Head>
-        <title>TwoDoors | Norwich Property Portal</title>
+        <title>twodoors | Norwich Property Portal</title>
         <meta
           name="description"
-          content="Discover the best properties for sale and rent in Norwich and surrounding Norfolk areas with TwoDoors."
+          content="Discover the best properties for sale and rent in Norwich and surrounding Norfolk areas with twodoors."
         />
       </Head>
 

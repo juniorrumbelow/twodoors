@@ -62,7 +62,7 @@ export default function SearchPage({ initialProperties }) {
     <div className="flex flex-col min-h-screen bg-white">
       <Head>
         <title>
-          {isRent ? "Properties to Rent" : "Properties for Sale"} | TwoDoors
+          {isRent ? "Properties to Rent" : "Properties for Sale"} | twodoors
         </title>
       </Head>
 
