@@ -61,7 +61,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <Head>
-        <title>Agent {isLogin ? 'Login' : 'Sign Up'} | TwoDoors</title>
+        <title>Agent {isLogin ? 'Login' : 'Sign Up'} | twodoors</title>
       </Head>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">

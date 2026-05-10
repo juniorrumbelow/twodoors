@@ -9,7 +9,7 @@ export default function Properties({ properties }) {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Head>
-        <title>Our Properties | Two Doors</title>
+        <title>Our Properties | twodoors</title>
       </Head>
 
       <Navbar />

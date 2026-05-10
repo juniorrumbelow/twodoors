@@ -58,7 +58,7 @@ export default function FavouritesPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Head>
-        <title>Saved Properties | Twodoors</title>
+        <title>Saved Properties | twodoors</title>
       </Head>
 
       <Navbar />

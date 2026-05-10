@@ -2,54 +2,54 @@ import Head from "next/head";
 
 export default function LaunchingSoon() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#06060f] overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-[#f13053] overflow-hidden">
       <Head>
-        <title>TwoDoors | Coming Soon</title>
+        <title>twodoors | Coming Soon</title>
         <meta
           name="description"
-          content="TwoDoors is launching soon — your local Norwich property portal."
+          content="twodoors is launching soon — your local Norwich property portal."
         />
       </Head>
 
       <style>{`
         @keyframes orb1 {
           0%, 100% { transform: translate(0, 0) scale(1); }
-          33%       { transform: translate(40px, -60px) scale(1.12); }
-          66%       { transform: translate(-25px, 30px) scale(0.9); }
+          33%       { transform: translate(60px, -80px) scale(1.2); }
+          66%       { transform: translate(-40px, 50px) scale(0.85); }
         }
         @keyframes orb2 {
           0%, 100% { transform: translate(0, 0) scale(1); }
-          33%       { transform: translate(-50px, 35px) scale(1.08); }
-          66%       { transform: translate(30px, -45px) scale(0.93); }
+          33%       { transform: translate(-70px, 50px) scale(1.15); }
+          66%       { transform: translate(50px, -60px) scale(0.88); }
         }
         @keyframes orb3 {
           0%, 100% { transform: translate(-50%, -50%) scale(1); }
-          33%       { transform: translate(calc(-50% + 25px), calc(-50% + 45px)) scale(0.92); }
-          66%       { transform: translate(calc(-50% - 35px), calc(-50% - 20px)) scale(1.1); }
+          33%       { transform: translate(calc(-50% + 50px), calc(-50% + 70px)) scale(0.85); }
+          66%       { transform: translate(calc(-50% - 60px), calc(-50% - 40px)) scale(1.2); }
         }
-        @keyframes grid-pulse {
-          0%, 100% { opacity: 0.18; }
-          50%       { opacity: 0.28; }
+        @keyframes orb4 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50%       { transform: translate(-30px, 60px) scale(1.1); }
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
         }
         @keyframes fade-up {
           from { opacity: 0; transform: translateY(24px); }
           to   { opacity: 1; transform: translateY(0); }
         }
 
-        .orb1 { animation: orb1 7s ease-in-out infinite; }
-        .orb2 { animation: orb2 9s ease-in-out infinite; }
-        .orb3 { animation: orb3 6s ease-in-out infinite; }
+        .orb1 { animation: orb1 8s ease-in-out infinite; }
+        .orb2 { animation: orb2 11s ease-in-out infinite; }
+        .orb3 { animation: orb3 7s ease-in-out infinite; }
+        .orb4 { animation: orb4 13s ease-in-out infinite; }
 
-        .grid-overlay {
-          background-image:
-            linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
-          background-size: 56px 56px;
-          animation: grid-pulse 9s ease-in-out infinite;
+        .spin-ring {
+          animation: spin-slow 18s linear infinite;
         }
-
-        .scanline {
-          animation: scanline 7s linear infinite;
+        .spin-ring-reverse {
+          animation: spin-slow 24s linear infinite reverse;
         }
 
         .hero-content {
@@ -66,37 +66,43 @@ export default function LaunchingSoon() {
       <main className="flex-grow flex items-center justify-center relative">
         {/* ── Animated background ── */}
         <div className="absolute inset-0 overflow-hidden">
-          {/* Deep base */}
-          <div className="absolute inset-0 bg-[#06060f]" />
+          {/* Solid coral base */}
+          <div className="absolute inset-0 bg-[#f13053]" />
 
-          {/* Orb 1 — brand red, top-left */}
-          <div className="orb1 absolute -top-32 -left-32 w-[700px] h-[700px] rounded-full bg-[#f13053]/18 blur-[140px]" />
+          {/* Orb 1 — light rose, top-left */}
+          <div className="orb1 absolute -top-48 -left-48 w-[900px] h-[900px] rounded-full bg-[#ff6070]/25 blur-[100px]" />
 
-          {/* Orb 2 — electric blue, bottom-right */}
-          <div className="orb2 absolute -bottom-40 -right-40 w-[650px] h-[650px] rounded-full bg-blue-500/15 blur-[130px]" />
+          {/* Orb 2 — crimson, bottom-right */}
+          <div className="orb2 absolute -bottom-48 -right-48 w-[850px] h-[850px] rounded-full bg-[#aa0030]/30 blur-[120px]" />
 
-          {/* Orb 3 — violet, centre */}
-          <div className="orb3 absolute top-1/2 left-1/2 w-[420px] h-[420px] rounded-full bg-violet-600/12 blur-[100px]" />
+          {/* Orb 3 — soft rose, centre-left */}
+          <div className="orb3 absolute top-1/2 left-1/3 w-[600px] h-[600px] rounded-full bg-[#ff7080]/20 blur-[90px]" />
 
-          {/* Subtle grid */}
-          <div className="grid-overlay absolute inset-0" />
+          {/* Orb 4 — dark red, top-right */}
+          <div className="orb4 absolute -top-24 -right-24 w-[550px] h-[550px] rounded-full bg-[#b0002a]/25 blur-[110px]" />
+
+          {/* Slowly rotating large ring */}
+          <div className="spin-ring absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border-[60px] border-white/5" />
+          <div className="spin-ring-reverse absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full border-[80px] border-white/[0.03]" />
         </div>
 
         {/* ── Content ── */}
         <div className="relative z-10 max-w-2xl mx-auto px-6 text-center">
-          <div className="hero-content mb-10">
-            <span className="text-white text-3xl font-bold tracking-tight">
-              two<span className="text-[#f13053]">doors</span>
+
+          {/* Logo */}
+          <div className="hero-content mb-10 flex justify-center">
+            <span className="text-white text-4xl font-bold tracking-tight">
+              twodoors
             </span>
           </div>
 
-          <h1 className="hero-content-delay text-5xl md:text-6xl font-black text-white tracking-tight mb-6 leading-tight">
+          <h1 className="hero-content-delay text-5xl md:text-6xl font-black tracking-tight mb-6 leading-tight text-white">
             Something exciting
             <br />
             is coming.
           </h1>
 
-          <p className="hero-content-delay-2 text-lg md:text-xl text-white/50 font-medium max-w-xl mx-auto">
+          <p className="hero-content-delay-2 text-lg md:text-xl text-white/70 font-medium max-w-xl mx-auto">
             A better way to find property in Norwich and Norfolk.
           </p>
         </div>
