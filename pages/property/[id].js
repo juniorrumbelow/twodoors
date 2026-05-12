@@ -11,6 +11,7 @@ import DynamicPropertyDetailMap from '@components/DynamicPropertyDetailMap';
 import PropertyPlanningSection from '@components/PropertyPlanningSection';
 import NearbySchools from '@components/NearbySchools';
 import NearbyTransport from '@components/NearbyTransport';
+import GardenSunExposure from '@components/GardenSunExposure';
 
 export default function PropertyDetail({ property }) {
   const router = useRouter();
@@ -98,6 +99,12 @@ export default function PropertyDetail({ property }) {
                 </ul>
               </div>
             )}
+
+            {/* Garden & Sun Exposure */}
+            <GardenSunExposure
+              bullets={property.bullets || []}
+              description={property.description || ''}
+            />
 
             {/* Room Details */}
             {property.rooms && property.rooms.length > 0 && (
