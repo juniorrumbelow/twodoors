@@ -154,20 +154,20 @@ export default function Navbar() {
               <nav className="hidden md:flex items-center gap-6">
                 <Link
                   href="/search?channel=buy"
-                  className={`text-sm font-bold transition-colors ${router.pathname === "/search" && router.query.channel !== "rent" ? "text-[#f13053]" : "text-gray-500 hover:text-[#f13053]"}`}
+                  className={`text-sm font-bold transition-colors ${router.pathname === "/search" && router.query.channel !== "rent" ? "text-[#7a9c72]" : "text-gray-500 hover:text-[#7a9c72]"}`}
                 >
                   Buy
                 </Link>
                 <Link
                   href="/search?channel=rent"
-                  className={`text-sm font-bold transition-colors ${router.pathname === "/search" && router.query.channel === "rent" ? "text-[#f13053]" : "text-gray-500 hover:text-[#f13053]"}`}
+                  className={`text-sm font-bold transition-colors ${router.pathname === "/search" && router.query.channel === "rent" ? "text-[#7a9c72]" : "text-gray-500 hover:text-[#7a9c72]"}`}
                 >
                   Rent
                 </Link>
                 {!isAgent && (
                   <Link
                     href="/onboarding"
-                    className={`text-sm font-bold transition-colors ${router.pathname === "/onboarding" ? "text-[#f13053]" : "text-gray-500 hover:text-[#f13053]"}`}
+                    className={`text-sm font-bold transition-colors ${router.pathname === "/onboarding" ? "text-[#7a9c72]" : "text-gray-500 hover:text-[#7a9c72]"}`}
                   >
                     Home Profile
                   </Link>
@@ -177,7 +177,7 @@ export default function Navbar() {
 
             {/* Search bar + Filters button — desktop */}
             <div
-              className={`${router.pathname === "/" ? "hidden" : "hidden md:flex"} flex-1 max-w-lg items-center gap-2`}
+              className={`${["/", "/preview"].includes(router.pathname) ? "hidden" : "hidden md:flex"} flex-1 max-w-lg items-center gap-2`}
             >
               {/* Location search */}
               <div className="relative flex-1" ref={searchRef}>
@@ -189,7 +189,7 @@ export default function Navbar() {
                 <input
                   type="text"
                   placeholder="Search properties in Norfolk..."
-                  className="w-full pl-9 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f13053] focus:border-transparent transition-all"
+                  className="w-full pl-9 pr-10 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#7a9c72] focus:border-transparent transition-all"
                   value={searchQuery}
                   onChange={(e) => handleSearchChange(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -210,7 +210,7 @@ export default function Navbar() {
                     {suggestions.map((suggestion) => (
                       <li key={suggestion}>
                         <button
-                          className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors flex items-center gap-2"
+                          className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#7a9c72] transition-colors flex items-center gap-2"
                           onMouseDown={(e) => { e.preventDefault(); handleSearchSubmit(suggestion); }}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -231,7 +231,7 @@ export default function Navbar() {
                   onClick={openFiltersModal}
                   className={`shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full border text-sm font-bold transition-all ${
                     activeFilterCount > 0
-                      ? "border-[#f13053] bg-[#f13053] text-white shadow-sm"
+                      ? "border-[#7a9c72] bg-[#7a9c72] text-white shadow-sm"
                       : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:shadow-sm"
                   }`}
                 >
@@ -240,7 +240,7 @@ export default function Navbar() {
                   </svg>
                   Filters
                   {activeFilterCount > 0 && (
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-[#f13053] text-[10px] font-black">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-[#7a9c72] text-[10px] font-black">
                       {activeFilterCount}
                     </span>
                   )}
@@ -260,7 +260,7 @@ export default function Navbar() {
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <div className="w-5 h-5 rounded-full bg-[#f13053]/10 flex items-center justify-center text-[#f13053] text-[10px]">
+                      <div className="w-5 h-5 rounded-full bg-[#7a9c72]/10 flex items-center justify-center text-[#7a9c72] text-[10px]">
                         {user.email?.charAt(0).toUpperCase()}
                       </div>
                       Account
@@ -281,14 +281,14 @@ export default function Navbar() {
                         <>
                           <Link
                             href="/onboarding"
-                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#7a9c72] transition-colors"
                             onClick={() => setIsDropdownOpen(false)}
                           >
                             Home Profile
                           </Link>
                           <Link
                             href="/favourites"
-                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#7a9c72] transition-colors"
                             onClick={() => setIsDropdownOpen(false)}
                           >
                             Saved Properties
@@ -300,21 +300,21 @@ export default function Navbar() {
                         <>
                           <Link
                             href="/agency/listings"
-                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#7a9c72] transition-colors"
                             onClick={() => setIsDropdownOpen(false)}
                           >
                             My Listings
                           </Link>
                           <Link
                             href="/agency/profile"
-                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#7a9c72] transition-colors"
                             onClick={() => setIsDropdownOpen(false)}
                           >
                             Agency Profile
                           </Link>
                           <Link
                             href="/favourites"
-                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors"
+                            className="block px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#7a9c72] transition-colors"
                             onClick={() => setIsDropdownOpen(false)}
                           >
                             Saved Properties
@@ -324,7 +324,7 @@ export default function Navbar() {
                       <div className="my-2 border-t border-gray-50"></div>
                       <button
                         onClick={() => { logout(); setIsDropdownOpen(false); }}
-                        className="w-full text-left px-4 py-2.5 text-sm font-bold text-red-500 hover:bg-red-50 transition-colors"
+                        className="w-full text-left px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50 hover:text-[#7a9c72] transition-colors"
                       >
                         Logout
                       </button>
@@ -334,7 +334,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   href="/login"
-                  className="text-sm font-bold text-gray-600 hover:text-[#f13053] transition-colors px-2"
+                  className="text-sm font-bold text-gray-600 hover:text-[#7a9c72] transition-colors px-2"
                 >
                   Login
                 </Link>
@@ -348,7 +348,7 @@ export default function Navbar() {
                   onClick={openFiltersModal}
                   className={`flex items-center gap-1 px-3 py-1.5 rounded-full border text-xs font-bold transition-all ${
                     activeFilterCount > 0
-                      ? "border-[#f13053] bg-[#f13053] text-white"
+                      ? "border-[#7a9c72] bg-[#7a9c72] text-white"
                       : "border-gray-200 bg-white text-gray-700"
                   }`}
                 >
@@ -357,7 +357,7 @@ export default function Navbar() {
                   </svg>
                   Filters
                   {activeFilterCount > 0 && (
-                    <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white text-[#f13053] text-[9px] font-black">
+                    <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-white text-[#7a9c72] text-[9px] font-black">
                       {activeFilterCount}
                     </span>
                   )}
@@ -385,7 +385,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden animate-fade-in border-t border-gray-100 bg-white">
-            {router.pathname !== "/" && (
+            {!["/", "/preview"].includes(router.pathname) && (
               <div className="px-4 pt-3 pb-2">
                 <div className="relative" ref={searchRef}>
                   <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
@@ -396,7 +396,7 @@ export default function Navbar() {
                   <input
                     type="text"
                     placeholder="Search properties in Norfolk..."
-                    className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f13053] focus:border-transparent transition-all"
+                    className="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-full text-sm font-medium text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#7a9c72] focus:border-transparent transition-all"
                     value={searchQuery}
                     onChange={(e) => handleSearchChange(e.target.value)}
                     onKeyDown={(e) => {
@@ -409,7 +409,7 @@ export default function Navbar() {
                     {suggestions.map((suggestion) => (
                       <li key={suggestion}>
                         <button
-                          className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#f13053] transition-colors flex items-center gap-2"
+                          className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#7a9c72] transition-colors flex items-center gap-2"
                           onMouseDown={(e) => { e.preventDefault(); handleSearchSubmit(suggestion); setIsMenuOpen(false); }}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -428,14 +428,14 @@ export default function Navbar() {
             <div className="px-4 pt-1 pb-3 space-y-1">
               <Link
                 href="/search?channel=buy"
-                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === "/search" && router.query.channel !== "rent" ? "text-[#f13053] bg-[#f13053]/5" : "text-gray-600 hover:text-[#f13053] hover:bg-gray-50"}`}
+                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === "/search" && router.query.channel !== "rent" ? "text-[#7a9c72] bg-[#7a9c72]/5" : "text-gray-600 hover:text-[#7a9c72] hover:bg-gray-50"}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Buy
               </Link>
               <Link
                 href="/search?channel=rent"
-                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === "/search" && router.query.channel === "rent" ? "text-[#f13053] bg-[#f13053]/5" : "text-gray-600 hover:text-[#f13053] hover:bg-gray-50"}`}
+                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === "/search" && router.query.channel === "rent" ? "text-[#7a9c72] bg-[#7a9c72]/5" : "text-gray-600 hover:text-[#7a9c72] hover:bg-gray-50"}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Rent
@@ -443,7 +443,7 @@ export default function Navbar() {
               {!isAgent && (
                 <Link
                   href="/onboarding"
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === "/onboarding" ? "text-[#f13053] bg-[#f13053]/5" : "text-gray-600 hover:text-[#f13053] hover:bg-gray-50"}`}
+                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${router.pathname === "/onboarding" ? "text-[#7a9c72] bg-[#7a9c72]/5" : "text-gray-600 hover:text-[#7a9c72] hover:bg-gray-50"}`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Home Profile
@@ -457,26 +457,26 @@ export default function Navbar() {
                     <div className="px-3 py-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">Account</div>
                     {isAgent && (
                       <>
-                        <Link href="/agency/listings" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
+                        <Link href="/agency/listings" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#7a9c72] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
                           My Listings
                         </Link>
-                        <Link href="/agency/profile" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
+                        <Link href="/agency/profile" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#7a9c72] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
                           Agency Profile
                         </Link>
                       </>
                     )}
-                    <Link href="/favourites" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
+                    <Link href="/favourites" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#7a9c72] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
                       Saved Properties
                     </Link>
                     <button
                       onClick={() => { logout(); setIsMenuOpen(false); }}
-                      className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-500 hover:bg-red-50 transition-colors"
+                      className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#7a9c72] hover:bg-gray-50 transition-colors"
                     >
                       Logout
                     </button>
                   </>
                 ) : (
-                  <Link href="/login" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#f13053] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
+                  <Link href="/login" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#7a9c72] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
                     Login
                   </Link>
                 )}
@@ -524,7 +524,7 @@ export default function Navbar() {
                       onClick={() => setPending("channel", ch)}
                       className={`py-2.5 rounded-xl border text-sm font-bold transition-all ${
                         pendingFilters.channel === ch
-                          ? "border-[#f13053] bg-[#f13053]/5 text-[#f13053]"
+                          ? "border-[#7a9c72] bg-[#7a9c72]/5 text-[#7a9c72]"
                           : "border-gray-200 text-gray-600 hover:border-gray-300"
                       }`}
                     >
@@ -543,7 +543,7 @@ export default function Navbar() {
                   <div>
                     <label className="block text-xs font-bold text-gray-500 mb-1.5">Minimum</label>
                     <select
-                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#f13053] focus:border-transparent"
+                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#7a9c72] focus:border-transparent"
                       value={pendingFilters.minPrice}
                       onChange={(e) => setPending("minPrice", e.target.value)}
                     >
@@ -571,7 +571,7 @@ export default function Navbar() {
                   <div>
                     <label className="block text-xs font-bold text-gray-500 mb-1.5">Maximum</label>
                     <select
-                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#f13053] focus:border-transparent"
+                      className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#7a9c72] focus:border-transparent"
                       value={pendingFilters.maxPrice}
                       onChange={(e) => setPending("maxPrice", e.target.value)}
                     >
@@ -685,7 +685,7 @@ export default function Navbar() {
               </button>
               <button
                 onClick={applyFilters}
-                className="flex-1 py-3 bg-[#f13053] text-white rounded-xl text-sm font-black hover:bg-[#d42847] active:scale-95 transition-all shadow-sm"
+                className="flex-1 py-3 bg-[#7a9c72] text-white rounded-xl text-sm font-black hover:bg-[#5e7d57] active:scale-95 transition-all shadow-sm"
               >
                 Show results
               </button>

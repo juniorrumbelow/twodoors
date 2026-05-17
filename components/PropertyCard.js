@@ -21,7 +21,7 @@ function PopupCard({ property }) {
           className="object-cover"
         />
         {property.isBoosted && (
-          <div className="absolute top-2.5 left-2.5 bg-[#f13053] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm">
+          <div className="absolute top-2.5 left-2.5 bg-[#7a9c72] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm">
             FEATURED
           </div>
         )}
@@ -66,7 +66,7 @@ export default function PropertyCard({ property, isPopup = false, onHover, onLea
           className="object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-105"
         />
         {property.isBoosted && (
-          <div className="absolute top-3 left-3 bg-[#f13053] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm z-10">
+          <div className="absolute top-3 left-3 bg-[#7a9c72] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm z-10">
             FEATURED
           </div>
         )}

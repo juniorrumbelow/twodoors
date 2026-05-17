@@ -36,7 +36,7 @@ export default function GardenSunExposure({ bullets, description }: GardenSunExp
         <div className="bg-gray-100 p-2.5 rounded-xl">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-[#f13053]"
+            className="h-6 w-6 text-[#7a9c72]"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

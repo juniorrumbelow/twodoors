@@ -1,6 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500&display=swap");
 @import "tailwindcss";
 
 @theme {
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: "Lora", Georgia, serif;
+
+  /* Brand colours */
+  --color-bg:           #f5f1ea; /* warm parchment — page background */
+  --color-soft:         #e8d5c4; /* peach — secondary blob / accents */
+  --color-sage:         #a8c3a0; /* sage green — light accent */
+  --color-primary:      #7a9c72; /* sage green — primary / CTA */
+  --color-primary-dark: #5e7d57; /* sage green — hover state */
+  --color-ink:          #2d3a2e; /* near-black — headings / logo */
+  --color-sub:          #6f6a5e; /* warm grey — body / subtext */
+
   --animate-shake: shake 0.5s ease-in-out;
   --animate-fade-in: fade-in 0.3s ease-out;
   --animate-slide-up: slide-up 0.5s ease-out;
@@ -66,8 +79,11 @@ body {
   background-color: #ffffff;
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Lora", Georgia, serif;
 }
 
 * {

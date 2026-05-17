@@ -103,7 +103,7 @@ function ProgressBar({ current, total }) {
   return (
     <div className="w-full bg-gray-100 rounded-full h-1.5 mb-8">
       <div
-        className="bg-[#f13053] h-1.5 rounded-full transition-all duration-500 ease-out"
+        className="bg-[#7a9c72] h-1.5 rounded-full transition-all duration-500 ease-out"
         style={{ width: `${pct}%` }}
       />
     </div>
@@ -119,7 +119,7 @@ function OptionTile({ option, selected, onClick, size = 'normal' }) {
         group relative w-full text-left rounded-2xl border-2 transition-all duration-150
         ${isSmall ? 'p-3' : 'p-4 sm:p-5'}
         ${selected
-          ? 'border-[#f13053] bg-[#fff5f7] shadow-md'
+          ? 'border-[#7a9c72] bg-[#fff5f7] shadow-md'
           : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
         }
       `}
@@ -140,7 +140,7 @@ function OptionTile({ option, selected, onClick, size = 'normal' }) {
           className={`
             flex-shrink-0 w-5 h-5 rounded-full border-2 transition-all
             ${selected
-              ? 'border-[#f13053] bg-[#f13053]'
+              ? 'border-[#7a9c72] bg-[#7a9c72]'
               : 'border-gray-300 group-hover:border-gray-400'
             }
           `}
@@ -170,7 +170,7 @@ function BudgetStep({ intent, value, onChange }) {
             className={`
               p-4 rounded-2xl border-2 text-left font-semibold transition-all duration-150
               ${selected
-                ? 'border-[#f13053] bg-[#fff5f7] text-[#f13053] shadow-md'
+                ? 'border-[#7a9c72] bg-[#fff5f7] text-[#7a9c72] shadow-md'
                 : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:shadow-sm'
               }
             `}
@@ -266,7 +266,7 @@ function LoginPrompt({ answers, onComplete }) {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#f13053] focus:border-[#f13053] text-sm"
+          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7a9c72] focus:border-[#7a9c72] text-sm"
           placeholder="you@example.com"
         />
       </div>
@@ -277,14 +277,14 @@ function LoginPrompt({ answers, onComplete }) {
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#f13053] focus:border-[#f13053] text-sm"
+          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7a9c72] focus:border-[#7a9c72] text-sm"
           placeholder="••••••••"
         />
       </div>
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-3 rounded-xl bg-[#f13053] text-white font-bold text-sm hover:bg-[#c9203f] transition-all disabled:opacity-50"
+        className="w-full py-3 rounded-xl bg-[#7a9c72] text-white font-bold text-sm hover:bg-[#5e7d57] transition-all disabled:opacity-50"
       >
         {loading ? 'Saving...' : mode === 'login' ? 'Sign in & save profile' : 'Create account & save profile'}
       </button>
@@ -426,7 +426,7 @@ export default function OnboardingPage() {
 
   if (loadingProfile) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#f5f1ea] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3 text-gray-400">
           <svg className="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -440,7 +440,7 @@ export default function OnboardingPage() {
 
   if (done) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="min-h-screen bg-[#f5f1ea] flex flex-col">
         <Head>
           <title>My Home Profile | twodoors</title>
         </Head>
@@ -475,7 +475,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-[#f5f1ea] flex flex-col">
       <Head>
         <title>My Home Profile | twodoors</title>
       </Head>
@@ -563,8 +563,8 @@ export default function OnboardingPage() {
                 disabled={!isStepComplete() || saving}
                 className="
                   flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm
-                  bg-[#f13053] text-white
-                  hover:bg-[#c9203f]
+                  bg-[#7a9c72] text-white
+                  hover:bg-[#5e7d57]
                   disabled:opacity-40 disabled:cursor-not-allowed
                   transition-all duration-150
                   shadow-sm hover:shadow-md

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Navbar from "@components/Navbar";
+import Footer from "@components/Footer";
 import PropertyCard from "@components/PropertyCard";
 import { db } from "../../../../lib/firebase";
 import {
@@ -24,7 +25,7 @@ export default function AgentDetail({ agent, properties }) {
 
   if (!agent) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#f5f1ea] flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             Agent Not Found
@@ -34,7 +35,7 @@ export default function AgentDetail({ agent, properties }) {
           </p>
           <Link
             href="/search"
-            className="text-[#f13053] font-bold hover:underline"
+            className="text-[#7a9c72] font-bold hover:underline"
           >
             Back to Search
           </Link>
@@ -58,7 +59,7 @@ export default function AgentDetail({ agent, properties }) {
   const counts = { sales: salesCount, lettings: lettingsCount };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#f5f1ea]">
       <Head>
         <title>{agent.name} | twodoors Properties</title>
       </Head>
@@ -76,8 +77,8 @@ export default function AgentDetail({ agent, properties }) {
                 className="w-32 h-32 rounded-full border-4 border-gray-50 shadow-md object-cover"
               />
             ) : (
-              <div className="w-32 h-32 rounded-full border-4 border-gray-50 shadow-md bg-[#f13053]/10 flex items-center justify-center">
-                <span className="text-[#f13053] text-5xl font-black">
+              <div className="w-32 h-32 rounded-full border-4 border-gray-50 shadow-md bg-[#7a9c72]/10 flex items-center justify-center">
+                <span className="text-[#7a9c72] text-5xl font-black">
                   {agent.name?.charAt(0) || "A"}
                 </span>
               </div>
@@ -98,7 +99,7 @@ export default function AgentDetail({ agent, properties }) {
                 <div className="flex items-center justify-center md:justify-start gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-[#f13053]"
+                    className="h-5 w-5 text-[#7a9c72]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -119,7 +120,7 @@ export default function AgentDetail({ agent, properties }) {
                 <div className="flex items-center justify-center md:justify-start gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-[#f13053]"
+                    className="h-5 w-5 text-[#7a9c72]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -173,7 +174,7 @@ export default function AgentDetail({ agent, properties }) {
                 <span
                   className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
                     activeTab === tab.key
-                      ? "bg-[#f13053]/10 text-[#f13053]"
+                      ? "bg-[#7a9c72]/10 text-[#7a9c72]"
                       : "bg-gray-200 text-gray-500"
                   }`}
                 >
@@ -220,6 +221,7 @@ export default function AgentDetail({ agent, properties }) {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

@@ -104,7 +104,7 @@ export default function SearchPage({ initialProperties }) {
                   onClick={() =>
                     router.push({ pathname: "/search", query: { channel } })
                   }
-                  className="mt-6 text-[#f13053] font-bold text-sm hover:underline"
+                  className="mt-6 text-[#7a9c72] font-bold text-sm hover:underline"
                 >
                   Clear all filters
                 </button>

@@ -86,7 +86,7 @@ export default function PropertyPlanningSection({ address }) {
     <div className="mb-12">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-2xl font-black text-gray-900">Nearby Planning Applications</h3>
-        <Link href="/planning" className="text-sm font-bold text-[#f13053] hover:underline">
+        <Link href="/planning" className="text-sm font-bold text-[#7a9c72] hover:underline">
           View all →
         </Link>
       </div>
@@ -100,13 +100,13 @@ export default function PropertyPlanningSection({ address }) {
       )}
 
       {error && (
-        <div className="bg-gray-50 rounded-2xl p-6 text-center text-gray-500 font-medium">
+        <div className="bg-[#f5f1ea] rounded-2xl p-6 text-center text-gray-500 font-medium">
           Could not load planning data for this area.
         </div>
       )}
 
       {!loading && !error && recent.length === 0 && (
-        <div className="bg-gray-50 rounded-2xl p-6 text-center text-gray-500 font-medium">
+        <div className="bg-[#f5f1ea] rounded-2xl p-6 text-center text-gray-500 font-medium">
           No planning applications found near {postcode}.
         </div>
       )}
@@ -137,7 +137,7 @@ export default function PropertyPlanningSection({ address }) {
                         href={externalLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs font-bold text-[#f13053] hover:underline ml-auto"
+                        className="text-xs font-bold text-[#7a9c72] hover:underline ml-auto"
                       >
                         View application →
                       </a>

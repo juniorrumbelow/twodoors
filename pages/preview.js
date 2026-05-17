@@ -65,27 +65,25 @@ export default function Home() {
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden bg-[#06060f]">
-          {/* Animated background */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute inset-0 bg-[#06060f]" />
-            <div className="orb1 absolute -top-32 -left-32 w-[700px] h-[700px] rounded-full bg-[#f13053]/18 blur-[140px]" />
-            <div className="orb2 absolute -bottom-40 -right-40 w-[650px] h-[650px] rounded-full bg-blue-500/15 blur-[130px]" />
-            <div className="orb3 absolute top-1/2 left-1/2 w-[420px] h-[420px] rounded-full bg-violet-600/12 blur-[100px]" />
-            <div className="grid-overlay absolute inset-0" />
+        <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden" style={{ background: '#f5f1ea' }}>
+          {/* Background atmosphere */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute -top-48 -right-36 w-[640px] h-[640px] rounded-full blur-[80px]" style={{ background: '#a8c3a0', opacity: 0.4 }} />
+            <div className="absolute -bottom-56 -left-44 w-[600px] h-[600px] rounded-full blur-[80px]" style={{ background: '#e8d5c4', opacity: 0.55 }} />
+            <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(45,58,46,0.07) 1px, transparent 1.5px)', backgroundSize: '24px 24px', opacity: 0.45 }} />
           </div>
 
           {/* Hero Content */}
-          <div className="relative z-10 max-w-5xl mx-auto px-6 text-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            <h1 className="text-5xl md:text-7xl lg:text-7xl font-black text-white tracking-tight mb-8 drop-shadow-xl">
-              Discover <span className="text-[#f13053]">Norfolk</span>
+          <div className="relative z-10 w-full max-w-6xl mx-auto px-6 text-center animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            <h1 className="text-5xl md:text-7xl lg:text-7xl font-black tracking-tight mb-8" style={{ color: '#2d3a2e' }}>
+              Discover <span style={{ color: '#7a9c72' }}>Norfolk</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 font-medium mb-12 max-w-2xl mx-auto drop-shadow-md">
+            <p className="text-xl md:text-2xl font-medium mb-12 max-w-2xl mx-auto" style={{ color: '#6f6a5e' }}>
               Norfolk homes. All in one place.
             </p>
 
             {/* Search Input Box */}
-            <div className="max-w-3xl mx-auto bg-white/10 backdrop-blur-md p-2 rounded-[2.5rem] shadow-2xl border border-white/20">
+            <div className="max-w-4xl mx-auto bg-white p-2 rounded-[2.5rem] shadow-xl border border-black/5">
               <form
                 onSubmit={handleSearch}
                 className="flex flex-col md:flex-row gap-2"
@@ -110,14 +108,14 @@ export default function Home() {
                   <input
                     type="text"
                     placeholder="Enter city, town, or postcode..."
-                    className="w-full pl-16 pr-6 py-5 bg-white rounded-[2rem] text-lg font-bold text-gray-900 focus:outline-none focus:ring-4 focus:ring-[#f13053]/30 transition-all placeholder:text-gray-400 shadow-inner"
+                    className="w-full pl-16 pr-6 md:pr-12 py-5 bg-white rounded-[2rem] text-lg font-bold text-gray-900 focus:outline-none focus:ring-4 focus:ring-[#7a9c72]/30 transition-all placeholder:text-gray-400 shadow-inner"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
                 <button
                   type="submit"
-                  className="bg-[#f13053] hover:bg-[#c9203f] text-white px-10 py-5 rounded-[2rem] text-lg font-black transition-all shadow-lg active:scale-95 whitespace-nowrap"
+                  className="bg-[#7a9c72] hover:bg-[#5e7d57] text-white px-10 py-5 rounded-[2rem] text-lg font-black transition-all shadow-lg active:scale-95 whitespace-nowrap"
                 >
                   Search Properties
                 </button>
@@ -125,13 +123,13 @@ export default function Home() {
             </div>
 
             {/* Quick Links / Popular Searches */}
-            <div className="mt-8 flex flex-wrap justify-center gap-4 text-white/80 font-bold text-sm">
+            <div className="mt-8 flex flex-wrap justify-center gap-4 font-bold text-sm" style={{ color: '#6f6a5e' }}>
               <span>Explore:</span>
               <button
                 onClick={() =>
                   router.push("/search?location=Golden%20Triangle")
                 }
-                className="hover:text-[#f13053] transition-colors underline decoration-[#f13053]/30 underline-offset-4"
+                className="hover:text-[#7a9c72] transition-colors underline decoration-[#7a9c72]/30 underline-offset-4"
               >
                 Golden Triangle
               </button>
@@ -139,25 +137,25 @@ export default function Home() {
                 onClick={() =>
                   router.push("/search?location=Thorpe%20St%20Andrew")
                 }
-                className="hover:text-[#f13053] transition-colors underline decoration-[#f13053]/30 underline-offset-4"
+                className="hover:text-[#7a9c72] transition-colors underline decoration-[#7a9c72]/30 underline-offset-4"
               >
                 Thorpe St Andrew
               </button>
               <button
                 onClick={() => router.push("/search?location=Hellesdon")}
-                className="hover:text-[#f13053] transition-colors underline decoration-[#f13053]/30 underline-offset-4"
+                className="hover:text-[#7a9c72] transition-colors underline decoration-[#7a9c72]/30 underline-offset-4"
               >
                 Hellesdon
               </button>
               <button
                 onClick={() => router.push("/search?location=Eaton")}
-                className="hover:text-[#f13053] transition-colors underline decoration-[#f13053]/30 underline-offset-4"
+                className="hover:text-[#7a9c72] transition-colors underline decoration-[#7a9c72]/30 underline-offset-4"
               >
                 Eaton
               </button>
               <button
                 onClick={() => router.push("/search?location=Wymondham")}
-                className="hover:text-[#f13053] transition-colors underline decoration-[#f13053]/30 underline-offset-4"
+                className="hover:text-[#7a9c72] transition-colors underline decoration-[#7a9c72]/30 underline-offset-4"
               >
                 Wymondham
               </button>
