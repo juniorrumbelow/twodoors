@@ -54,7 +54,7 @@ export default function LoginPage() {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#f5f1ea] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <Head>
         <title>{isLogin ? 'Login' : 'Sign Up'} | twodoors</title>
       </Head>
@@ -81,7 +81,7 @@ export default function LoginPage() {
           <button
             onClick={handleGoogleLogin}
             disabled={isLoading}
-            className="w-full flex justify-center items-center gap-3 py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-bold text-gray-700 hover:bg-gray-50 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#f13053]"
+            className="w-full flex justify-center items-center gap-3 py-3 px-4 border border-gray-300 rounded-xl shadow-sm bg-white text-sm font-bold text-gray-700 hover:bg-gray-50 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7a9c72]"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path
@@ -126,7 +126,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#f13053] focus:border-[#f13053] sm:text-sm"
+                  className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#7a9c72] focus:border-[#7a9c72] sm:text-sm"
                   placeholder="you@example.com"
                 />
               </div>
@@ -144,7 +144,7 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#f13053] focus:border-[#f13053] sm:text-sm"
+                  className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#7a9c72] focus:border-[#7a9c72] sm:text-sm"
                   placeholder="••••••••"
                 />
               </div>
@@ -154,7 +154,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-gray-900 hover:bg-gray-800 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#f13053] disabled:opacity-50"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-gray-900 hover:bg-gray-800 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#7a9c72] disabled:opacity-50"
               >
                 {isLoading ? 'Processing...' : (isLogin ? 'Sign In' : 'Create Account')}
               </button>
@@ -164,7 +164,7 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <button
               onClick={() => setIsLogin(!isLogin)}
-              className="text-sm font-bold text-[#f13053] hover:text-[#c9203f] transition-colors"
+              className="text-sm font-bold text-[#7a9c72] hover:text-[#c9203f] transition-colors"
             >
               {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
             </button>

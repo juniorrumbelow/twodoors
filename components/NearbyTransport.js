@@ -95,7 +95,7 @@ export default function NearbyTransport({ location }) {
     <div className="mb-12">
       <div className="flex items-center gap-3 mb-6">
         <div className="bg-gray-100 p-2.5 rounded-xl">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#f13053]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#7a9c72]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
@@ -125,7 +125,7 @@ export default function NearbyTransport({ location }) {
             const items = grouped[type];
             return (
               <div key={type} className="border border-gray-100 rounded-2xl overflow-hidden">
-                <div className="flex items-center gap-3 px-5 py-3 bg-gray-50 border-b border-gray-100">
+                <div className="flex items-center gap-3 px-5 py-3 bg-[#f5f1ea] border-b border-gray-100">
                   {meta.icon}
                   <span className="font-black text-sm text-gray-700">{type}s</span>
                   <span className={`ml-auto inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold ${meta.colour}`}>

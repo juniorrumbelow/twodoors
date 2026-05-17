@@ -59,7 +59,7 @@ export default function NearbySchools({ location }) {
     <div className="mb-12">
       <div className="flex items-center gap-3 mb-6">
         <div className="bg-gray-100 p-2.5 rounded-xl">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#f13053]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#7a9c72]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l6.16-3.422A12.083 12.083 0 0121 12c0 6.075-4.925 11-11 11S-1 18.075-1 12c0-.54.041-1.07.12-1.578L12 14z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14v7" />

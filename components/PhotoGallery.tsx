@@ -72,7 +72,7 @@ export default function PhotoGallery({ images, title, isBoosted }: PhotoGalleryP
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             {isBoosted && (
-              <div className="absolute top-6 left-6 bg-[#f13053] text-white text-xs font-black px-3 py-1.5 rounded-lg shadow-lg z-10 tracking-widest">
+              <div className="absolute top-6 left-6 bg-[#7a9c72] text-white text-xs font-black px-3 py-1.5 rounded-lg shadow-lg z-10 tracking-widest">
                 FEATURED
               </div>
             )}

@@ -7,7 +7,7 @@ import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 export default function Properties({ properties }) {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-[#f5f1ea] flex flex-col">
       <Head>
         <title>Our Properties | twodoors</title>
       </Head>
