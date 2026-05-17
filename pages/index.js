@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Logo from "../components/Logo";
 
 export default function LaunchingSoon() {
   return (
@@ -6,7 +7,7 @@ export default function LaunchingSoon() {
       style={{ background: "#f5f1ea", minHeight: "100vh", overflow: "hidden" }}
     >
       <Head>
-        <title>twodoors · something exciting is coming</title>
+        <title>twodoors · From one door to the next</title>
         <meta
           name="description"
           content="A better way to find property in Norwich and Norfolk."
@@ -56,38 +57,8 @@ export default function LaunchingSoon() {
           opacity: 0.55;
         }
 
-        .grid-overlay {
-          position: absolute;
-          inset: 0;
-          background-image: radial-gradient(circle at 1px 1px, rgba(45,58,46,0.07) 1px, transparent 1.5px);
-          background-size: 24px 24px;
-          opacity: 0.45;
-          pointer-events: none;
-          z-index: 0;
-        }
 
-        .logo {
-          display: inline-flex;
-          align-items: center;
-          gap: 14px;
-          text-decoration: none;
-          color: inherit;
-          margin-bottom: 48px;
-        }
-        .wordmark {
-          font-family: "Lora", Georgia, serif;
-          font-style: normal;
-          font-weight: 500;
-          font-size: 36px;
-          letter-spacing: -0.6px;
-          color: var(--ink);
-          line-height: 1;
-          transform: translateY(-0.04em);
-          display: inline-block;
-        }
-        .wordmark .doors { color: var(--accent-deep); }
-
-        .stage-content {
+.stage-content {
           position: relative;
           z-index: 2;
           display: flex;
@@ -156,40 +127,26 @@ export default function LaunchingSoon() {
           .stage { padding: 28px 28px; }
           .headline { letter-spacing: -1.2px; }
           .features { grid-template-columns: 1fr; }
+          .blob-sage { top: 200px; }
         }
       `}</style>
 
       <div className="stage">
         <div className="blob blob-sage" />
         <div className="blob blob-peach" />
-        <div className="grid-overlay" />
 
         <main className="stage-content">
-          <a href="#" className="logo" aria-label="twodoors">
-            <svg
-              width="44"
-              height="40"
-              viewBox="0 0 40 36"
-              fill="none"
-              aria-hidden="true"
-            >
-              <rect x="3" y="6" width="15" height="26" rx="2" fill="#a8c3a0" />
-              <rect x="22" y="6" width="15" height="26" rx="2" fill="#2d3a2e" />
-              <circle cx="14.5" cy="20" r="1.1" fill="#2d3a2e" />
-              <circle cx="25.5" cy="20" r="1.1" fill="#faf7f2" />
-            </svg>
-            <span className="wordmark">
-              <span>two</span>
-              <span className="doors">doors</span>
-            </span>
-          </a>
+          <div style={{ marginBottom: "36px" }}>
+            <Logo size="text-5xl" />
+          </div>
 
-          <h1 className="headline">
-            Something exciting
-            <br />
-            is <em>coming</em>.
+          <h1 class="headline">
+            From one door to the <em>next</em>.
           </h1>
-          <p className="lede">From one door to the next.</p>
+          <p className="lede">
+            A better way to find property in Norwich and Norfolk. Launching
+            soon.
+          </p>
 
           <div className="features">
             <div className="feature">
