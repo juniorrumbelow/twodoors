@@ -50,7 +50,7 @@ export default function PropertyMap({ properties, centerLocation, hoveredId }) {
   const highlighted = withLocation.filter(p => p.id === hoveredId);
 
   return (
-    <div className="w-full h-full rounded-2xl overflow-hidden shadow-inner border border-gray-200 z-0">
+    <div className="w-full h-full rounded-2xl overflow-hidden shadow-inner border border-gray-300 z-0">
       <GoogleMap
         mapContainerClassName="w-full h-full"
         center={center}
