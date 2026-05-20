@@ -59,23 +59,20 @@ export default function LoginPage() {
 
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8" style={{ background: '#f5f1ea' }}>
       <Head>
         <title>Agent {isLogin ? 'Login' : 'Sign Up'} | twodoors</title>
       </Head>
 
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <div className="text-4xl font-bold tracking-tight flex items-baseline justify-center">
-          <span className="text-white">two</span>
-          <span className="text-[#7a9c72]">doors</span>
-        </div>
-        <div className="mt-2 inline-block px-3 py-1 rounded-full bg-white/10 text-white/60 text-xs font-bold uppercase tracking-widest">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col items-center">
+        <Logo size="text-4xl" />
+        <div className="mt-2 inline-block px-3 py-1 rounded-full bg-black/10 text-[#2d3a2e]/60 text-xs font-bold uppercase tracking-widest">
           Agent Portal
         </div>
-        <h2 className="mt-6 text-3xl font-extrabold text-white">
+        <h2 className="mt-6 text-3xl font-extrabold text-[#2d3a2e] text-center">
           {isLogin ? 'Agent Sign In' : 'Create Agent Account'}
         </h2>
-        <p className="mt-2 text-sm text-white/50">
+        <p className="mt-2 text-sm text-[#6f6a5e] text-center">
           {isLogin ? "Access your dashboard, listings and agency profile." : "Get started with your agency account."}
         </p>
       </div>

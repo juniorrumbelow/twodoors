@@ -8,11 +8,6 @@ export default function Footer() {
         <Logo size="text-2xl" />
       </div>
       <p>© 2026 twodoors. All rights reserved.</p>
-      <p className="mt-3">
-        <Link href="/agent/login" className="text-gray-400 hover:text-gray-600 transition-colors">
-          Agent login
-        </Link>
-      </p>
     </footer>
   );
 }
