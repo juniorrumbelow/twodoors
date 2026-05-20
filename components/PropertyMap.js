@@ -12,7 +12,7 @@ function PriceBadge({ property, highlighted, onClick }) {
       style={{
         transform: 'translate(-50%, -100%)',
         display: 'inline-block',
-        background: highlighted ? '#111827' : '#7a9c72',
+        background: highlighted ? '#111827' : '#2E3B2E',
         color: '#fff',
         padding: '4px 10px',
         borderRadius: '999px',
