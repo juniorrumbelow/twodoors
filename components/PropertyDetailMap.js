@@ -20,7 +20,7 @@ export default function PropertyDetailMap({ location }) {
         mapContainerClassName="w-full h-full"
         center={center}
         zoom={15}
-        options={{ scrollwheel: false }}
+        options={{ scrollwheel: false, streetViewControl: false, mapTypeControl: false }}
       >
         <Marker position={center} />
       </GoogleMap>
