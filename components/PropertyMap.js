@@ -62,7 +62,7 @@ export default function PropertyMap({ properties, centerLocation, hoveredId }) {
         mapContainerClassName="w-full h-full"
         center={center}
         zoom={13}
-        options={{ scrollwheel: true, streetViewControl: false, mapTypeControl: false }}
+        options={{ scrollwheel: true, streetViewControl: false, mapTypeControl: false, clickableIcons: false }}
       >
         {[...nonHighlighted, ...highlighted].map((property) => (
           <OverlayView
