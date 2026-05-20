@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoogleMap, useJsApiLoader, OverlayView, InfoWindow } from '@react-google-maps/api';
 import PropertyCard from './PropertyCard';
 
@@ -33,6 +33,13 @@ function PriceBadge({ property, highlighted, onClick }) {
 export default function PropertyMap({ properties, centerLocation, hoveredId }) {
   const [selectedId, setSelectedId] = useState(null);
 
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = '.gm-style-iw-chr { display: none !important; } .gm-style-iw, .gm-style-iw-d { overflow: visible !important; }';
+    document.head.appendChild(style);
+    return () => style.remove();
+  }, []);
+
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
@@ -55,7 +62,7 @@ export default function PropertyMap({ properties, centerLocation, hoveredId }) {
         mapContainerClassName="w-full h-full"
         center={center}
         zoom={13}
-        options={{ scrollwheel: true }}
+        options={{ scrollwheel: true, streetViewControl: false, mapTypeControl: false }}
       >
         {[...nonHighlighted, ...highlighted].map((property) => (
           <OverlayView
@@ -75,9 +82,10 @@ export default function PropertyMap({ properties, centerLocation, hoveredId }) {
           <InfoWindow
             position={{ lat: selectedProperty.location.lat, lng: selectedProperty.location.lng }}
             onCloseClick={() => setSelectedId(null)}
+            options={{ disableAutoPan: false }}
           >
-            <div style={{ width: 280 }}>
-              <PropertyCard property={selectedProperty} isPopup={true} />
+            <div style={{ width: 240 }}>
+              <PropertyCard property={selectedProperty} isPopup={true} onClose={() => setSelectedId(null)} />
             </div>
           </InfoWindow>
         )}
