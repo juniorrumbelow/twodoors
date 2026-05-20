@@ -10,19 +10,19 @@ function PriceBadge({ property, highlighted, onClick }) {
     <div
       onClick={onClick}
       style={{
-        transform: 'translate(-50%, -100%)',
+        transform: highlighted ? 'translate(-50%, -100%) scale(1.25)' : 'translate(-50%, -100%) scale(1)',
         display: 'inline-block',
-        background: highlighted ? '#111827' : '#2E3B2E',
-        color: '#fff',
+        background: highlighted ? '#fff' : '#2E3B2E',
+        color: highlighted ? '#2E3B2E' : '#fff',
         padding: '4px 10px',
         borderRadius: '999px',
         fontSize: '11px',
         fontWeight: '900',
         whiteSpace: 'nowrap',
-        boxShadow: highlighted ? '0 4px 14px rgba(0,0,0,0.35)' : '0 2px 6px rgba(0,0,0,0.2)',
+        boxShadow: highlighted ? '0 6px 20px rgba(0,0,0,0.45)' : '0 2px 6px rgba(0,0,0,0.2)',
         fontFamily: 'ui-sans-serif, system-ui, sans-serif',
         cursor: 'pointer',
-        transition: 'background 0.15s, box-shadow 0.15s',
+        transition: 'transform 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s',
       }}
     >
       {price}
