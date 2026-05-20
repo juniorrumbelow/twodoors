@@ -19,7 +19,7 @@ export default function PropertyDetail({ property }) {
 
   if (!property) {
     return (
-      <div className="min-h-screen flex items-center justify-center flex-col bg-[#f5f1ea]">
+      <div className="min-h-screen flex items-center justify-center flex-col bg-white">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">Property not found</h1>
         <Link href="/search" className="text-[#7a9c72] font-bold hover:underline transition-all">
           Return to search
@@ -50,7 +50,7 @@ export default function PropertyDetail({ property }) {
               {property.address}
             </p>
           </div>
-          <div className="bg-[#f5f1ea] px-6 py-4 rounded-2xl border border-gray-100 shadow-sm">
+          <div className="bg-white px-6 py-4 rounded-2xl border border-gray-100 shadow-sm">
             <div className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1">Asking Price</div>
             <div className="text-4xl font-black text-[#7a9c72]">{property.priceText || `£${property.price.toLocaleString()}`}</div>
           </div>
@@ -131,7 +131,7 @@ export default function PropertyDetail({ property }) {
                 <h3 className="text-2xl font-black text-gray-900 mb-6">Floorplans</h3>
                 <div className="grid grid-cols-1 gap-8">
                   {property.floorplans.map((fp, idx) => (
-                    <div key={idx} className="bg-[#f5f1ea] rounded-3xl p-4 border border-gray-100">
+                    <div key={idx} className="bg-white rounded-3xl p-4 border border-gray-100">
                       <img src={fp} alt={`Floorplan ${idx + 1}`} className="w-full h-auto rounded-2xl shadow-sm" />
                     </div>
                   ))}
@@ -157,7 +157,7 @@ export default function PropertyDetail({ property }) {
             <NearbyTransport location={property.location} />
 
             {/* Additional Details */}
-            <div className="bg-[#f5f1ea] rounded-3xl p-10 border border-gray-100 mb-12">
+            <div className="bg-white rounded-3xl p-10 border border-gray-100 mb-12">
               <h3 className="text-xl font-black text-gray-900 mb-6">Additional Information</h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
                 <div>
