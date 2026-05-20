@@ -1,68 +1,87 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import 'leaflet-defaulticon-compatibility';
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
+import React, { useState } from 'react';
+import { GoogleMap, useJsApiLoader, OverlayView, InfoWindow } from '@react-google-maps/api';
 import PropertyCard from './PropertyCard';
 
-function createIcon(property, highlighted) {
+const NORWICH_CENTER = { lat: 52.6309, lng: 1.2974 };
+
+function PriceBadge({ property, highlighted, onClick }) {
   const price = property.priceText || `£${Math.round(property.price / 1000)}k`;
-  const bg = highlighted ? '#111827' : '#7a9c72';
-  const shadow = highlighted
-    ? '0 4px 14px rgba(0,0,0,0.35)'
-    : '0 2px 6px rgba(0,0,0,0.2)';
-  return L.divIcon({
-    className: '',
-    html: `<div style="
-      display: inline-block;
-      transform: translate(-50%, -100%);
-      background: ${bg};
-      color: #fff;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 900;
-      white-space: nowrap;
-      box-shadow: ${shadow};
-      font-family: ui-sans-serif, system-ui, sans-serif;
-      cursor: pointer;
-      transition: background 0.15s, box-shadow 0.15s;
-    ">${price}</div>`,
-    iconSize: [0, 0],
-    iconAnchor: [0, 0],
-  });
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        transform: highlighted ? 'translate(-50%, -100%) scale(1.25)' : 'translate(-50%, -100%) scale(1)',
+        display: 'inline-block',
+        background: highlighted ? '#fff' : '#2E3B2E',
+        color: highlighted ? '#2E3B2E' : '#fff',
+        padding: '4px 10px',
+        borderRadius: '999px',
+        fontSize: '11px',
+        fontWeight: '900',
+        whiteSpace: 'nowrap',
+        boxShadow: highlighted ? '0 6px 20px rgba(0,0,0,0.45)' : '0 2px 6px rgba(0,0,0,0.2)',
+        fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+        cursor: 'pointer',
+        transition: 'transform 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s',
+      }}
+    >
+      {price}
+    </div>
+  );
 }
 
 export default function PropertyMap({ properties, centerLocation, hoveredId }) {
-  const center = centerLocation
-    ? [centerLocation.lat, centerLocation.lng]
-    : [52.6309, 1.2974];
+  const [selectedId, setSelectedId] = useState(null);
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+  });
+
+  const center = centerLocation ?? NORWICH_CENTER;
+  const selectedProperty = properties?.find(p => p.id === selectedId);
+
+  if (!isLoaded) {
+    return <div className="w-full h-full rounded-2xl bg-[#f5f1ea] border border-gray-200" />;
+  }
+
+  // Render highlighted marker last so it sits on top in the DOM
+  const withLocation = properties?.filter(p => p.location) ?? [];
+  const nonHighlighted = withLocation.filter(p => p.id !== hoveredId);
+  const highlighted = withLocation.filter(p => p.id === hoveredId);
 
   return (
-    <div className="w-full h-full rounded-2xl overflow-hidden shadow-inner border border-gray-200 z-0 bg-[#f5f1ea]">
-      <MapContainer center={center} zoom={13} scrollWheelZoom={true} className="w-full h-full z-0">
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {properties?.map((property) => {
-          if (!property.location) return null;
-          const highlighted = property.id === hoveredId;
-          return (
-            <Marker
-              key={property.id}
-              position={[property.location.lat, property.location.lng]}
-              icon={createIcon(property, highlighted)}
-              zIndexOffset={highlighted ? 1000 : 0}
-            >
-              <Popup minWidth={280} maxWidth={280} className="property-popup">
-                <PropertyCard property={property} isPopup={true} />
-              </Popup>
-            </Marker>
-          );
-        })}
-      </MapContainer>
+    <div className="w-full h-full rounded-2xl overflow-hidden shadow-inner border border-gray-300 z-0">
+      <GoogleMap
+        mapContainerClassName="w-full h-full"
+        center={center}
+        zoom={13}
+        options={{ scrollwheel: true }}
+      >
+        {[...nonHighlighted, ...highlighted].map((property) => (
+          <OverlayView
+            key={property.id}
+            position={{ lat: property.location.lat, lng: property.location.lng }}
+            mapPaneName="overlayMouseTarget"
+          >
+            <PriceBadge
+              property={property}
+              highlighted={property.id === hoveredId}
+              onClick={() => setSelectedId(prev => prev === property.id ? null : property.id)}
+            />
+          </OverlayView>
+        ))}
+
+        {selectedProperty?.location && (
+          <InfoWindow
+            position={{ lat: selectedProperty.location.lat, lng: selectedProperty.location.lng }}
+            onCloseClick={() => setSelectedId(null)}
+          >
+            <div style={{ width: 280 }}>
+              <PropertyCard property={selectedProperty} isPopup={true} />
+            </div>
+          </InfoWindow>
+        )}
+      </GoogleMap>
     </div>
   );
 }

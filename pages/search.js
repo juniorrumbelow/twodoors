@@ -59,7 +59,7 @@ export default function SearchPage({ initialProperties }) {
   }, [initialProperties, urlQuery]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[#f5f1ea]">
       <Head>
         <title>
           {isRent ? "Properties to Rent" : "Properties for Sale"} | twodoors
@@ -72,7 +72,7 @@ export default function SearchPage({ initialProperties }) {
         {/* List column — scrolls with the page */}
         <div
           ref={listRef}
-          className={`${mobileView === "map" ? "hidden md:flex" : "flex"} flex-col w-full md:w-[50%] lg:w-[50%] xl:w-[50%] z-10`}
+          className={`${mobileView === "map" ? "hidden md:flex" : "flex"} flex-col w-full md:w-[50%] lg:w-[50%] xl:w-[50%] z-10 bg-[#f5f1ea]`}
         >
           {/* Properties Grid */}
           <div className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
@@ -124,7 +124,7 @@ export default function SearchPage({ initialProperties }) {
 
         {/* Map — sticky so it stays in view while the list scrolls */}
         <div
-          className={`${mobileView === "list" ? "hidden md:block" : "block"} flex-1 sticky top-16 self-start h-[calc(100vh-4rem)] z-0 p-6`}
+          className={`${mobileView === "list" ? "hidden md:block" : "block"} flex-1 sticky top-16 self-start h-[calc(100vh-4rem)] z-0 p-6 bg-[#f5f1ea]`}
         >
           <DynamicPropertyMap
             properties={filteredProperties}
