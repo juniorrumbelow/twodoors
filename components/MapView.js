@@ -41,7 +41,7 @@ export default function MapView({ entities, location }) {
         mapContainerClassName="w-full h-full"
         center={center}
         zoom={13}
-        options={{ scrollwheel: false }}
+        options={{ scrollwheel: false, clickableIcons: false }}
       >
         {entities?.map((app, index) => {
           const coords = parsePoint(app.point) || parsePoint(app.geometry);
