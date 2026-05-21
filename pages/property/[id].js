@@ -13,6 +13,8 @@ import PropertyPlanningSection from '@components/PropertyPlanningSection';
 import NearbySchools from '@components/NearbySchools';
 import NearbyTransport from '@components/NearbyTransport';
 import GardenSunExposure from '@components/GardenSunExposure';
+import BedIcon from '@components/icons/BedIcon';
+import BathIcon from '@components/icons/BathIcon';
 
 export default function PropertyDetail({ property }) {
   const router = useRouter();
@@ -69,15 +71,15 @@ export default function PropertyDetail({ property }) {
             <div className="flex items-center gap-8 text-gray-900 font-bold text-xl mb-10 pb-8 border-b border-gray-100">
               <div className="flex items-center gap-3">
                 <div className="bg-gray-100 p-2.5 rounded-xl">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#7a9c72]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                  <BedIcon className="h-6 w-6 text-[#7a9c72]" />
                 </div>
-                {property.bedrooms} Bedrooms
+                {property.bedrooms} {property.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
               </div>
               <div className="flex items-center gap-3">
                 <div className="bg-gray-100 p-2.5 rounded-xl">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#7a9c72]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>
+                  <BathIcon className="h-6 w-6 text-[#7a9c72]" />
                 </div>
-                {property.bathrooms} Bathrooms
+                {property.bathrooms} {property.bathrooms === 1 ? 'Bathroom' : 'Bathrooms'}
               </div>
             </div>
 

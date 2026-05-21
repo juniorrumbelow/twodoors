@@ -25,7 +25,7 @@ export default function AgentDetail({ agent, properties }) {
 
   if (!agent) {
     return (
-      <div className="min-h-screen bg-[#f5f1ea] flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             Agent Not Found
@@ -59,7 +59,7 @@ export default function AgentDetail({ agent, properties }) {
   const counts = { sales: salesCount, lettings: lettingsCount };
 
   return (
-    <div className="min-h-screen bg-[#f5f1ea]">
+    <div className="min-h-screen bg-white">
       <Head>
         <title>{agent.name} | twodoors Properties</title>
       </Head>

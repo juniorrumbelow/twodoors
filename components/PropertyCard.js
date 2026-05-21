@@ -46,16 +46,10 @@ function PopupCard({ property, onClose }) {
             {property.priceText || `£${property.price.toLocaleString()}`}
           </div>
           <p className="text-xs font-semibold text-gray-700 line-clamp-1 mb-2">{property.title}</p>
-          <div className="flex items-center gap-3 text-[11px] text-gray-500 font-semibold">
-            <span className="flex items-center gap-1">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-[#7a9c72]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-              {property.bedrooms} Bed
-            </span>
-            <span className="text-gray-300">·</span>
-            <span className="flex items-center gap-1">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-[#7a9c72]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>
-              {property.bathrooms} Bath
-            </span>
+          <div className="flex items-center gap-1.5 text-[11px] text-gray-500 font-semibold">
+            <span>{property.bedrooms} {property.bedrooms === 1 ? 'Bed' : 'Beds'}</span>
+            <span>·</span>
+            <span>{property.bathrooms} {property.bathrooms === 1 ? 'Bath' : 'Baths'}</span>
           </div>
         </div>
       </Link>
@@ -76,15 +70,15 @@ export default function PropertyCard({ property, isPopup = false, onClose, onHov
       onKeyDown={(e) => e.key === 'Enter' && router.push(`/property/${property.id}`)}
       onMouseEnter={() => onHover?.(property.id)}
       onMouseLeave={() => onLeave?.()}
-      className="font-sans overflow-hidden block group cursor-pointer transition-all duration-300 w-full bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1"
+      className="font-sans block group cursor-pointer transition-all duration-300 w-full bg-white hover:-translate-y-1"
     >
-      <div className="relative h-48">
+      <div className="relative h-48 rounded-[20px] overflow-hidden">
         <Image
           src={property.images?.[0] || property.mainImage}
           alt={property.title}
           fill
           sizes="(max-width: 768px) 100vw, 400px"
-          className="object-cover rounded-t-2xl transition-transform duration-500 group-hover:scale-105"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         {property.isBoosted && (
           <div className="absolute top-3 left-3 bg-[#7a9c72] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm z-10">
@@ -97,14 +91,14 @@ export default function PropertyCard({ property, isPopup = false, onClose, onHov
         <div className="font-black text-gray-900 text-lg mb-1">
           {property.priceText || `£${property.price.toLocaleString()}`}
         </div>
-        <div className="text-gray-500 font-medium line-clamp-1 text-xs mb-1">
+        <div className="text-gray-500 font-medium line-clamp-1 text-sm mb-1">
           {property.title}
         </div>
         <p className="text-gray-400 text-xs mb-3 line-clamp-1">{property.address}</p>
-        <div className="flex items-center gap-3 text-xs text-gray-500 font-medium">
-          <span>{property.bedrooms} Bed</span>
-          <span className="text-gray-300">·</span>
-          <span>{property.bathrooms} Bath</span>
+        <div className="flex items-center gap-1.5 text-xs text-gray-500 font-medium">
+          <span>{property.bedrooms} {property.bedrooms === 1 ? 'Bed' : 'Beds'}</span>
+          <span>·</span>
+          <span>{property.bathrooms} {property.bathrooms === 1 ? 'Bath' : 'Baths'}</span>
         </div>
       </div>
     </div>
