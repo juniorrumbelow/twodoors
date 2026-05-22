@@ -15,6 +15,7 @@ export default function SearchPage({ initialProperties }) {
 
   const [mobileView, setMobileView] = useState("list");
   const [hoveredId, setHoveredId] = useState(null);
+  const [mapBounds, setMapBounds] = useState(null);
 
   const channel = urlQuery.channel || "buy";
   const isRent = channel === "rent";
@@ -51,12 +52,27 @@ export default function SearchPage({ initialProperties }) {
       return true;
     });
 
+    let result = filtered;
+
+    if (mapBounds) {
+      result = result.filter((p) => {
+        if (!p.location) return false;
+        const { lat, lng } = p.location;
+        return (
+          lat >= mapBounds.south &&
+          lat <= mapBounds.north &&
+          lng >= mapBounds.west &&
+          lng <= mapBounds.east
+        );
+      });
+    }
+
     if (sortBy === "price_asc")
-      return [...filtered].sort((a, b) => a.price - b.price);
+      return [...result].sort((a, b) => a.price - b.price);
     if (sortBy === "price_desc")
-      return [...filtered].sort((a, b) => b.price - a.price);
-    return filtered;
-  }, [initialProperties, urlQuery]);
+      return [...result].sort((a, b) => b.price - a.price);
+    return result;
+  }, [initialProperties, urlQuery, mapBounds]);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -74,6 +90,23 @@ export default function SearchPage({ initialProperties }) {
           ref={listRef}
           className={`${mobileView === "map" ? "hidden md:flex" : "flex"} flex-col w-full md:w-[50%] lg:w-[50%] xl:w-[50%] z-10 bg-white`}
         >
+          {/* Map area filter indicator */}
+          {mapBounds && (
+            <div className="px-6 pt-4 flex items-center gap-2">
+              <span className="text-sm text-gray-600">
+                {filteredProperties.length === 1
+                  ? '1 property in map area'
+                  : `${filteredProperties.length} properties in map area`}
+              </span>
+              <button
+                onClick={() => setMapBounds(null)}
+                className="text-sm font-bold text-[#7a9c72] hover:underline"
+              >
+                Clear
+              </button>
+            </div>
+          )}
+
           {/* Properties Grid */}
           <div className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
             {filteredProperties.length === 0 ? (
@@ -129,6 +162,7 @@ export default function SearchPage({ initialProperties }) {
           <DynamicPropertyMap
             properties={filteredProperties}
             hoveredId={hoveredId}
+            onSearchArea={setMapBounds}
           />
         </div>
 

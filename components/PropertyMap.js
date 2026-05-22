@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader, OverlayView, InfoWindow } from '@react-google-maps/api';
 import PropertyCard from './PropertyCard';
 
 const NORWICH_CENTER = { lat: 52.6309, lng: 1.2974 };
+const NORFOLK_BOUNDS = { north: 53.0, south: 52.3, west: 0.28, east: 1.78 };
 
 function PriceBadge({ property, highlighted, onClick }) {
   const price = property.priceText || `£${Math.round(property.price / 1000)}k`;
@@ -30,8 +31,11 @@ function PriceBadge({ property, highlighted, onClick }) {
   );
 }
 
-export default function PropertyMap({ properties, centerLocation, hoveredId }) {
+export default function PropertyMap({ properties, centerLocation, hoveredId, onSearchArea }) {
   const [selectedId, setSelectedId] = useState(null);
+  const [showSearchHere, setShowSearchHere] = useState(false);
+  const [isOutsideNorfolk, setIsOutsideNorfolk] = useState(false);
+  const mapRef = useRef(null);
 
   useEffect(() => {
     const style = document.createElement('style');
@@ -43,6 +47,48 @@ export default function PropertyMap({ properties, centerLocation, hoveredId }) {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
+
+  const handleLoad = useCallback((map) => {
+    mapRef.current = map;
+  }, []);
+
+  const handleMapMoved = useCallback(() => {
+    if (!mapRef.current) return;
+    const centre = mapRef.current.getCenter();
+    if (!centre) return;
+    const lat = centre.lat();
+    const lng = centre.lng();
+    const outside =
+      lat < NORFOLK_BOUNDS.south ||
+      lat > NORFOLK_BOUNDS.north ||
+      lng < NORFOLK_BOUNDS.west ||
+      lng > NORFOLK_BOUNDS.east;
+    setIsOutsideNorfolk(outside);
+    setShowSearchHere(!outside);
+  }, []);
+
+  const handleBackToNorfolk = useCallback(() => {
+    if (!mapRef.current) return;
+    mapRef.current.panTo(NORWICH_CENTER);
+    mapRef.current.setZoom(11);
+    setIsOutsideNorfolk(false);
+    setShowSearchHere(false);
+  }, []);
+
+  const handleSearchHere = useCallback(() => {
+    if (!mapRef.current || !onSearchArea) return;
+    const bounds = mapRef.current.getBounds();
+    if (!bounds) return;
+    const ne = bounds.getNorthEast();
+    const sw = bounds.getSouthWest();
+    onSearchArea({
+      north: ne.lat(),
+      south: sw.lat(),
+      east: ne.lng(),
+      west: sw.lng(),
+    });
+    setShowSearchHere(false);
+  }, [onSearchArea]);
 
   const center = centerLocation ?? NORWICH_CENTER;
   const selectedProperty = properties?.find(p => p.id === selectedId);
@@ -57,12 +103,15 @@ export default function PropertyMap({ properties, centerLocation, hoveredId }) {
   const highlighted = withLocation.filter(p => p.id === hoveredId);
 
   return (
-    <div className="w-full h-full rounded-2xl overflow-hidden shadow-inner border border-gray-300 z-0">
+    <div className="w-full h-full rounded-2xl overflow-hidden shadow-inner border border-gray-300 z-0 relative">
       <GoogleMap
         mapContainerClassName="w-full h-full"
         center={center}
         zoom={13}
         options={{ scrollwheel: true, streetViewControl: false, mapTypeControl: false, clickableIcons: false }}
+        onLoad={handleLoad}
+        onDragEnd={handleMapMoved}
+        onZoomChanged={handleMapMoved}
       >
         {[...nonHighlighted, ...highlighted].map((property) => (
           <OverlayView
@@ -90,6 +139,31 @@ export default function PropertyMap({ properties, centerLocation, hoveredId }) {
           </InfoWindow>
         )}
       </GoogleMap>
+
+      {showSearchHere && !isOutsideNorfolk && onSearchArea && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
+          <button
+            onClick={handleSearchHere}
+            className="pointer-events-auto bg-white text-gray-900 text-sm font-bold px-4 py-2 rounded-full shadow-lg border border-gray-200 hover:bg-gray-50 active:scale-95 transition-all"
+          >
+            Search this area
+          </button>
+        </div>
+      )}
+
+      {isOutsideNorfolk && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none flex flex-col items-center gap-2">
+          <div className="pointer-events-auto bg-white text-gray-700 text-sm px-4 py-2 rounded-full shadow-lg border border-gray-200 whitespace-nowrap">
+            We&apos;re not here yet — we&apos;re focused on Norfolk
+          </div>
+          <button
+            onClick={handleBackToNorfolk}
+            className="pointer-events-auto bg-[#2E3B2E] text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg hover:bg-[#3d4f3d] active:scale-95 transition-all"
+          >
+            Back to Norfolk
+          </button>
+        </div>
+      )}
     </div>
   );
 }
