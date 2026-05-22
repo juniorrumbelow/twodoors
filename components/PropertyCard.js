@@ -1,12 +1,94 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import FavouriteButton from './FavouriteButton';
 
-function PopupCard({ property, onClose }) {
+function ImageCarousel({ images, sizes, className }) {
+  const [index, setIndex] = useState(0);
+  const total = images.length;
+
+  const prev = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIndex((i) => Math.max(0, i - 1));
+  }, []);
+
+  const next = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIndex((i) => Math.min(total - 1, i + 1));
+  }, [total]);
+
+  const dot = useCallback((e, i) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIndex(i);
+  }, []);
+
   return (
-    <div className="relative font-sans">
+    <>
+      <div className="absolute inset-0 overflow-hidden">
+        <div
+          className="flex h-full transition-transform duration-300 ease-in-out"
+          style={{ width: `${total * 100}%`, transform: `translateX(-${(index / total) * 100}%)` }}
+        >
+          {images.map((src, i) => (
+            <div key={i} className="relative h-full" style={{ width: `${100 / total}%` }}>
+              <Image src={src} alt="" fill sizes={sizes} className={className} />
+            </div>
+          ))}
+        </div>
+      </div>
+      {total > 1 && (
+        <>
+          <div className="absolute left-0 top-0 h-full w-12 z-10" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+            {index > 0 && (
+              <button
+                onClick={prev}
+                aria-label="Previous image"
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm shadow opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white active:scale-95"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+            )}
+          </div>
+          <div className="absolute right-0 top-0 h-full w-12 z-10" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+            {index < total - 1 && (
+              <button
+                onClick={next}
+                aria-label="Next image"
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full bg-white/80 backdrop-blur-sm shadow opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white active:scale-95"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            )}
+          </div>
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-10 flex gap-1">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={(e) => dot(e, i)}
+                aria-label={`Image ${i + 1}`}
+                className={`w-1.5 h-1.5 rounded-full transition-all ${i === index ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/80'}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </>
+  );
+}
+
+function PopupCard({ property, onClose }) {
+  const images = property.images?.length ? property.images : [property.mainImage];
+
+  return (
+    <div className="relative font-sans group">
       <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1.5">
         <FavouriteButton propertyId={property.id} />
         {onClose && (
@@ -25,18 +107,16 @@ function PopupCard({ property, onClose }) {
         href={`/property/${property.id}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="block overflow-hidden group cursor-pointer"
+        className="block overflow-hidden cursor-pointer"
       >
         <div className="relative h-44 w-full min-w-[180px]">
-          <Image
-            src={property.images?.[0] || property.mainImage}
-            alt={property.title}
-            fill
+          <ImageCarousel
+            images={images}
             sizes="280px"
             className="object-cover"
           />
           {property.isBoosted && (
-            <div className="absolute top-2.5 left-2.5 bg-[#7a9c72] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm">
+            <div className="absolute top-2.5 left-2.5 bg-[#7a9c72] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm z-10">
               FEATURED
             </div>
           )}
@@ -59,6 +139,7 @@ function PopupCard({ property, onClose }) {
 
 export default function PropertyCard({ property, isPopup = false, onClose, onHover, onLeave }) {
   const router = useRouter();
+  const images = property.images?.length ? property.images : [property.mainImage];
 
   if (isPopup) return <PopupCard property={property} onClose={onClose} />;
 
@@ -70,15 +151,13 @@ export default function PropertyCard({ property, isPopup = false, onClose, onHov
       onKeyDown={(e) => e.key === 'Enter' && router.push(`/property/${property.id}`)}
       onMouseEnter={() => onHover?.(property.id)}
       onMouseLeave={() => onLeave?.()}
-      className="font-sans block group cursor-pointer transition-all duration-300 w-full bg-white hover:-translate-y-1"
+      className="font-sans block group cursor-pointer w-full bg-white"
     >
       <div className="relative h-48 rounded-[20px] overflow-hidden">
-        <Image
-          src={property.images?.[0] || property.mainImage}
-          alt={property.title}
-          fill
+        <ImageCarousel
+          images={images}
           sizes="(max-width: 768px) 100vw, 400px"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover"
         />
         {property.isBoosted && (
           <div className="absolute top-3 left-3 bg-[#7a9c72] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm z-10">
