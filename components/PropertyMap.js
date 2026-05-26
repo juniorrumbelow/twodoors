@@ -67,6 +67,16 @@ export default function PropertyMap({ properties, centerLocation, hoveredId, onS
     setShowSearchHere(!outside);
   }, []);
 
+  const handleZoomIn = useCallback(() => {
+    if (!mapRef.current) return;
+    mapRef.current.setZoom(mapRef.current.getZoom() + 1);
+  }, []);
+
+  const handleZoomOut = useCallback(() => {
+    if (!mapRef.current) return;
+    mapRef.current.setZoom(mapRef.current.getZoom() - 1);
+  }, []);
+
   const handleBackToNorfolk = useCallback(() => {
     if (!mapRef.current) return;
     mapRef.current.panTo(NORWICH_CENTER);
@@ -108,7 +118,7 @@ export default function PropertyMap({ properties, centerLocation, hoveredId, onS
         mapContainerClassName="w-full h-full"
         center={center}
         zoom={13}
-        options={{ scrollwheel: true, streetViewControl: false, mapTypeControl: false, clickableIcons: false }}
+        options={{ disableDefaultUI: true, scrollwheel: true, clickableIcons: false }}
         onLoad={handleLoad}
         onDragEnd={handleMapMoved}
         onZoomChanged={handleMapMoved}
@@ -139,6 +149,28 @@ export default function PropertyMap({ properties, centerLocation, hoveredId, onS
           </InfoWindow>
         )}
       </GoogleMap>
+
+      <div className="absolute bottom-6 right-3 z-10 flex flex-col gap-1.5">
+        <button
+          onClick={handleZoomIn}
+          aria-label="Zoom in"
+          className="w-11 h-11 bg-white rounded-full shadow-md border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-gray-50 active:scale-95 transition-all"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="8" y1="2" x2="8" y2="14" />
+            <line x1="2" y1="8" x2="14" y2="8" />
+          </svg>
+        </button>
+        <button
+          onClick={handleZoomOut}
+          aria-label="Zoom out"
+          className="w-11 h-11 bg-white rounded-full shadow-md border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-gray-50 active:scale-95 transition-all"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="2" y1="8" x2="14" y2="8" />
+          </svg>
+        </button>
+      </div>
 
       {showSearchHere && !isOutsideNorfolk && onSearchArea && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
