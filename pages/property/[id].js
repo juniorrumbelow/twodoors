@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Navbar from '@components/Navbar';
@@ -18,6 +18,7 @@ import BathIcon from '@components/icons/BathIcon';
 
 export default function PropertyDetail({ property }) {
   const router = useRouter();
+  const [localAreaTab, setLocalAreaTab] = useState('schools');
 
   if (!property) {
     return (
@@ -149,14 +150,32 @@ export default function PropertyDetail({ property }) {
               </div>
             )}
 
-            {/* Nearby Planning Applications */}
-            <PropertyPlanningSection address={property.address} />
-
-            {/* Local Schools */}
-            <NearbySchools location={property.location} />
-
-            {/* Transport Links */}
-            <NearbyTransport location={property.location} />
+            {/* Local Area */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-black text-gray-900 mb-6">Local Area</h3>
+              <div className="flex gap-2 mb-6 border-b border-gray-100">
+                {[
+                  { id: 'schools', label: 'Schools' },
+                  { id: 'transport', label: 'Transport Links' },
+                  { id: 'planning', label: 'Planning Applications' },
+                ].map(({ id, label }) => (
+                  <button
+                    key={id}
+                    onClick={() => setLocalAreaTab(id)}
+                    className={`px-4 py-2 text-sm font-bold rounded-t-lg transition-colors -mb-px border-b-2 ${
+                      localAreaTab === id
+                        ? 'text-[#7a9c72] border-[#7a9c72]'
+                        : 'text-gray-400 border-transparent hover:text-gray-600'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              {localAreaTab === 'planning' && <PropertyPlanningSection address={property.address} />}
+              {localAreaTab === 'schools' && <NearbySchools location={property.location} />}
+              {localAreaTab === 'transport' && <NearbyTransport location={property.location} />}
+            </div>
 
             {/* Additional Details */}
             <div className="bg-white rounded-3xl p-10 border border-gray-100 mb-12">
@@ -177,10 +196,6 @@ export default function PropertyDetail({ property }) {
               </div>
             </div>
 
-            <div className="bg-[#7a9c72]/5 rounded-3xl p-8 border border-[#7a9c72]/10">
-              <h3 className="text-xl font-bold text-[#7a9c72] mb-4 text-center">Interested in this property?</h3>
-              <p className="text-[#7a9c72]/70 text-center mb-0 font-medium">Use the contact form on the right to reach out to the listing agent.</p>
-            </div>
           </div>
 
           {/* Sidebar / Agent Card */}
