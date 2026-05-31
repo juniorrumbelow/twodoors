@@ -164,7 +164,7 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <button
               onClick={() => setIsLogin(!isLogin)}
-              className="text-sm font-bold text-[#7a9c72] hover:text-[#c9203f] transition-colors"
+              className="text-sm font-bold text-[#7a9c72] hover:text-[#5a7c5a] transition-colors"
             >
               {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
             </button>
