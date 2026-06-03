@@ -56,7 +56,7 @@ export default function FavouritesPage() {
   if (authLoading || (!user && !authLoading)) return null;
 
   return (
-    <div className="min-h-screen bg-[#f5f1ea] flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <Head>
         <title>Saved Properties | twodoors</title>
       </Head>
@@ -91,10 +91,10 @@ export default function FavouritesPage() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-16 h-16 rounded-full bg-[#7a9c72]/10 flex items-center justify-center mb-4">
+            <div className="w-16 h-16 rounded-full bg-[#ef4444]/10 flex items-center justify-center mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8 text-[#7a9c72]"
+                className="h-8 w-8 text-[#ef4444]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"

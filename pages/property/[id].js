@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Navbar from '@components/Navbar';
@@ -15,9 +15,49 @@ import NearbyTransport from '@components/NearbyTransport';
 import GardenSunExposure from '@components/GardenSunExposure';
 import BedIcon from '@components/icons/BedIcon';
 import BathIcon from '@components/icons/BathIcon';
+import HouseIcon from '@components/icons/HouseIcon';
+import FloorplanIcon from '@components/icons/FloorplanIcon';
+import { useAuth } from '../../context/AuthContext';
+import { useFavourites } from '../../context/FavouritesContext';
 
-export default function PropertyDetail({ property }) {
+export default function PropertyDetail({ property, id }) {
   const router = useRouter();
+  const { user } = useAuth();
+  const { isFavourite, toggleFavourite } = useFavourites();
+  const [localAreaTab, setLocalAreaTab] = useState('schools');
+
+  const [copied, setCopied] = useState(false);
+
+  const saved = isFavourite(id);
+
+  const handleSave = () => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+    toggleFavourite(id);
+  };
+
+  const handleShare = async () => {
+    if (typeof window === 'undefined') return;
+    const url = window.location.href;
+    const shareData = {
+      title: property.title,
+      text: `${property.title} — ${property.priceText || `£${property.price.toLocaleString()}`}`,
+      url,
+    };
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
+    } catch (err) {
+      // User dismissed the share sheet or sharing was unavailable — no action needed
+    }
+  };
 
   if (!property) {
     return (
@@ -30,10 +70,19 @@ export default function PropertyDetail({ property }) {
     );
   }
 
+  // Build a Rightmove-style page title, e.g. "3 bedroom semi-detached house for sale in Whitehall Road, Norwich, NR2"
+  const transaction = /lett|rent/i.test(property.department || property.status || '') ? 'to rent' : 'for sale';
+  const descriptor = [...new Set(
+    [property.propertyStyle, property.propertyType].filter(Boolean).join(' ').toLowerCase().split(/\s+/)
+  )].join(' ');
+  const bedPart = property.bedrooms > 0 ? `${property.bedrooms} bedroom ` : '';
+  const summary = `${bedPart}${descriptor}${descriptor ? ' ' : ''}${transaction} in ${property.address}`;
+  const pageTitle = summary.charAt(0).toUpperCase() + summary.slice(1);
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Head>
-        <title>{property.title} | twodoors</title>
+        <title>{pageTitle} | twodoors</title>
       </Head>
 
       <Navbar />
@@ -43,18 +92,58 @@ export default function PropertyDetail({ property }) {
         {/* Title Section */}
         <div className="flex flex-col md:flex-row justify-between items-start mb-8 gap-6">
           <div className="max-w-2xl">
-            <h1 className="text-3xl md:text-5xl font-black text-gray-900 mb-3 tracking-tight">{property.title}</h1>
-            <p className="text-xl text-gray-500 font-medium flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#7a9c72]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              {property.address}
-            </p>
+            <h1 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight">{property.address}</h1>
+            <div className="text-xl font-black text-gray-900 mt-4">{property.priceText || `£${property.price.toLocaleString()}`}</div>
           </div>
-          <div className="bg-white px-6 py-4 rounded-2xl border border-gray-100 shadow-sm">
-            <div className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1">Asking Price</div>
-            <div className="text-4xl font-black text-[#7a9c72]">{property.priceText || `£${property.price.toLocaleString()}`}</div>
+          <div className="flex flex-col items-stretch gap-3">
+            <div className="self-end flex items-center gap-2">
+              <button
+                onClick={handleSave}
+                aria-pressed={saved}
+                className={`flex items-center justify-center gap-1.5 font-bold text-sm px-4 py-2 rounded-xl border transition-all active:scale-[0.98] ${
+                  saved
+                    ? 'bg-[#ef4444] text-white border-[#ef4444] hover:bg-[#dc2626]'
+                    : 'bg-white text-gray-900 border-gray-200 hover:border-[#ef4444] hover:text-[#ef4444]'
+                }`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill={saved ? 'currentColor' : 'none'}
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+                {saved ? 'Saved' : 'Save property'}
+              </button>
+              <button
+                onClick={handleShare}
+                aria-label="Share property"
+                className="flex items-center justify-center gap-1.5 font-bold text-sm px-4 py-2 rounded-xl border bg-white text-gray-900 border-gray-200 hover:border-gray-900 transition-all active:scale-[0.98]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="18" cy="5" r="3" />
+                  <circle cx="6" cy="12" r="3" />
+                  <circle cx="18" cy="19" r="3" />
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                </svg>
+                {copied ? 'Link copied' : 'Share'}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -68,22 +157,50 @@ export default function PropertyDetail({ property }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main Content Details */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-8 text-gray-900 font-bold text-xl mb-10 pb-8 border-b border-gray-100">
-              <div className="flex items-center gap-3">
-                <div className="bg-gray-100 p-2.5 rounded-xl">
-                  <BedIcon className="h-6 w-6 text-[#7a9c72]" />
-                </div>
-                {property.bedrooms} {property.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="bg-gray-100 p-2.5 rounded-xl">
-                  <BathIcon className="h-6 w-6 text-[#7a9c72]" />
-                </div>
-                {property.bathrooms} {property.bathrooms === 1 ? 'Bathroom' : 'Bathrooms'}
-              </div>
-            </div>
+            {/* Info reel */}
+            <dl className="flex flex-wrap gap-x-10 gap-y-6 mb-10 pb-8 border-b border-gray-100">
+              {[
+                property.propertyType && {
+                  label: 'Property type',
+                  value: property.propertyType,
+                  icon: <HouseIcon className="h-4 w-4 text-[#7a9c72]" />,
+                },
+                {
+                  label: 'Bedrooms',
+                  value: property.bedrooms,
+                  icon: <BedIcon className="h-4 w-4 text-[#7a9c72]" />,
+                },
+                {
+                  label: 'Bathrooms',
+                  value: property.bathrooms,
+                  icon: <BathIcon className="h-4 w-4 text-[#7a9c72]" />,
+                },
+                {
+                  label: 'Size',
+                  value: property.size || 'Ask agent',
+                  icon: <FloorplanIcon className="h-4 w-4 text-[#7a9c72]" />,
+                },
+                property.tenure && {
+                  label: 'Tenure',
+                  value: property.tenure,
+                  icon: null,
+                },
+              ]
+                .filter(Boolean)
+                .map(({ label, value, icon }) => (
+                  <div key={label} className="flex flex-col gap-2">
+                    <dt className="text-xs font-black text-gray-400 uppercase tracking-widest">
+                      {label}
+                    </dt>
+                    <dd className="flex items-center gap-2">
+                      {icon}
+                      <span className="font-bold text-base text-gray-900">{value}</span>
+                    </dd>
+                  </div>
+                ))}
+            </dl>
 
-            <h2 className="text-3xl font-black text-gray-900 mb-6">Property Overview</h2>
+            <h2 className="text-2xl font-black text-gray-900 mb-6">Property Overview</h2>
             <p className="text-gray-600 text-xl leading-relaxed whitespace-pre-wrap mb-12">
               {property.description}
             </p>
@@ -149,44 +266,39 @@ export default function PropertyDetail({ property }) {
               </div>
             )}
 
-            {/* Nearby Planning Applications */}
-            <PropertyPlanningSection address={property.address} />
-
-            {/* Local Schools */}
-            <NearbySchools location={property.location} />
-
-            {/* Transport Links */}
-            <NearbyTransport location={property.location} />
-
-            {/* Additional Details */}
-            <div className="bg-white rounded-3xl p-10 border border-gray-100 mb-12">
-              <h3 className="text-xl font-black text-gray-900 mb-6">Additional Information</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-                <div>
-                  <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Tenure</div>
-                  <div className="font-bold text-gray-900">{property.tenure || 'N/A'}</div>
-                </div>
-                <div>
-                  <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Department</div>
-                  <div className="font-bold text-gray-900">{property.department || 'N/A'}</div>
-                </div>
-                <div>
-                  <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Priority</div>
-                  <div className="font-bold text-gray-900">{property.priority || 'N/A'}</div>
-                </div>
+            {/* Local Area */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-black text-gray-900 mb-6">Local Area</h3>
+              <div className="flex gap-2 mb-6 border-b border-gray-100">
+                {[
+                  { id: 'schools', label: 'Schools' },
+                  { id: 'transport', label: 'Transport Links' },
+                  { id: 'planning', label: 'Planning Applications' },
+                ].map(({ id, label }) => (
+                  <button
+                    key={id}
+                    onClick={() => setLocalAreaTab(id)}
+                    className={`px-4 py-2 text-sm font-bold rounded-t-lg transition-colors -mb-px border-b-2 ${
+                      localAreaTab === id
+                        ? 'text-[#7a9c72] border-[#7a9c72]'
+                        : 'text-gray-400 border-transparent hover:text-gray-600'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
               </div>
+              {localAreaTab === 'planning' && <PropertyPlanningSection address={property.address} />}
+              {localAreaTab === 'schools' && <NearbySchools location={property.location} />}
+              {localAreaTab === 'transport' && <NearbyTransport location={property.location} />}
             </div>
 
-            <div className="bg-[#7a9c72]/5 rounded-3xl p-8 border border-[#7a9c72]/10">
-              <h3 className="text-xl font-bold text-[#7a9c72] mb-4 text-center">Interested in this property?</h3>
-              <p className="text-[#7a9c72]/70 text-center mb-0 font-medium">Use the contact form on the right to reach out to the listing agent.</p>
-            </div>
           </div>
 
           {/* Sidebar / Agent Card */}
           <div className="relative">
             <div className="bg-white rounded-3xl p-8 border border-gray-100 sticky top-32 shadow-xl shadow-gray-200/50">
-              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6">Listing Agent</h3>
+              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6">Marketed by</h3>
 
               <Link href={getAgentUrl(property.agent, property.agentId)} className="flex items-center gap-4 mb-8 group">
                 <img src={property.agent.logo} alt={property.agent.name} className="w-16 h-16 rounded-full border-2 border-white shadow-md transition-transform group-hover:scale-105" />
@@ -273,12 +385,14 @@ export async function getServerSideProps(context) {
     return {
       props: {
         property: JSON.parse(JSON.stringify(propertyData)),
+        id,
       },
     };
   } catch (error) {
     return {
       props: {
         property: null,
+        id: null,
       },
     };
   }

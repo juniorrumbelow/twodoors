@@ -28,7 +28,7 @@ function getSunDescription(aspect: Aspect): string {
 export default function GardenSunExposure({ bullets, description }: GardenSunExposureProps) {
   const info = analyseGardenSun(bullets, description);
 
-  if (!info.hasGarden) return null;
+  if (!info.hasGarden || info.detectedAspect === 'unknown') return null;
 
   return (
     <div className="mb-12">
