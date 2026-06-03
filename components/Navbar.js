@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Logo from "./Logo";
 import { useAuth } from "../context/AuthContext";
 import { UNIQUE_UK_LOCATIONS } from "../utils/locations";
+import { LoginForm } from "./LoginForm";
 
 export default function Navbar() {
   const { user, isAgent, logout } = useAuth();
@@ -14,6 +15,7 @@ export default function Navbar() {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showFiltersModal, setShowFiltersModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [pendingFilters, setPendingFilters] = useState({
     minPrice: "",
     maxPrice: "",
@@ -92,13 +94,13 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (showFiltersModal) {
+    if (showFiltersModal || showLoginModal) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
     return () => { document.body.style.overflow = ""; };
-  }, [showFiltersModal]);
+  }, [showFiltersModal, showLoginModal]);
 
   const handleSearchChange = (value) => {
     setSearchQuery(value);
@@ -332,12 +334,12 @@ export default function Navbar() {
                   )}
                 </div>
               ) : (
-                <Link
-                  href="/login"
+                <button
+                  onClick={() => setShowLoginModal(true)}
                   className="text-sm font-bold text-gray-600 hover:text-[#7a9c72] transition-colors px-2"
                 >
-                  Login
-                </Link>
+                  Log in
+                </button>
               )}
             </div>
 
@@ -476,9 +478,12 @@ export default function Navbar() {
                     </button>
                   </>
                 ) : (
-                  <Link href="/login" className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#7a9c72] hover:bg-gray-50 transition-colors" onClick={() => setIsMenuOpen(false)}>
-                    Login
-                  </Link>
+                  <button
+                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#7a9c72] hover:bg-gray-50 transition-colors"
+                    onClick={() => { setIsMenuOpen(false); setShowLoginModal(true); }}
+                  >
+                    Log in
+                  </button>
                 )}
               </div>
             </div>
@@ -486,17 +491,44 @@ export default function Navbar() {
         )}
       </header>
 
+      {/* Login modal */}
+      {showLoginModal && (
+        <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/50 animate-fade-in"
+            onClick={() => setShowLoginModal(false)}
+          />
+          <div className="relative w-full md:max-w-md bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col max-h-[90vh] md:max-h-[85vh] animate-slide-up md:animate-zoom-in">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+              <button
+                onClick={() => setShowLoginModal(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <h2 className="text-lg font-black text-gray-900">Log in or sign up</h2>
+              <div className="w-8" />
+            </div>
+            <div className="overflow-y-auto flex-1 px-6 py-6">
+              <LoginForm onSuccess={() => setShowLoginModal(false)} />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Filters modal */}
       {showFiltersModal && (
-        <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center">
+        <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in"
             onClick={() => setShowFiltersModal(false)}
           />
 
           {/* Panel */}
-          <div className="relative w-full md:max-w-lg bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col max-h-[90vh] md:max-h-[85vh]">
+          <div className="relative w-full md:max-w-lg bg-white rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col max-h-[90vh] md:max-h-[85vh] animate-slide-up md:animate-zoom-in">
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <button
