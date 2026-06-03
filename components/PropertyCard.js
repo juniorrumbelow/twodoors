@@ -116,7 +116,10 @@ function PopupCard({ property, onClose }) {
             className="object-cover"
           />
           {property.isBoosted && (
-            <div className="absolute top-2.5 left-2.5 bg-[#7a9c72] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm z-10">
+            <div className="absolute top-2.5 left-2.5 flex items-center gap-1 bg-[#fc3559] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md z-10">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l2.4 6.9H22l-5.8 4.3 2.2 6.8L12 16l-6.4 4 2.2-6.8L2 8.9h7.6z" />
+              </svg>
               FEATURED
             </div>
           )}
@@ -151,7 +154,11 @@ export default function PropertyCard({ property, isPopup = false, onClose, onHov
       onKeyDown={(e) => e.key === 'Enter' && router.push(`/property/${property.id}`)}
       onMouseEnter={() => onHover?.(property.id)}
       onMouseLeave={() => onLeave?.()}
-      className="font-sans block group cursor-pointer w-full bg-white"
+      className={`font-sans block group cursor-pointer w-full bg-white ${
+        property.isBoosted
+          ? 'rounded-[24px] p-1.5 ring-2 ring-[#fc3559] shadow-lg shadow-[#fc3559]/25 transition-shadow hover:shadow-xl hover:shadow-[#fc3559]/40'
+          : ''
+      }`}
     >
       <div className="relative h-48 rounded-[20px] overflow-hidden">
         <ImageCarousel
@@ -160,13 +167,16 @@ export default function PropertyCard({ property, isPopup = false, onClose, onHov
           className="object-cover"
         />
         {property.isBoosted && (
-          <div className="absolute top-3 left-3 bg-[#7a9c72] text-white text-[10px] font-black px-2 py-1 rounded shadow-sm z-10">
+          <div className="absolute top-3 left-3 flex items-center gap-1 bg-[#fc3559] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-md z-10">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l2.4 6.9H22l-5.8 4.3 2.2 6.8L12 16l-6.4 4 2.2-6.8L2 8.9h7.6z" />
+            </svg>
             FEATURED
           </div>
         )}
         <FavouriteButton propertyId={property.id} className="absolute top-3 right-3 z-10" />
       </div>
-      <div className="p-3">
+      <div className={property.isBoosted ? 'px-2 py-3' : 'p-3'}>
         <div className="font-black text-gray-900 text-lg mb-1">
           {property.priceText || `£${property.price.toLocaleString()}`}
         </div>

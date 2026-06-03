@@ -72,7 +72,10 @@ export default function PhotoGallery({ images, title, isBoosted }: PhotoGalleryP
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             {isBoosted && (
-              <div className="absolute top-6 left-6 bg-[#7a9c72] text-white text-xs font-black px-3 py-1.5 rounded-lg shadow-lg z-10 tracking-widest">
+              <div className="absolute top-6 left-6 flex items-center gap-1.5 bg-[#fc3559] text-white text-xs font-black px-3 py-1.5 rounded-full shadow-lg z-10 tracking-widest">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l2.4 6.9H22l-5.8 4.3 2.2 6.8L12 16l-6.4 4 2.2-6.8L2 8.9h7.6z" />
+                </svg>
                 FEATURED
               </div>
             )}

@@ -11,7 +11,7 @@ import Navbar from '../../components/Navbar';
 const AGENT_ID = 'agent_winkworth_01';
 
 export default function AgencyListings() {
-  const { user, isAgent, loading: authLoading } = useAuth();
+  const { user, isAgent, isAgentLoading, loading: authLoading } = useAuth();
   const [properties, setProperties] = useState([]);
   const [agentData, setAgentData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,10 +19,10 @@ export default function AgencyListings() {
   const router = useRouter();
 
   useEffect(() => {
-    if (authLoading) return;
+    if (authLoading || isAgentLoading) return;
     if (!user) router.push('/agent/login');
     else if (!isAgent) router.push('/search');
-  }, [user, isAgent, authLoading, router]);
+  }, [user, isAgent, isAgentLoading, authLoading, router]);
 
   useEffect(() => {
     if (user) {
@@ -95,16 +95,16 @@ export default function AgencyListings() {
     }
   };
 
-  if (authLoading || !user || !isAgent) {
+  if (authLoading || isAgentLoading || !user || !isAgent) {
     return (
-      <div className="min-h-screen bg-[#f5f1ea] flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#7a9c72]"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f1ea] flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <Head>
         <title>Agency Listings | twodoors</title>
       </Head>
@@ -133,18 +133,6 @@ export default function AgencyListings() {
             >
               Sync XML Feed
             </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 mb-12">
-          <div className="bg-white overflow-hidden shadow-sm border border-gray-100 rounded-3xl p-8 hover:shadow-md transition-shadow">
-            <dt className="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Active Listings</dt>
-            <dd className="flex items-baseline justify-between">
-              <div className="text-4xl font-black text-gray-900">{properties.length}</div>
-              <div className="text-[10px] font-black text-[#7a9c72] bg-[#7a9c72]/10 px-2 py-1 rounded-full uppercase tracking-tighter">
-                Live on twodoors
-              </div>
-            </dd>
           </div>
         </div>
 
@@ -196,7 +184,7 @@ export default function AgencyListings() {
                       </td>
                       <td className="px-8 py-6 whitespace-nowrap">
                         <div className="flex flex-col gap-1.5">
-                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${property.isBoosted ? 'bg-[#7a9c72] text-white shadow-sm shadow-[#7a9c72]/40' : 'bg-gray-100 text-gray-400'}`}>
+                          <span className={`inline-flex items-center justify-center text-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${property.isBoosted ? 'bg-[#7a9c72] text-white shadow-sm shadow-[#7a9c72]/40' : 'bg-gray-100 text-gray-400'}`}>
                             {property.isBoosted ? 'Boosted' : 'Standard'}
                           </span>
                         </div>
