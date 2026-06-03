@@ -15,6 +15,8 @@ import NearbyTransport from '@components/NearbyTransport';
 import GardenSunExposure from '@components/GardenSunExposure';
 import BedIcon from '@components/icons/BedIcon';
 import BathIcon from '@components/icons/BathIcon';
+import HouseIcon from '@components/icons/HouseIcon';
+import FloorplanIcon from '@components/icons/FloorplanIcon';
 import { useAuth } from '../../context/AuthContext';
 import { useFavourites } from '../../context/FavouritesContext';
 
@@ -68,10 +70,19 @@ export default function PropertyDetail({ property, id }) {
     );
   }
 
+  // Build a Rightmove-style page title, e.g. "3 bedroom semi-detached house for sale in Whitehall Road, Norwich, NR2"
+  const transaction = /lett|rent/i.test(property.department || property.status || '') ? 'to rent' : 'for sale';
+  const descriptor = [...new Set(
+    [property.propertyStyle, property.propertyType].filter(Boolean).join(' ').toLowerCase().split(/\s+/)
+  )].join(' ');
+  const bedPart = property.bedrooms > 0 ? `${property.bedrooms} bedroom ` : '';
+  const summary = `${bedPart}${descriptor}${descriptor ? ' ' : ''}${transaction} in ${property.address}`;
+  const pageTitle = summary.charAt(0).toUpperCase() + summary.slice(1);
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Head>
-        <title>{property.title} | twodoors</title>
+        <title>{pageTitle} | twodoors</title>
       </Head>
 
       <Navbar />
@@ -81,11 +92,8 @@ export default function PropertyDetail({ property, id }) {
         {/* Title Section */}
         <div className="flex flex-col md:flex-row justify-between items-start mb-8 gap-6">
           <div className="max-w-2xl">
-            <h1 className="text-2xl md:text-3xl font-black text-gray-900 mb-2 tracking-tight">{property.title}</h1>
-            <p className="text-base text-gray-500 font-medium">
-              {property.address}
-            </p>
-            <div className="text-2xl font-black text-gray-900 mt-4">{property.priceText || `£${property.price.toLocaleString()}`}</div>
+            <h1 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight">{property.address}</h1>
+            <div className="text-xl font-black text-gray-900 mt-4">{property.priceText || `£${property.price.toLocaleString()}`}</div>
           </div>
           <div className="flex flex-col items-stretch gap-3">
             <div className="self-end flex items-center gap-2">
@@ -149,22 +157,50 @@ export default function PropertyDetail({ property, id }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main Content Details */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-8 text-gray-900 font-bold text-xl mb-10 pb-8 border-b border-gray-100">
-              <div className="flex items-center gap-3">
-                <div className="bg-gray-100 p-2.5 rounded-xl">
-                  <BedIcon className="h-6 w-6 text-[#7a9c72]" />
-                </div>
-                {property.bedrooms} {property.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="bg-gray-100 p-2.5 rounded-xl">
-                  <BathIcon className="h-6 w-6 text-[#7a9c72]" />
-                </div>
-                {property.bathrooms} {property.bathrooms === 1 ? 'Bathroom' : 'Bathrooms'}
-              </div>
-            </div>
+            {/* Info reel */}
+            <dl className="flex flex-wrap gap-x-10 gap-y-6 mb-10 pb-8 border-b border-gray-100">
+              {[
+                property.propertyType && {
+                  label: 'Property type',
+                  value: property.propertyType,
+                  icon: <HouseIcon className="h-4 w-4 text-[#7a9c72]" />,
+                },
+                {
+                  label: 'Bedrooms',
+                  value: property.bedrooms,
+                  icon: <BedIcon className="h-4 w-4 text-[#7a9c72]" />,
+                },
+                {
+                  label: 'Bathrooms',
+                  value: property.bathrooms,
+                  icon: <BathIcon className="h-4 w-4 text-[#7a9c72]" />,
+                },
+                {
+                  label: 'Size',
+                  value: property.size || 'Ask agent',
+                  icon: <FloorplanIcon className="h-4 w-4 text-[#7a9c72]" />,
+                },
+                property.tenure && {
+                  label: 'Tenure',
+                  value: property.tenure,
+                  icon: null,
+                },
+              ]
+                .filter(Boolean)
+                .map(({ label, value, icon }) => (
+                  <div key={label} className="flex flex-col gap-2">
+                    <dt className="text-xs font-black text-gray-400 uppercase tracking-widest">
+                      {label}
+                    </dt>
+                    <dd className="flex items-center gap-2">
+                      {icon}
+                      <span className="font-bold text-base text-gray-900">{value}</span>
+                    </dd>
+                  </div>
+                ))}
+            </dl>
 
-            <h2 className="text-3xl font-black text-gray-900 mb-6">Property Overview</h2>
+            <h2 className="text-2xl font-black text-gray-900 mb-6">Property Overview</h2>
             <p className="text-gray-600 text-xl leading-relaxed whitespace-pre-wrap mb-12">
               {property.description}
             </p>
@@ -255,25 +291,6 @@ export default function PropertyDetail({ property, id }) {
               {localAreaTab === 'planning' && <PropertyPlanningSection address={property.address} />}
               {localAreaTab === 'schools' && <NearbySchools location={property.location} />}
               {localAreaTab === 'transport' && <NearbyTransport location={property.location} />}
-            </div>
-
-            {/* Additional Details */}
-            <div className="bg-white rounded-3xl p-10 border border-gray-100 mb-12">
-              <h3 className="text-xl font-black text-gray-900 mb-6">Additional Information</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-                <div>
-                  <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Tenure</div>
-                  <div className="font-bold text-gray-900">{property.tenure || 'N/A'}</div>
-                </div>
-                <div>
-                  <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Department</div>
-                  <div className="font-bold text-gray-900">{property.department || 'N/A'}</div>
-                </div>
-                <div>
-                  <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Priority</div>
-                  <div className="font-bold text-gray-900">{property.priority || 'N/A'}</div>
-                </div>
-              </div>
             </div>
 
           </div>
