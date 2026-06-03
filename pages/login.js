@@ -1,74 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
 import { useAuth } from '../context/AuthContext';
 import Logo from '@components/Logo';
+import { LoginForm } from '../components/LoginForm';
 
 export default function LoginPage() {
-  const { user, loading: authLoading, loginWithGoogle, loginWithEmail, signupWithEmail } = useAuth();
-  const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
 
-  // Automatically redirect if already logged in
   React.useEffect(() => {
     if (!authLoading && user) {
       router.push('/search');
     }
   }, [user, authLoading, router]);
 
-  const handleGoogleLogin = async () => {
-    try {
-      setError('');
-      setIsLoading(true);
-      await loginWithGoogle();
-      // Redirection is handled by the useEffect
-    } catch (err) {
-      setError('Failed to login with Google: ' + err.message);
-      setIsLoading(false);
-    }
-  };
-
-  const handleEmailAuth = async (e) => {
-    e.preventDefault();
-    try {
-      setError('');
-      setIsLoading(true);
-      if (isLogin) {
-        await loginWithEmail(email, password);
-      } else {
-        const result = await signupWithEmail(email, password);
-        await setDoc(doc(db, 'users', result.user.uid), { role: 'user', memberSince: serverTimestamp() }, { merge: true });
-      }
-      // Redirection is handled by the useEffect
-    } catch (err) {
-      setError(err.message);
-      setIsLoading(false);
-    }
-  };
-
-
   return (
     <div className="min-h-screen bg-[#f5f1ea] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
       <Head>
-        <title>{isLogin ? 'Login' : 'Sign Up'} | twodoors</title>
+        <title>Log in | twodoors</title>
       </Head>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
         <Logo size="text-4xl" />
-        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
-          {isLogin ? 'Welcome Back' : 'Create an Account'}
-        </h2>
-        <p className="mt-2 text-sm text-gray-600">
-          {isLogin ? "Sign in to save properties and manage your alerts." : "Join twodoors to find your next home."}
-        </p>
+        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Welcome Back</h2>
+        <p className="mt-2 text-sm text-gray-600">Log in to save properties and manage your alerts.</p>
       </div>
-
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow-xl border border-gray-100 rounded-2xl sm:px-10">
