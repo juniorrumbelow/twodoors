@@ -7,14 +7,16 @@ const NORFOLK_BOUNDS = { north: 53.0, south: 52.3, west: 0.28, east: 1.78 };
 
 function PriceBadge({ property, highlighted, onClick }) {
   const price = property.priceText || `£${Math.round(property.price / 1000)}k`;
+  const featured = property.isBoosted;
+  const baseColor = featured ? '#fc3559' : '#2E3B2E';
   return (
     <div
       onClick={onClick}
       style={{
         transform: highlighted ? 'translate(-50%, -100%) scale(1.25)' : 'translate(-50%, -100%) scale(1)',
         display: 'inline-block',
-        background: highlighted ? '#fff' : '#2E3B2E',
-        color: highlighted ? '#2E3B2E' : '#fff',
+        background: highlighted ? '#fff' : baseColor,
+        color: highlighted ? baseColor : '#fff',
         padding: '4px 10px',
         borderRadius: '999px',
         fontSize: '11px',
